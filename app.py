@@ -10,10 +10,15 @@ class Tag(db.Model):
     problem_id=db.Column(db.String(64))
     tag=db.Column(db.String(64))
 
+class problem_tag(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    problem_official_name=db.Column(db.String(64))
+    #first_tag:最も表の多いTag
+    first_tag=db.Column(db.String(64))
+
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/category')
 def category():
@@ -101,6 +106,34 @@ def main():
                 db.session.add(newTag)
                 db.session.commit()
 
+                tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+
+                if tag==None:
+                    tag_params={
+                        'problem_official_name':problem_id,
+                        'first_tag':tag
+                    }
+                    newProblemTag=problem_tag(**tag_params)
+                    db.session.add(newProblemTag)
+                    db.session.commit()
+
+                else:
+                    tags=db.session.query(Tag).filter(Tag.problem_id==problem_id)
+                    vote_num=defaultdict(int)
+
+                    for t in tags:
+                        vote_num[t.tag]+=1
+                    
+                    vote_num= sorted(vote_num.items(), key=lambda x:x[1],reverse=True)
+
+                    tag_=None
+                    if len(vote_num)!=0:
+                        tag_=vote_num[0][0]
+                    
+                    if tag !=None:
+                        tag.first_tag=tag_
+                        db.session.commit()            
+
             time.sleep(SLEEP_TIME)
 
             if flag:
@@ -112,12 +145,40 @@ def main():
                         break
 
                     text = tweet['text'].split('/')
-                    problem_name = text[1]
-                    tag_name = text[2]
+                    problem_id = text[1]
+                    tag= text[2]
 
                     newTag=Tag(problem_id=problem_id,tag=tag)
                     db.session.add(newTag)
                     db.session.commit()
+
+                    tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+
+                    if tag==None:
+                        tag_params={
+                            'problem_official_name':problem_id,
+                            'first_tag':tag
+                        }
+                        newProblemTag=problem_tag(**tag_params)
+                        db.session.add(newProblemTag)
+                        db.session.commit()
+
+                    else:
+                        tags=db.session.query(Tag).filter(Tag.problem_id==problem_id)
+                        vote_num=defaultdict(int)
+
+                        for t in tags:
+                            vote_num[t.tag]+=1
+                        
+                        vote_num= sorted(vote_num.items(), key=lambda x:x[1],reverse=True)
+
+                        tag_=None
+                        if len(vote_num)!=0:
+                            tag_=vote_num[0][0]
+                        
+                        if tag !=None:
+                            tag.first_tag=tag_
+                            db.session.commit() 
 
             MAX_ID = NEXT_MAX_ID
 
