@@ -7,7 +7,7 @@ from secret_key import *
 import json
 import time
 
-#スクレイピングする間隔:10分
+#スクレイピングする間隔:15分
 SLEEP_TIME = 15 * 60
 
 
@@ -20,8 +20,8 @@ def main():
 
     max_id = -1
     url = 'https://api.twitter.com/1.1/search/tweets.json'
-    keyword = '#Python'
-    count = 100
+    keyword = '#HogeHogeHogeHoge'
+    count = 1
     params = {'q': keyword, 'count': count, 'max_id': max_id, 'lang': 'en'}
 
     twitter = create_oath_session(oath_key_dict)
@@ -72,11 +72,11 @@ def main():
 
                     break
 
-                text = tweet['text']
-                print(text)
-                print(
-                    '#################################################################################'
-                )
+                text = tweet['text'].split('/')
+                problem_name = text[1]
+                tag_name = text[2]
+
+                print(problem_name + ":" + tag_name)
 
             time.sleep(SLEEP_TIME)
 
@@ -88,11 +88,11 @@ def main():
                     if tweet['id'] == MAX_ID:
                         break
 
-                    text = tweet['text']
-                    print(text)
-                    print(
-                        '#################################################################################'
-                    )
+                    text = tweet['text'].split('/')
+                    problem_name = text[1]
+                    tag_name = text[2]
+
+                    print(problem_name + ":" + tag_name)
 
             MAX_ID = NEXT_MAX_ID
 
