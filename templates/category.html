@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>AtCoderTags</title>
+</head>
+
+<body style="padding-top:5rem">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md  navbar-dark bg-dark fixed-top">
+            <a href="/" class="navbar-brand">AtCoderTags</a>
+
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="nav1">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="/" class="nav-link">ホーム</a></li>
+                    <li class="nav-item active"><a href="/category" class="nav-link">カテゴリー別問題集</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div>
+            <h3>検索</h3>
+            <form id="search" method="POST" action="">
+                <input id="tag_search" placeholder="タグ名" type="text" />
+            </form>
+        </div>
+    </div>
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+    crossorigin="anonymous "></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+    crossorigin="anonymous "></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"
+    integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI=" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+    (async function () {
+        const tag = ["フロー", "最小費用流", "最大マッチング", "最大流", "数学",
+            "包除原理", "連立方程式", "半環", "確率", "期待値", "FFT",
+            "アダマール変換", "メビウス変換", "ゼータ変換", "XOR", "中国剰余定理",
+            "線形計画法", "フィボナッチ数列", "有理数", "木構造",
+            "LCA", "HL分解", "オイラーツアー", "木の同型判定",
+            "重心分解", "LinkCutTree", "DynamicTree", "グラフ理論",
+            "スペクトルグラフ理論", "行列木定理", "ケイリーの公式", "橋",
+            "関節点", "サイクル基底", "lowlink", "ダイクストラ", "ベルマンフォード",
+            "ワーシャルフロイド", "オイラー路", "強連結成分分解", "最小パス被覆",
+            "Dilworthの定理", "トポロジカルソート", "最大クリーク", "最大独立集合",
+            "BFS", "後退解析", "最小全域木", "プリム", "クラスカル", "ブルーフカ",
+            "データ構造", "UnionFind", "セグメントツリー", "BIT", "遅延評価セグメントツリー",
+            "永続データ構造", "平衡二分木", "SparseTable", "WaveletMatrix", "動的計画法",
+            "区間DP", "桁DP", "CHT", "MongeDP", "AlianDP", "インラインDP", "きたまさ法",
+            "行列累乗", "戻すDP", "全方位木DP", "木DP", "bitDP", "挿入DP", "連結DP", "inlineDP",
+            "枝刈り", "マンハッタン距離", "しゃくとり法", "二分探索", "三分探索",
+            "imos法", "累積和", "最長部分増加列", "Mo'sAlgorithm",
+            "平方分割", "ローリングハッシュ", "SuffixArray", "LCP", "KMP",
+            "Aho-Corasick", "Z-algorithm", "PalindromicTree", "Manacher",
+            "SuffixTree", "Nim", "Grundy数", "後退解析", "ミニマックス法",
+            "2-SAT", "マージテク", "エラトステネスの篩", "区間篩", "分割統治法", "凸包",
+            "構築", "乱択アルゴリズム", "半分全列挙", "最近点対", "幾何", "構文解析", "平面走査",
+            "後ろから見るテク", "不変量を探すテク", "余事象"
+        ];
+
+        $('#tag_search').autocomplete({
+            source: tag,
+            autoFocus: true,
+            delay: 100,
+            minLength: 2,
+            appendTo: "menu",
+            //候補をクリックすることでsubmitできるようにする
+            select: function (event, ui) {
+                var name = ui.item.label;
+                $("#tag_search").val(name);
+                $('form').attr('action', '/tag_search?tagName=' + name);
+                $("#search").submit();
+            }
+        });
+        //input内でのEnter無効化
+        $(function () {
+            $(document).on("keypress", "input:not(.allow_submit)", function (event) {
+                return event.which !== 13;
+            });
+        });
+        //日本語入力をスタートしたら無効化
+        $('#tag_search').on('compositionstart', function () {
+            $('#tag_search').autocomplete('disable');
+        });
+        //日本語入力が確定したら有効化
+        $('#tag_search').on('compositionend', function () {
+            $('#tag_search').autocomplete('enable').autocomplete('search');
+        });
+
+    })();
+</script>
+
+</html>
