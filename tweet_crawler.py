@@ -9,10 +9,12 @@ import pickle
 sched = BlockingScheduler()
 
 class Tag(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
     problem_id=db.Column(db.String(64))
     tag=db.Column(db.String(64))
 
 class problem_tag(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
     problem_official_name=db.Column(db.String(64))
     #first_tag:最も表の多いTag
     first_tag=db.Column(db.String(64))
