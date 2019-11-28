@@ -1,4 +1,4 @@
 web: gunicorn app:app
-init: python manage.py db init
-migrate: python manage.py db migrate
-upgrade: python manage.py db upgrade
+init: python app.py db init
+migrate: python app.py db migrate
+upgrade: python app.py db upgrade
