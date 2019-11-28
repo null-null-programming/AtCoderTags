@@ -132,3 +132,4 @@ config.py
 settings.json
 Procfile
 id.pickle
+migrations/*
