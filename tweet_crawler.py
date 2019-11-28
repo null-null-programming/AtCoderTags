@@ -20,7 +20,7 @@ class problem_tag(db.Model):
     first_tag=db.Column(db.String(64))
 
 ### Functions
-@sched.scheduled_job('interval', minutes=10)
+@sched.scheduled_job('interval', minutes=1)
 def crawler():
     with open('id.pickle', mode='rb') as f:
         id=pickle.load(f)
@@ -31,7 +31,7 @@ def crawler():
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
-    count = 150
+    count = 15
     params = {'q': keyword, 'count': count, 'max_id': max_id}
 
     twitter = create_oath_session(oath_key_dict)
