@@ -128,7 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-config.py
 settings.json
 id.pickle
 migrations/
