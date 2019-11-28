@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timedelta
 from collections import defaultdict
 from config import *
 import json
-import time
+import pickle
 
 class Tag(db.Model):
     id=db.Column(db.Integer,primary_key=True)
@@ -17,18 +16,14 @@ class problem_tag(db.Model):
     #first_tag:最も表の多いTag
     first_tag=db.Column(db.String(64))
 
-class ID(db.Model):
-    id=db.Column(db.Integer,primary_key=True)
-    max_id=db.Column(db.Integer)
-    MAX_ID=db.Column(db.Integer)
-    NEXT_MAX_ID=db.Column(db.Integer)
-
 ### Functions
 def main():
-    #これまでに見てきた中で最も大きいid
-    MAX_ID = db.session.query(ID).first().MAX_ID
-    max_id=db.session.query(ID).first().max_id
-    NEXT_MAX_ID = db.session.query(ID).first().NEXT_MAX_ID
+    with open('id.pickle', mode='rb') as f:
+        id=pickle.load(f)
+
+    MAX_ID = id['MAX_ID']
+    max_id= id['max_id']
+    NEXT_MAX_ID = id['NEXT_MAX_ID']
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#HogeHugaTest'
@@ -47,26 +42,34 @@ def main():
 
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
+                id['max_id']=-1
+
+                with open('id.pickle',mode='wb') as f:
+                    pickle.dump(id,f)
                 return
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
                     NEXT_MAX_ID = search_timeline['statuses'][0]['id']
-                    db.session.query(Tag).first().NEXT_MAX_ID=search_timeline['statuses'][0]['id']
-                    db.session.commit()
+                    id['NEXT_MAX_ID']=NEXT_MAX_ID
 
+                    with open('id.pickle', mode='wb') as f:
+                        pickle.dump(id, f)
+                    
             for tweet in search_timeline['statuses']:
 
                 #既に見たツイートまで来た場合、終了する。
                 if tweet['id'] == MAX_ID:
                     MAX_ID=NEXT_MAX_ID
                     max_id=-1
-                    db.session.query(Tag).first().MAX_ID=NEXT_MAX_ID
-                    db.session.query(Tag).first().max_id=-1
-                    db.session.commit()
+                    id['MAX_ID']=NEXT_MAX_ID
+                    id['max_id']=-1
+
+                    with open('id.pickle', mode='wb') as f:
+                        pickle.dump(id, f)
+                                        
                     return
                 else:
-                    """
                     text = tweet['text'].split('/')
 
                     #  #AtCoderTags/problem_id/Tag の形式出ない場合、飛ばす
@@ -76,10 +79,9 @@ def main():
 
                     problem_id = text[1]
                     tag = text[2]
-                    """
 
                     print(tweet['text'])
-                    """
+
                     newTag=Tag(problem_id=problem_id,tag=tag)
                     db.session.add(newTag)
                     db.session.commit()
@@ -112,9 +114,16 @@ def main():
                         
                         if tag !=None:
                             tag.first_tag=tag_
-                            db.         MAX_ID=NEXT_MAX_IDsession.commit()
-                            """
+                            db.session.commit()
+        
+            MAX_ID = NEXT_MAX_ID
             max_id = search_timeline['statuses'][-1]['id']
+            id['MAX_ID']=NEXT_MAX_ID
+            id['max_id']=max_id
+
+            with open('id.pickle', mode='wb') as f:
+                pickle.dump(id,f)
+            
         else:
             return
 

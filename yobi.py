@@ -191,3 +191,12 @@ def create_oath_session(oath_key_dict):
 ### Execute
 if __name__ == "__main__":
     main()
+
+
+    new_id={'max_id':-1,
+            'MAX_ID':-1,
+            'NEXT_MAX_ID':-1
+            }
+    newID=ID(**new_id)
+    db.session.add(newID)
+    db.session.commit()
