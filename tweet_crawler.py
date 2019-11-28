@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from collections import defaultdict
+from apscheduler.schedulers.blocking import BlockingScheduler
 from config import *
 import json
 import pickle
+
+sched = BlockingScheduler()
 
 class Tag(db.Model):
     id=db.Column(db.Integer,primary_key=True)
@@ -17,7 +20,8 @@ class problem_tag(db.Model):
     first_tag=db.Column(db.String(64))
 
 ### Functions
-def main():
+@sched.scheduled_job('interval', minutes=10)
+def crawler():
     with open('id.pickle', mode='rb') as f:
         id=pickle.load(f)
     
@@ -27,7 +31,7 @@ def main():
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
-    count = 100
+    count = 150
     params = {'q': keyword, 'count': count, 'max_id': max_id}
 
     twitter = create_oath_session(oath_key_dict)
@@ -133,6 +137,4 @@ def create_oath_session(oath_key_dict):
     return oath
 
 
-### Execute
-if __name__ == "__main__":
-    main()
+sched.start()
