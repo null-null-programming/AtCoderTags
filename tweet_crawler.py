@@ -75,7 +75,7 @@ def crawler():
                     return
                 else:
                     text = tweet['text'].split('/')
-                    
+
                     #  #AtCoderTags/problem_id/Tag/ の形式出ない場合、飛ばす
                     if len(text)<4:
                         continue
@@ -114,7 +114,7 @@ def crawler():
                             tag_=vote_num[0][0]
                         
                         if tag !=None:
-                            tag.first_tag=tag_
+                            search_tag.first_tag=tag_
                             db.session.commit()
         
             MAX_ID = NEXT_MAX_ID
