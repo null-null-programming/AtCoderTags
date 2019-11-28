@@ -130,3 +130,5 @@ dmypy.json
 
 config.py
 settings.json
+Procfile
+id.pickle
