@@ -25,10 +25,11 @@ def main():
     #これまでに見てきた中で最も大きいid
     MAX_ID = -1
     NEXT_MAX_ID = -1
+    next_max_id = -1
 
     max_id = -1
     url = 'https://api.twitter.com/1.1/search/tweets.json'
-    keyword = '#HogeHogeTest'
+    keyword = '#HogeHogeHogeHoge'
     count = 1
     params = {'q': keyword, 'count': count, 'max_id': max_id, 'lang': 'en'}
 
@@ -42,31 +43,103 @@ def main():
         if req.status_code == 200:
             search_timeline = json.loads(req.text)
 
-            #ツイートがない場合は終了
+            #全てのツイートを取得した場合、最新ツイートに戻る。
             if search_timeline['statuses'] == []:
-                return
+                max_id = -1
+                params['max_id'] = -1
+                req = twitter.get(url, params=params)
+                search_timeline = json.loads(req.text)
+
+                time.sleep(SLEEP_TIME)
+
+                continue
             else:
-                #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
                     NEXT_MAX_ID = search_timeline['statuses'][0]['id']
-            
+
+            max_id = search_timeline['statuses'][-1]['id']
+            flag = False
+
             for tweet in search_timeline['statuses']:
 
-                #既に見たツイートまで来た場合、終了する。
+                #既に見たツイートまで来た場合、最新ツイートに戻る。
                 if tweet['id'] == MAX_ID:
-                    MAX_ID=NEXT_MAX_ID
-                    return
+
+                    while True:
+                        max_id = -1
+                        params['max_id'] = -1
+                        req = twitter.get(url, params=params)
+                        search_timeline = json.loads(req.text)
+
+                        time.sleep(SLEEP_TIME)
+
+                        if search_timeline['statuses'][0]['id'] != MAX_ID:
+                            NEXT_MAX_ID = search_timeline['statuses'][0]['id']
+                            max_id = -1
+                            flag = True
+                            break
+
+                    break
+
+                text = tweet['text'].split('/')
+
+                if len(text)!=3:
+                    continue
+
+                problem_id = text[1]
+                tag = text[2]
+
+                print(problem_id+":"+tag)
+
+                newTag=Tag(problem_id=problem_id,tag=tag)
+                db.session.add(newTag)
+                db.session.commit()
+
+                tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+
+                if tag==None:
+                    tag_params={
+                        'problem_official_name':problem_id,
+                        'first_tag':tag
+                    }
+                    newProblemTag=problem_tag(**tag_params)
+                    db.session.add(newProblemTag)
+                    db.session.commit()
+
                 else:
+                    tags=db.session.query(Tag).filter(Tag.problem_id==problem_id)
+                    vote_num=defaultdict(int)
+
+                    for t in tags:
+                        vote_num[t.tag]+=1
+                    
+                    vote_num= sorted(vote_num.items(), key=lambda x:x[1],reverse=True)
+
+                    tag_=None
+                    if len(vote_num)!=0:
+                        tag_=vote_num[0][0]
+                    
+                    if tag !=None:
+                        tag.first_tag=tag_
+                        db.session.commit()            
+
+            time.sleep(SLEEP_TIME)
+
+            if flag:
+
+                for tweet in search_timeline['statuses']:
+
+                    #既に見たツイートまで来た場合、最新ツイートに戻る。
+                    if tweet['id'] == MAX_ID:
+                        break
+
                     text = tweet['text'].split('/')
 
-                    #  #AtCoderTags/problem_id/Tag の形式出ない場合、飛ばす
                     if len(text)!=3:
                         continue
 
                     problem_id = text[1]
-                    tag = text[2]
-
-                    print(problem_id+":"+tag)
+                    tag= text[2]
 
                     newTag=Tag(problem_id=problem_id,tag=tag)
                     db.session.add(newTag)
@@ -74,7 +147,6 @@ def main():
 
                     tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
 
-                    #Tagが存在しない場合、投票されたTagがその問題のジャンルになる。
                     if tag==None:
                         tag_params={
                             'problem_official_name':problem_id,
@@ -84,7 +156,6 @@ def main():
                         db.session.add(newProblemTag)
                         db.session.commit()
 
-                    #Tagが存在する場合、その問題に投票された全てのTagを集計し直し、ジャンルを決定する。
                     else:
                         tags=db.session.query(Tag).filter(Tag.problem_id==problem_id)
                         vote_num=defaultdict(int)
@@ -100,9 +171,13 @@ def main():
                         
                         if tag !=None:
                             tag.first_tag=tag_
-                            db.session.commit()  
+                            db.session.commit() 
+
+            MAX_ID = NEXT_MAX_ID
+
         else:
-            return
+            print('{}秒待ちます'.format(SLEEP_TIME))
+            time.sleep(SLEEP_TIME)
 
 
 def create_oath_session(oath_key_dict):
