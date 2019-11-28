@@ -129,5 +129,3 @@ dmypy.json
 .pyre/
 
 settings.json
-id.pickle
-migrations/
