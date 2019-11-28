@@ -40,7 +40,7 @@ def crawler():
         if max_id != -1:
             params['max_id'] = max_id - 1
         req = twitter.get(url, params=params)
-        print(req.status_code)
+        
         if req.status_code == 200:
             search_timeline = json.loads(req.text)
 
@@ -75,8 +75,7 @@ def crawler():
                     return
                 else:
                     text = tweet['text'].split('/')
-                    print(tweet['text'])
-
+                    
                     #  #AtCoderTags/problem_id/Tag/ の形式出ない場合、飛ばす
                     if len(text)<4:
                         continue
