@@ -16,6 +16,12 @@ class problem_tag(db.Model):
     #first_tag:最も表の多いTag
     first_tag=db.Column(db.String(64))
 
+class ID(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    max_id=db.Column(db.Integer)
+    MAX_ID=db.Column(db.Integer)
+    NEXT_MAX_ID=db.Column(db.Integer)
+
 @app.route('/')
 def index():
     return render_template('index.html')

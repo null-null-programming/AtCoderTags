@@ -17,19 +17,22 @@ class problem_tag(db.Model):
     #first_tag:最も表の多いTag
     first_tag=db.Column(db.String(64))
 
-#スクレイピングする間隔:15分
-SLEEP_TIME = 15 * 60
+class ID(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    max_id=db.Column(db.Integer)
+    MAX_ID=db.Column(db.Integer)
+    NEXT_MAX_ID=db.Column(db.Integer)
 
 ### Functions
 def main():
     #これまでに見てきた中で最も大きいid
-    MAX_ID = -1
-    NEXT_MAX_ID = -1
+    MAX_ID = db.session.query(ID).first().MAX_ID
+    max_id=db.session.query(ID).first().max_id
+    NEXT_MAX_ID = db.session.query(ID).first().NEXT_MAX_ID
 
-    max_id = -1
     url = 'https://api.twitter.com/1.1/search/tweets.json'
-    keyword = '#HogeHogeTest'
-    count = 1
+    keyword = '#HogeHugaTest'
+    count = 10
     params = {'q': keyword, 'count': count, 'max_id': max_id, 'lang': 'en'}
 
     twitter = create_oath_session(oath_key_dict)
@@ -49,25 +52,34 @@ def main():
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
                     NEXT_MAX_ID = search_timeline['statuses'][0]['id']
-            
+                    db.session.query(Tag).first().NEXT_MAX_ID=search_timeline['statuses'][0]['id']
+                    db.session.commit()
+
             for tweet in search_timeline['statuses']:
 
                 #既に見たツイートまで来た場合、終了する。
                 if tweet['id'] == MAX_ID:
                     MAX_ID=NEXT_MAX_ID
+                    max_id=-1
+                    db.session.query(Tag).first().MAX_ID=NEXT_MAX_ID
+                    db.session.query(Tag).first().max_id=-1
+                    db.session.commit()
                     return
                 else:
+                    """
                     text = tweet['text'].split('/')
 
                     #  #AtCoderTags/problem_id/Tag の形式出ない場合、飛ばす
                     if len(text)!=3:
-                        continue
+                       continue
+                    
 
                     problem_id = text[1]
                     tag = text[2]
+                    """
 
-                    print(problem_id+":"+tag)
-
+                    print(tweet['text'])
+                    """
                     newTag=Tag(problem_id=problem_id,tag=tag)
                     db.session.add(newTag)
                     db.session.commit()
@@ -100,10 +112,11 @@ def main():
                         
                         if tag !=None:
                             tag.first_tag=tag_
-                            db.session.commit()  
+                            db.         MAX_ID=NEXT_MAX_IDsession.commit()
+                            """
+            max_id = search_timeline['statuses'][-1]['id']
         else:
             return
-
 
 def create_oath_session(oath_key_dict):
     oath = OAuth1Session(oath_key_dict["consumer_key"],
