@@ -1,1 +1,1 @@
-web:gunicorn atcoder-tags:app
+web:gunicorn app:app
