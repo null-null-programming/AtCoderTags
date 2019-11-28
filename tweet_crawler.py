@@ -40,6 +40,8 @@ def crawler():
         if max_id != -1:
             params['max_id'] = max_id - 1
         req = twitter.get(url, params=params)
+
+        print(req.status_code)
         
         if req.status_code == 200:
             search_timeline = json.loads(req.text)
