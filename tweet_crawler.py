@@ -20,15 +20,15 @@ class problem_tag(db.Model):
 def main():
     with open('id.pickle', mode='rb') as f:
         id=pickle.load(f)
-
+    
     MAX_ID = id['MAX_ID']
     max_id= id['max_id']
     NEXT_MAX_ID = id['NEXT_MAX_ID']
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
-    keyword = '#HogeHugaTest'
-    count = 10
-    params = {'q': keyword, 'count': count, 'max_id': max_id, 'lang': 'en'}
+    keyword = '#HogeHogeHogeHoge'
+    count = 100
+    params = {'q': keyword, 'count': count, 'max_id': max_id, 'lang': 'ja'}
 
     twitter = create_oath_session(oath_key_dict)
 
@@ -36,7 +36,7 @@ def main():
         if max_id != -1:
             params['max_id'] = max_id - 1
         req = twitter.get(url, params=params)
-
+        print(req.status_code)
         if req.status_code == 200:
             search_timeline = json.loads(req.text)
 
@@ -71,25 +71,23 @@ def main():
                     return
                 else:
                     text = tweet['text'].split('/')
+                    print(tweet['text'])
 
-                    #  #AtCoderTags/problem_id/Tag の形式出ない場合、飛ばす
-                    if len(text)!=3:
-                       continue
-                    
+                    #  #AtCoderTags/problem_id/Tag/ の形式出ない場合、飛ばす
+                    if len(text)<4:
+                        continue
 
                     problem_id = text[1]
                     tag = text[2]
-
-                    print(tweet['text'])
 
                     newTag=Tag(problem_id=problem_id,tag=tag)
                     db.session.add(newTag)
                     db.session.commit()
 
-                    tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+                    search_tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
 
                     #Tagが存在しない場合、投票されたTagがその問題のジャンルになる。
-                    if tag==None:
+                    if search_tag==None:
                         tag_params={
                             'problem_official_name':problem_id,
                             'first_tag':tag

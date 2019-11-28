@@ -1,1 +1,3 @@
-# Hoge
+AtCoderTagsはAtCoderの問題にTag付けすることを目標にしたアプリです。
+Twitterを介して投票されたTagを収集し、Tagから問題を検索出来るようにする
+ことを目標としています。
