@@ -48,7 +48,7 @@ def tag_search():
             dict[str(problem['id'])]['predict']=-1
     
     #問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
-    problems=sorted(problems,key=lambda x:dict[str(x.problem_official_name)]["predict"],reverse=True)
+    problems=sorted(problems,key=lambda x:(dict[str(x.problem_official_name)]["predict"],-dict[str(x.problem_official_name)]["solver_count"]))
 
     return render_template('tag_search.html', tagName=tagName,problems=problems,dict=dict)
 
