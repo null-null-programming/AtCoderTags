@@ -28,7 +28,7 @@ def index():
     VOTED_PROBLEM_NUM=len(list)
 
     #投票済みパーセンテージ
-    PERCENTAGE=(VOTED_PROBLEM_NUM/ALL_PROBLEM_NUM)*100
+    PERCENTAGE=round((VOTED_PROBLEM_NUM/ALL_PROBLEM_NUM)*100,3)
 
     return render_template('index.html',percentage=PERCENTAGE)
 
