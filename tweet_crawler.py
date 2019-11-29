@@ -31,7 +31,7 @@ def crawler():
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
-    count = 300
+    count = 180
     params = {'q': keyword, 'count': count, 'max_id': max_id}
 
     twitter = create_oath_session(oath_key_dict)
@@ -43,7 +43,7 @@ def crawler():
         
         print(req.status_code)
 
-        if req.status_code == 150:
+        if req.status_code == 200:
             search_timeline = json.loads(req.text)
 
             #ツイートがない場合は終了
