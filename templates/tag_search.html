@@ -57,9 +57,11 @@
                             </a>
                         </td>
                         <td>
+                            {{dict[problem.problem_official_name]['predict'] | int}}
+                        </td>
+                        <td>
                             <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
                         </td>
-                        <td>{{dict[problem.problem_official_name]['predict'] | int}}</td>
                     </tr>
                     {%endfor%}
                 </tbody>

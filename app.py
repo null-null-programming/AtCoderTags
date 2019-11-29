@@ -38,14 +38,17 @@ def tag_search():
 
     #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
-        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"しばらくお待ち下さい","solver_count":-1,"predict":"null"}
+        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"しばらくお待ち下さい","solver_count":-1,"predict":-1}
     
     #official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
         dict[str(problem['id'])]=problem
+
+        if dict[str(problem['id'])]['predict']==None:
+            dict[str(problem['id'])]['predict']=-1
     
     #問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
-    problems=sorted(problems,key=lambda x:dict[str(x.problem_official_name)]["solver_count"],reverse=True)
+    problems=sorted(problems,key=lambda x:dict[str(x.problem_official_name)]["predict"],reverse=True)
 
     return render_template('tag_search.html', tagName=tagName,problems=problems,dict=dict)
 
