@@ -38,6 +38,7 @@
                         <th scope="col">#</th>
                         <th scope="col">id</th>
                         <th scope="col">name</th>
+                        <th scope="col">solver</th>
                         <th scope="col">difficulty</th>
                     </tr>
                 </thead> {% for problem in problems%}
@@ -56,8 +57,9 @@
                             </a>
                         </td>
                         <td>
-                            <b>{{dict[problem.problem_official_name]['predict'] | int}}</b>
+                            <b>{{dict[problem.problem_official_name]['solver'] | int}}</b>
                         </td>
+                        <td>{{dict[problem.problem_official_name]['predict']}}</td>
                     </tr>
                     {%endfor%}
                 </tbody>
