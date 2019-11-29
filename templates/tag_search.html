@@ -38,6 +38,7 @@
                         <th scope="col">#</th>
                         <th scope="col">id</th>
                         <th scope="col">name</th>
+                        <th scope="col">solved</th>
                     </tr>
                 </thead> {% for problem in problems%}
                 <tbody>
@@ -53,6 +54,9 @@
                                 href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}">
                                 <b>{{dict[problem.problem_official_name]['title']}}</b>
                             </a>
+                        </td>
+                        <td>
+                            <b>{{dict[problem.problem_official_name]['solver_count']}}</b>
                         </td>
                     </tr>
                     {%endfor%}

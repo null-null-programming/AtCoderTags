@@ -38,7 +38,7 @@ def tag_search():
 
     #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
-        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":""}
+        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"反映中","solver_count":0}
     
     #official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
