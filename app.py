@@ -18,7 +18,20 @@ class problem_tag(db.Model):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    get_problem=requests.get('https://kenkoooo.com/atcoder/resources/merged-problems.json')
+    get_problem=get_problem.json()
+    ALL_PROBLEM_NUM=len(get_problem)
+
+    print(ALL_PROBLEM_NUM)
+
+    list=db.session.query(problem_tag).all()
+    VOTED_PROBLEM_NUM=len(list)
+
+    print(VOTED_PROBLEM_NUM)
+
+    PERCENTAGE=VOTED_PROBLEM_NUM/ALL_PROBLEM_NUM
+
+    return render_template('index.html',percentage=PERCENTAGE)
 
 @app.route('/category')
 def category():
