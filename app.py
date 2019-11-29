@@ -18,18 +18,17 @@ class problem_tag(db.Model):
 
 @app.route('/')
 def index():
+    #問題の総数を求める。
     get_problem=requests.get('https://kenkoooo.com/atcoder/resources/merged-problems.json')
     get_problem=get_problem.json()
     ALL_PROBLEM_NUM=len(get_problem)
 
-    print(ALL_PROBLEM_NUM)
-
+    #投票済みの問題の総数を求める。
     list=db.session.query(problem_tag).all()
     VOTED_PROBLEM_NUM=len(list)
 
-    print(VOTED_PROBLEM_NUM)
-
-    PERCENTAGE=VOTED_PROBLEM_NUM/ALL_PROBLEM_NUM
+    #投票済みパーセンテージ
+    PERCENTAGE=(VOTED_PROBLEM_NUM/ALL_PROBLEM_NUM)*100
 
     return render_template('index.html',percentage=PERCENTAGE)
 
