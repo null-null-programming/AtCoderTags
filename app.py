@@ -45,9 +45,9 @@ def tag_search():
         dict[str(problem['id'])]=problem
     
     #問題を難易度順に並び替える。
-    problems=sorted(problems,key=lambda x:round(dict[x.problem_official_name]['predict']),reverse=True)
+    problems_=sorted(problems,key=lambda x:round(dict[str(x.problem_official_name)]["predict"]),reverse=True)
 
-    return render_template('tag_search.html', tagName=tagName,problems=problems,dict=dict)
+    return render_template('tag_search.html', tagName=tagName,problems=problems_,dict=dict)
 
 @app.cli.command('initdb')
 def initdb_command():
