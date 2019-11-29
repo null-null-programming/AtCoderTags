@@ -57,7 +57,7 @@
                             </a>
                         </td>
                         <td>
-                            {%if {{dict[problem.problem_official_name]['predict'] | int}} == -1%}
+                            {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
                             <b>null</b>
                             {% else %}
                             <b>{{dict[problem.problem_official_name]['predict'] | int}}</b>
