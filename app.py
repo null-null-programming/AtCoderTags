@@ -43,7 +43,7 @@ def tag_search():
     #official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
         dict[str(problem['id'])]=problem
-        print(dict[str(problem['id'])]["predict"])
+        print(problem['title']+":"+dict[str(problem['id'])]["predict"])
     
     #問題を難易度順に並び替える。
     problems=sorted(problems,key=lambda x:dict[str(x.problem_official_name)]["predict"],reverse=True)
