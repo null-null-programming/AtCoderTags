@@ -28,13 +28,19 @@ def category():
 @app.route('/tag_search', methods=['POST'])
 def tag_search():
     #コンテスト名取得のため、AtCoderProblemsAPIを利用する。
-    get_problem=requests.get('https://kenkoooo.com/atcoder/resources/problems.json')
+    get_problem=requests.get('https://kenkoooo.com/atcoder/resources/merged-problems.json')
     get_problem=get_problem.json()
 
     tagName = request.args.get('tagName')
     problems = db.session.query(problem_tag).filter_by(first_tag=tagName)
 
     dict={}
+
+    #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
+    for problem in problems:
+        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":""}
+    
+    #official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
         dict[str(problem['id'])]=problem
 

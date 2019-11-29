@@ -42,7 +42,9 @@
                 </thead> {% for problem in problems%}
                 <tbody>
                     <tr>
-                        <td scope="row">{{loop.index}}</td>
+                        <td scope="row">
+                            <b>{{loop.index}}</b>
+                        </td>
                         <td>
                             <b>{{problem.problem_official_name}}<b>
                         </td>
