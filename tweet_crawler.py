@@ -42,8 +42,8 @@ def crawler():
         req = twitter.get(url, params=params)
         
         print(req.status_code)
-        
-        if req.status_code == 200:
+
+        if req.status_code == 150:
             search_timeline = json.loads(req.text)
 
             #ツイートがない場合は終了
