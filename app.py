@@ -43,6 +43,8 @@ def tag_search():
     #official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
         dict[str(problem['id'])]=problem
+    
+    problems=sorted(problems,key=lambda x:dict[x.problem_official_name]['solver_count'],reverse=True)
 
     return render_template('tag_search.html', tagName=tagName,problems=problems,dict=dict)
 
