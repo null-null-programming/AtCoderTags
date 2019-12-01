@@ -4,7 +4,6 @@ from collections import defaultdict
 from apscheduler.schedulers.blocking import BlockingScheduler
 from config import *
 import json
-import pickle
 
 sched = BlockingScheduler()
 
@@ -19,31 +18,35 @@ class problem_tag(db.Model):
     #first_tag:最も表の多いTag
     first_tag=db.Column(db.String(64))
 
+class id_list(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    "MAX"_ID=db.Column(db.String(64))
+    now_"max"_id=db.Column(db.String(64))
+    NEXT_"MAX"_ID=db.Column(db.String(64))
+
 ### Functions
 @sched.scheduled_job('interval', minutes=1)
 def crawler():
-    with open('id.pickle', mode='rb') as f:
-        id=pickle.load(f)
-    
-    MAX_ID = id['MAX_ID']
-    max_id= id['max_id']
-    NEXT_MAX_ID = id['NEXT_MAX_ID']
+    id=db.session.query(id_list).first()
+    MAX_ID_ = int(id."MAX"_ID)
+    now_max_id_ = int(id.now_"max"_id)
+    NEXT_MAX_ID_ = int(id.NEXT_"MAX"_ID)
+
+    print(MAX_ID_)
+    print(now_max_id_)
+    print(NEXT_MAX_ID_)
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
     count = 180
-    params = {'q': keyword, 'count': count, 'max_id': max_id}
+    params = {'q': keyword, 'count': count, 'max_id': now_max_id}
 
     twitter = create_oath_session(oath_key_dict)
 
     while (True):
 
-        print(MAX_ID)
-        print(max_id)
-        print(NEXT_MAX_ID)
-
-        if max_id != -1:
-            params['max_id'] = max_id - 1
+        if now_max_id != -1:
+            params['max_id'] = now_max_id - 1
         req = twitter.get(url, params=params)
 
         print(req.status_code)
@@ -53,34 +56,29 @@ def crawler():
 
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
-                id['max_id']=-1
-
-                with open('id.pickle',mode='wb') as f:
-                    pickle.dump(id,f) 
-                
+                id=db.session.query(id_list).first()
+                id.now_"max"_id='-1'
+                db.session.commit()
                 return
                 
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
-                if max_id == -1:
-                    NEXT_MAX_ID = search_timeline['statuses'][0]['id']
-                    id['NEXT_MAX_ID']=NEXT_MAX_ID
-
-                    with open('id.pickle', mode='wb') as f:
-                        pickle.dump(id, f)
+                if now_max_id == -1:
+                    NEXT_"MAX"_ID_ = int(search_timeline['statuses'][0]['id'])
+                    id=db.session.query(id_list).first()
+                    id.NEXT_"MAX"_ID=str(NEXT_MAX_ID_)
+                    db.session.commit()
                     
             for tweet in search_timeline['statuses']:
 
                 #既に見たツイートまで来た場合、終了する。
-                if tweet['id'] == MAX_ID:
-                    MAX_ID=NEXT_MAX_ID
-                    max_id=-1
-                    id['MAX_ID']=NEXT_MAX_ID
-                    id['max_id']=-1
-
-                    with open('id.pickle', mode='wb') as f:
-                        pickle.dump(id, f)
-                                        
+                if tweet['id'] == MAX_ID_:
+                    MAX_ID_=NEXT_MAX_ID_
+                    now_max_id_=-1
+                    id=db.session.query(id_list).first()
+                    id."MAX"_ID=str(NEXT_MAX_ID_)
+                    id.now_"max"_id='-1'   
+                    db.session.commit()                 
                     return
                 else:
                     text = tweet['text'].split('/')
@@ -129,14 +127,12 @@ def crawler():
                             search_tag.first_tag=tag_
                             db.session.commit()
         
-            MAX_ID = NEXT_MAX_ID
-            max_id = search_timeline['statuses'][-1]['id']
-            id['MAX_ID']=NEXT_MAX_ID
-            id['max_id']=max_id
-
-            with open('id.pickle', mode='wb') as f:
-                pickle.dump(id,f)
-            
+            MAX_ID_ = NEXT_MAX_ID_
+            now_max_id_ = search_timeline['statuses'][-1]['id']
+            id=db.session.query(id_list).first()
+            id."MAX"_ID=str(NEXT_MAX_ID_)
+            id.now_"max"_id=str(now_max_id_)
+            db.session.commit()
         else:
             return
 
