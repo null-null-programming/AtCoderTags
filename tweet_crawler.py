@@ -31,6 +31,10 @@ def crawler():
     now_max_id = int(db.session.query(id_list).first().now_max_id)
     NEXT_MAX_ID = int(db.session.query(id_list).first().NEXT_MAX_ID)
 
+    print(MAX_ID)
+    print(now_max_id)
+    print(NEXT_MAX_ID)
+
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
     count = 180
