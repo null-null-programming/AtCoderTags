@@ -83,6 +83,9 @@ def crawler():
                     problem_id = text[1]
                     tag = text[2]
 
+                    print(problem_id)
+                    print(tag)
+
                     newTag=Tag(problem_id=problem_id,tag=tag)
                     db.session.add(newTag)
                     db.session.commit()
