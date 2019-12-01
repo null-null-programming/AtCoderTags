@@ -33,7 +33,7 @@ def crawler():
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
-    count = 5
+    count = 180
     params = {'q': keyword, 'count': count, 'max_id': max_id}
 
     twitter = create_oath_session(oath_key_dict)
@@ -58,8 +58,10 @@ def crawler():
                 id['max_id']=-1
 
                 with open('id.pickle',mode='wb') as f:
-                    pickle.dump(id,f)
+                    pickle.dump(id,f) 
+                
                 return
+                
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
