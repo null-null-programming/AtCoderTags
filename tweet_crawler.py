@@ -27,9 +27,10 @@ class id_list(db.Model):
 ### Functions
 @sched.scheduled_job('interval', minutes=1)
 def crawler():
-    MAX_ID_ = int(db.session.query(id_list).first().MAX_ID)
-    now_max_id_ = int(db.session.query(id_list).first().now_max_id)
-    NEXT_MAX_ID_ = int(db.session.query(id_list).first().NEXT_MAX_ID)
+    id=db.session.query(id_list).first()
+    MAX_ID_ = int(id.MAX_ID)
+    now_max_id_ = int(id.now_max_id)
+    NEXT_MAX_ID_ = int(id.NEXT_MAX_ID)
 
     print(MAX_ID_)
     print(now_max_id_)
@@ -55,7 +56,8 @@ def crawler():
 
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
-                db.session.query(id_list).first().now_max_id='-1'
+                id=db.session.query(id_list).first()
+                id.now_max_id='-1'
                 db.session.commit()
                 return
                 
@@ -63,7 +65,8 @@ def crawler():
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if now_max_id == -1:
                     NEXT_MAX_ID_ = int(search_timeline['statuses'][0]['id'])
-                    db.session.query(id_list).first().NEXT_MAX_ID=str(NEXT_MAX_ID_)
+                    id=db.session.query(id_list).first()
+                    id.NEXT_MAX_ID=str(NEXT_MAX_ID_)
                     db.session.commit()
                     
             for tweet in search_timeline['statuses']:
@@ -72,8 +75,9 @@ def crawler():
                 if tweet['id'] == MAX_ID_:
                     MAX_ID_=NEXT_MAX_ID_
                     now_max_id_=-1
-                    db.session.query(id_list).first().MAX_ID=str(NEXT_MAX_ID_)
-                    db.session.query(id_list).first().now_max_id='-1'                    
+                    id=db.session.query(id_list).first()
+                    id.MAX_ID=str(NEXT_MAX_ID_)
+                    id.now_max_id='-1'                    
                     return
                 else:
                     text = tweet['text'].split('/')
@@ -124,8 +128,9 @@ def crawler():
         
             MAX_ID_ = NEXT_MAX_ID_
             now_max_id = search_timeline['statuses'][-1]['id']
-            db.session.query(id_list).first().MAX_ID=str(NEXT_MAX_ID_)
-            db.session.query(id_list).first().now_max=str(now_max_id_)
+            id=db.session.query(id_list).first()
+            id.MAX_ID=str(NEXT_MAX_ID_)
+            id.now_max=str(now_max_id_)
             db.session.commit()
         else:
             return
