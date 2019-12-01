@@ -66,6 +66,8 @@ def crawler():
 
                     with open('id.pickle', mode='wb') as f:
                         pickle.dump(id, f)
+
+                    continue
                     
             for tweet in search_timeline['statuses']:
 
