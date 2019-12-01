@@ -52,7 +52,7 @@ def crawler():
 
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
-                id['max_id']=-1
+                os.environ['max_id']=str(-1)
 
                 with open('id.pickle',mode='wb') as f:
                     pickle.dump(id,f)
