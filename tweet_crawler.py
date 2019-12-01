@@ -57,14 +57,14 @@ def crawler():
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
-                    NEXT_MAX_ID = search_timeline['statuses'][0]['id']
+                    NEXT_MAX_ID = int(search_timeline['statuses'][0]['id'])
                     os.environ['NEXT_MAX_ID']=str(NEXT_MAX_ID)
                     
             for tweet in search_timeline['statuses']:
 
                 #既に見たツイートまで来た場合、終了する。
                 if tweet['id'] == MAX_ID:
-                    MAX_ID=NEXT_MAX_ID
+                    MAX_ID=int(NEXT_MAX_ID)
                     max_id=-1
                     os.environ['MAX_ID']=str(NEXT_MAX_ID)
                     os.environ['max_id']=str(-1)                             
@@ -116,8 +116,8 @@ def crawler():
                             search_tag.first_tag=tag_
                             db.session.commit()
         
-            MAX_ID = NEXT_MAX_ID
-            max_id = search_timeline['statuses'][-1]['id']
+            MAX_ID = int(NEXT_MAX_ID)
+            max_id = int(search_timeline['statuses'][-1]['id'])
             os.environ['MAX_ID']=str(NEXT_MAX_ID)
             os.environ['max_id']=str(max_id)  
         else:
