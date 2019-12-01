@@ -63,6 +63,8 @@ def crawler():
                 with open('id.pickle',mode='wb') as f:
                     pickle.dump(id,f) 
                 
+                return
+                
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
@@ -71,8 +73,6 @@ def crawler():
 
                     with open('id.pickle', mode='wb') as f:
                         pickle.dump(id, f)
-
-                    return
                     
             for tweet in search_timeline['statuses']:
 
