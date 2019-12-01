@@ -32,10 +32,6 @@ def crawler():
     now_max_id_ = int(id.now_max_id)
     NEXT_MAX_ID_ = int(id.next_max_id)
 
-    print(MAX_ID_)
-    print(now_max_id_)
-    print(NEXT_MAX_ID_)
-
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
     count = 180
@@ -44,12 +40,9 @@ def crawler():
     twitter = create_oath_session(oath_key_dict)
 
     while (True):
-
         if now_max_id_ != -1:
             params['max_id'] = now_max_id_ - 1
         req = twitter.get(url, params=params)
-
-        print(req.status_code)
 
         if req.status_code == 200:
             search_timeline = json.loads(req.text)
@@ -88,10 +81,7 @@ def crawler():
 
                     problem_id = text[1]
                     tag = text[2]
-
-                    print(problem_id)
-                    print(tag)
-
+                    
                     newTag=Tag(problem_id=problem_id,tag=tag)
                     db.session.add(newTag)
                     db.session.commit()
