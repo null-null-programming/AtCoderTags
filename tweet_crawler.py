@@ -19,6 +19,7 @@ class problem_tag(db.Model):
     first_tag=db.Column(db.String(64))
 
 class id_list(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
     MAX_ID=db.Column(db.String(64))
     now_max_id=db.Column(db.String(64))
     NEXT_MAX_ID=db.Column(db.String(64))
