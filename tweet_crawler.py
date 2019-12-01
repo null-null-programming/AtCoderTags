@@ -53,7 +53,7 @@ def crawler():
         if req.status_code == 200:
             search_timeline = json.loads(req.text)
 
-            print(search_timeline)
+            print(search_timeline['statuses'])
 
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
