@@ -20,17 +20,17 @@ class problem_tag(db.Model):
 
 class id_list(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    "MAX"_ID=db.Column(db.String(64))
-    now_"max"_id=db.Column(db.String(64))
-    NEXT_"MAX"_ID=db.Column(db.String(64))
+    MAX_ID=db.Column(db.String(64))
+    now_max_id=db.Column(db.String(64))
+    NEXT_MAX_ID=db.Column(db.String(64))
 
 ### Functions
 @sched.scheduled_job('interval', minutes=1)
 def crawler():
     id=db.session.query(id_list).first()
-    MAX_ID_ = int(id."MAX"_ID)
-    now_max_id_ = int(id.now_"max"_id)
-    NEXT_MAX_ID_ = int(id.NEXT_"MAX"_ID)
+    MAX_ID_ = int(id.MAX_ID)
+    now_max_id_ = int(id.now_max_id)
+    NEXT_MAX_ID_ = int(id.NEXT_MAX_ID)
 
     print(MAX_ID_)
     print(now_max_id_)
@@ -57,16 +57,16 @@ def crawler():
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
                 id=db.session.query(id_list).first()
-                id.now_"max"_id='-1'
+                id.now_max_id='-1'
                 db.session.commit()
                 return
                 
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if now_max_id == -1:
-                    NEXT_"MAX"_ID_ = int(search_timeline['statuses'][0]['id'])
+                    NEXT_MAX_ID_ = int(search_timeline['statuses'][0]['id'])
                     id=db.session.query(id_list).first()
-                    id.NEXT_"MAX"_ID=str(NEXT_MAX_ID_)
+                    id.NEXT_MAX_ID=str(NEXT_MAX_ID_)
                     db.session.commit()
                     
             for tweet in search_timeline['statuses']:
@@ -76,9 +76,8 @@ def crawler():
                     MAX_ID_=NEXT_MAX_ID_
                     now_max_id_=-1
                     id=db.session.query(id_list).first()
-                    id."MAX"_ID=str(NEXT_MAX_ID_)
-                    id.now_"max"_id='-1'   
-                    db.session.commit()                 
+                    id.MAX_ID=str(NEXT_MAX_ID_)
+                    id.now_max_id='-1'                    
                     return
                 else:
                     text = tweet['text'].split('/')
@@ -128,10 +127,10 @@ def crawler():
                             db.session.commit()
         
             MAX_ID_ = NEXT_MAX_ID_
-            now_max_id_ = search_timeline['statuses'][-1]['id']
+            now_max_id = search_timeline['statuses'][-1]['id']
             id=db.session.query(id_list).first()
-            id."MAX"_ID=str(NEXT_MAX_ID_)
-            id.now_"max"_id=str(now_max_id_)
+            id.MAX_ID=str(NEXT_MAX_ID_)
+            id.now_max=str(now_max_id_)
             db.session.commit()
         else:
             return
