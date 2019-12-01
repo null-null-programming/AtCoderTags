@@ -27,9 +27,9 @@ class id_list(db.Model):
 ### Functions
 @sched.scheduled_job('interval', minutes=1)
 def crawler():
-    MAX_ID = int(db.session.query(id_list).first().MAX_ID)
-    now_max_id = int(db.session.query(id_list).first().now_max_id)
-    NEXT_MAX_ID = int(db.session.query(id_list).first().NEXT_MAX_ID)
+    MAX_ID = int(db.session.query(id_list).first()["MAX_ID"])
+    now_max_id = int(db.session.query(id_list).first()["now_max_id"])
+    NEXT_MAX_ID = int(db.session.query(id_list).first()["NEXT_MAX_ID"])
 
     print(MAX_ID)
     print(now_max_id)
