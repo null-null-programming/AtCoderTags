@@ -34,7 +34,7 @@ def crawler():
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
     count = 180
-    params = {'q': keyword, 'count': count, 'max_id': max_id,'result_type':'recent'}
+    params = {'q': keyword, 'count': count, 'max_id': max_id}
 
     twitter = create_oath_session(oath_key_dict)
 
@@ -56,9 +56,6 @@ def crawler():
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
                 id['max_id']=-1
-
-                id['MAX_ID']=-1
-                id['NEXT_MAX_ID']=-1
 
                 with open('id.pickle',mode='wb') as f:
                     pickle.dump(id,f) 
