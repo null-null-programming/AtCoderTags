@@ -128,4 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-settings.json
+settings.json  
+id.pickle
