@@ -23,10 +23,13 @@ class problem_tag(db.Model):
 
 ### Functions
 @sched.scheduled_job('interval', minutes=1)
-def crawler():  
-    MAX_ID = int(os.environ["MAX_ID"])
-    max_id= int(os.environ["max_id"])
-    NEXT_MAX_ID = int(os.environ["NEXT_MAX_ID"])
+def crawler():
+    with open('id.pickle', mode='rb') as f:
+        id=pickle.load(f)
+    
+    MAX_ID = id['MAX_ID']
+    max_id= id['max_id']
+    NEXT_MAX_ID = id['NEXT_MAX_ID']
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
@@ -37,9 +40,9 @@ def crawler():
 
     while (True):
 
-        print(os.environ["MAX_ID"])
-        print(os.environ["max_id"])
-        print(os.environ["NEXT_MAX_ID"])
+        print(MAX_ID)
+        print(max_id)
+        print(NEXT_MAX_ID)
 
         if max_id != -1:
             params['max_id'] = max_id - 1
@@ -61,7 +64,10 @@ def crawler():
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
                     NEXT_MAX_ID = search_timeline['statuses'][0]['id']
-                    os.environ['NEXT_MAX_ID']=str(NEXT_MAX_ID)
+                    id['NEXT_MAX_ID']=NEXT_MAX_ID
+
+                    with open('id.pickle', mode='wb') as f:
+                        pickle.dump(id, f)
                     
             for tweet in search_timeline['statuses']:
 
@@ -69,8 +75,11 @@ def crawler():
                 if tweet['id'] == MAX_ID:
                     MAX_ID=NEXT_MAX_ID
                     max_id=-1
-                    os.environ['MAX_ID']=str(NEXT_MAX_ID)
-                    os.environ['max_id']=str(-1)
+                    id['MAX_ID']=NEXT_MAX_ID
+                    id['max_id']=-1
+
+                    with open('id.pickle', mode='wb') as f:
+                        pickle.dump(id, f)
                                         
                     return
                 else:
@@ -122,8 +131,11 @@ def crawler():
         
             MAX_ID = NEXT_MAX_ID
             max_id = search_timeline['statuses'][-1]['id']
-            os.environ['MAX_ID']=str(NEXT_MAX_ID)
-            os.environ['max_id']=str(max_id)
+            id['MAX_ID']=NEXT_MAX_ID
+            id['max_id']=max_id
+
+            with open('id.pickle', mode='wb') as f:
+                pickle.dump(id,f)
             
         else:
             return
