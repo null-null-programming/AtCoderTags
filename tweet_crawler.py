@@ -24,9 +24,9 @@ class problem_tag(db.Model):
 @sched.scheduled_job('interval', minutes=1)
 def crawler():
     
-    MAX_ID = os.environ['MAX_ID']
-    max_id= os.environ['max_id']
-    NEXT_MAX_ID =os.environ['NEXT_MAX_ID']
+    MAX_ID = int(os.environ['MAX_ID'])
+    max_id= int(os.environ['max_id'])
+    NEXT_MAX_ID =int(os.environ['NEXT_MAX_ID'])
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
@@ -52,15 +52,15 @@ def crawler():
 
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
-                os.environ['max_id']=-1
+                os.environ['max_id']=str(-1)
                 
                 return
                 
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
-                    NEXT_MAX_ID = search_timeline['statuses'][0]['id']
-                    os.environ['NEXT_MAX_ID']=NEXT_MAX_ID
+                    NEXT_MAX_ID = int(search_timeline['statuses'][0]['id'])
+                    os.environ['NEXT_MAX_ID']=str(NEXT_MAX_ID)
 
             for tweet in search_timeline['statuses']:
 
@@ -68,8 +68,8 @@ def crawler():
                 if tweet['id'] == MAX_ID:
                     MAX_ID=NEXT_MAX_ID
                     max_id=-1
-                    os.environ['MAX_ID']=NEXT_MAX_ID
-                    os.environ['max_id']=-1
+                    os.environ['MAX_ID']=str(NEXT_MAX_ID)
+                    os.environ['max_id']=str(-1)
                                         
                     return
                 else:
@@ -120,9 +120,9 @@ def crawler():
                             db.session.commit()
         
             MAX_ID = NEXT_MAX_ID
-            max_id = search_timeline['statuses'][-1]['id']
-            os.environ['MAX_ID']=NEXT_MAX_ID
-            os.environ['max_id']=max_id
+            max_id = int(search_timeline['statuses'][-1]['id'])
+            os.environ['MAX_ID']=str(NEXT_MAX_ID)
+            os.environ['max_id']=str(max_id)
             
         else:
             return
