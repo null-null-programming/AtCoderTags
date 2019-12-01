@@ -53,9 +53,6 @@ def crawler():
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
                 os.environ['max_id']=str(-1)
-
-                with open('id.pickle',mode='wb') as f:
-                    pickle.dump(id,f)
                 return
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
