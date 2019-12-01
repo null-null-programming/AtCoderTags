@@ -74,7 +74,7 @@ def crawler():
                 #既に見たツイートまで来た場合、終了する。
                 if tweet['id'] == MAX_ID_:
                     MAX_ID_=NEXT_MAX_ID_
-                    now_max_id=-1
+                    now_max_id_=-1
                     id=db.session.query(id_list).first()
                     id.max_id=str(NEXT_MAX_ID_)
                     id.now_max_id='-1'                    
