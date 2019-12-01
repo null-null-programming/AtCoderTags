@@ -53,15 +53,11 @@ def crawler():
         if req.status_code == 200:
             search_timeline = json.loads(req.text)
 
-            print(search_timeline['statuses'])
-
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
                 id['max_id']=-1
-
                 with open('id.pickle',mode='wb') as f:
                     pickle.dump(id,f)
-                return
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
