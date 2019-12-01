@@ -3,8 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from collections import defaultdict
 from apscheduler.schedulers.blocking import BlockingScheduler
 from config import *
-import os
-import subprocess
 import json
 import pickle
 
