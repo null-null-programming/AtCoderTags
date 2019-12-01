@@ -20,17 +20,17 @@ class problem_tag(db.Model):
 
 class id_list(db.Model):
     id=db.Column(db.Integer,primary_key=True)
-    MAX_ID=db.Column(db.String(64))
+    max_id=db.Column(db.String(64))
     now_max_id=db.Column(db.String(64))
-    NEXT_MAX_ID=db.Column(db.String(64))
+    next_max_id=db.Column(db.String(64))
 
 ### Functions
 @sched.scheduled_job('interval', minutes=1)
 def crawler():
     id=db.session.query(id_list).first()
-    MAX_ID_ = int(id.MAX_ID)
+    MAX_ID_ = int(id.max_id)
     now_max_id_ = int(id.now_max_id)
-    NEXT_MAX_ID_ = int(id.NEXT_MAX_ID)
+    NEXT_MAX_ID_ = int(id.next_max_id)
 
     print(MAX_ID_)
     print(now_max_id_)
@@ -66,7 +66,7 @@ def crawler():
                 if now_max_id == -1:
                     NEXT_MAX_ID_ = int(search_timeline['statuses'][0]['id'])
                     id=db.session.query(id_list).first()
-                    id.NEXT_MAX_ID=str(NEXT_MAX_ID_)
+                    id.next_max_id=str(NEXT_MAX_ID_)
                     db.session.commit()
                     
             for tweet in search_timeline['statuses']:
@@ -76,7 +76,7 @@ def crawler():
                     MAX_ID_=NEXT_MAX_ID_
                     now_max_id_=-1
                     id=db.session.query(id_list).first()
-                    id.MAX_ID=str(NEXT_MAX_ID_)
+                    id.max_id=str(NEXT_MAX_ID_)
                     id.now_max_id='-1'                    
                     return
                 else:
@@ -129,7 +129,7 @@ def crawler():
             MAX_ID_ = NEXT_MAX_ID_
             now_max_id = search_timeline['statuses'][-1]['id']
             id=db.session.query(id_list).first()
-            id.MAX_ID=str(NEXT_MAX_ID_)
+            id.max_id=str(NEXT_MAX_ID_)
             id.now_max=str(now_max_id_)
             db.session.commit()
         else:
