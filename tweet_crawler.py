@@ -67,8 +67,7 @@ def crawler():
                     MAX_ID=NEXT_MAX_ID
                     max_id=-1
                     os.environ['MAX_ID']=str(NEXT_MAX_ID)
-                    os.environ['max_id']=str(-1)
-                                        
+                    os.environ['max_id']=str(-1)                             
                     return
                 else:
                     text = tweet['text'].split('/')
@@ -120,8 +119,7 @@ def crawler():
             MAX_ID = NEXT_MAX_ID
             max_id = search_timeline['statuses'][-1]['id']
             os.environ['MAX_ID']=str(NEXT_MAX_ID)
-            os.environ['max_id']=str(max_id)
-            
+            os.environ['max_id']=str(max_id)  
         else:
             return
 
