@@ -31,10 +31,6 @@ def crawler():
     max_id= id['max_id']
     NEXT_MAX_ID = id['NEXT_MAX_ID']
 
-    MAX_ID = -1
-    max_id= -1
-    NEXT_MAX_ID = -1
-
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
     count = 180
