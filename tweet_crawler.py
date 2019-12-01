@@ -53,14 +53,14 @@ def crawler():
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
                 os.environ['max_id']=str(-1)
-                subprocess.call( ["heroku config:set max_id={}".format(str(-1))] )
+                subprocess.call( ["heroku config:set max_id='{}'".format(str(-1))] )
                 return
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
                     NEXT_MAX_ID = int(search_timeline['statuses'][0]['id'])
                     os.environ['NEXT_MAX_ID']=str(NEXT_MAX_ID)
-                    subprocess.call( ["heroku config:set NEXT_MAX_ID={}".format(str(NEXT_MAX_ID))] )
+                    subprocess.call( ["heroku config:set NEXT_MAX_ID='{}'".format(str(NEXT_MAX_ID))] )
 
             for tweet in search_timeline['statuses']:
 
@@ -70,8 +70,8 @@ def crawler():
                     max_id=-1
                     os.environ['MAX_ID']=str(NEXT_MAX_ID)
                     os.environ['max_id']=str(-1)               
-                    subprocess.call( ["heroku config:set MAX_ID={}".format(str(NEXT_MAX_ID))] )
-                    subprocess.call( ["heroku config:set max_id={}".format(str(-1))] )              
+                    subprocess.call( ["heroku config:set MAX_ID='{}'".format(str(NEXT_MAX_ID))] )
+                    subprocess.call( ["heroku config:set max_id='{}'".format(str(-1))] )              
                     return
                 else:
                     text = tweet['text'].split('/')
@@ -125,8 +125,8 @@ def crawler():
             max_id = int(search_timeline['statuses'][-1]['id'])
             os.environ['MAX_ID']=str(NEXT_MAX_ID)
             os.environ['max_id']=str(max_id)  
-            subprocess.call( ["heroku config:set MAX_ID={}".format(str(NEXT_MAX_ID))] )
-            subprocess.call( ["heroku config:set max_id={}".format(str(max_id))] )
+            subprocess.call( ["heroku config:set MAX_ID='{}'".format(str(NEXT_MAX_ID))] )
+            subprocess.call( ["heroku config:set max_id='{}'".format(str(max_id))] )
         else:
             return
 
