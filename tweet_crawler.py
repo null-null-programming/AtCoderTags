@@ -29,10 +29,6 @@ def crawler():
     max_id= id['max_id']
     NEXT_MAX_ID = id['NEXT_MAX_ID']
 
-    print(MAX_ID)
-    print(max_id)
-    print(NEXT_MAX_ID)
-
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
     count = 5
@@ -41,6 +37,11 @@ def crawler():
     twitter = create_oath_session(oath_key_dict)
 
     while (True):
+
+        print(MAX_ID)
+        print(max_id)
+        print(NEXT_MAX_ID)
+
         if max_id != -1:
             params['max_id'] = max_id - 1
         req = twitter.get(url, params=params)
