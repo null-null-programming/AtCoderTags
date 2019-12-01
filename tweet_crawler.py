@@ -42,7 +42,7 @@ def crawler():
         print(max_id)
         print(NEXT_MAX_ID)
 
-        if max_id != -1:
+        if max_id ! = -1:
             params['max_id'] = max_id - 1
         req = twitter.get(url, params=params)
 
