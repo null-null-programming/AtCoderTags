@@ -56,6 +56,10 @@ def crawler():
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
                 id['max_id']=-1
+
+                id['MAX_ID']=-1
+                id['NEXT_MAX_ID']=-1
+
                 with open('id.pickle',mode='wb') as f:
                     pickle.dump(id,f) 
                 
