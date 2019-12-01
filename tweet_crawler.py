@@ -23,10 +23,13 @@ class problem_tag(db.Model):
 
 ### Functions
 @sched.scheduled_job('interval', minutes=1)
-def crawler():  
-    MAX_ID = int(os.environ["MAX_ID"])
-    max_id= int(os.environ["max_id"])
-    NEXT_MAX_ID = int(os.environ["NEXT_MAX_ID"])
+def crawler():
+    with open('id.pickle', mode='rb') as f:
+        id=pickle.load(f)
+    
+    MAX_ID = id['MAX_ID']
+    max_id= id['max_id']
+    NEXT_MAX_ID = id['NEXT_MAX_ID']
 
     url = 'https://api.twitter.com/1.1/search/tweets.json'
     keyword = '#AtCoderTags'
@@ -37,9 +40,9 @@ def crawler():
 
     while (True):
 
-        print(os.environ["MAX_ID"])
-        print(os.environ["max_id"])
-        print(os.environ["NEXT_MAX_ID"])
+        print(MAX_ID)
+        print(max_id)
+        print(NEXT_MAX_ID)
 
         if max_id != -1:
             params['max_id'] = max_id - 1
@@ -52,33 +55,38 @@ def crawler():
 
             #ツイートがない場合は終了
             if search_timeline['statuses'] == []:
-                os.environ['max_id']=str(-1)
-                subprocess.call( ["heroku config:set max_id='{}'".format(str(-1))] )
+                id['max_id']=-1
+
+                with open('id.pickle',mode='wb') as f:
+                    pickle.dump(id,f)
                 return
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
                 if max_id == -1:
-                    NEXT_MAX_ID = int(search_timeline['statuses'][0]['id'])
-                    os.environ['NEXT_MAX_ID']=str(NEXT_MAX_ID)
-                    subprocess.call( ["heroku config:set NEXT_MAX_ID='{}'".format(str(NEXT_MAX_ID))] )
+                    NEXT_MAX_ID = search_timeline['statuses'][0]['id']
+                    id['NEXT_MAX_ID']=NEXT_MAX_ID
 
+                    with open('id.pickle', mode='wb') as f:
+                        pickle.dump(id, f)
+                    
             for tweet in search_timeline['statuses']:
 
                 #既に見たツイートまで来た場合、終了する。
                 if tweet['id'] == MAX_ID:
-                    MAX_ID=int(NEXT_MAX_ID)
+                    MAX_ID=NEXT_MAX_ID
                     max_id=-1
-                    os.environ['MAX_ID']=str(NEXT_MAX_ID)
-                    os.environ['max_id']=str(-1)               
-                    subprocess.call( ["heroku config:set MAX_ID='{}'".format(str(NEXT_MAX_ID))] )
-                    subprocess.call( ["heroku config:set max_id='{}'".format(str(-1))] )              
+                    id['MAX_ID']=NEXT_MAX_ID
+                    id['max_id']=-1
+
+                    with open('id.pickle', mode='wb') as f:
+                        pickle.dump(id, f)
+                                        
                     return
                 else:
                     text = tweet['text'].split('/')
 
                     #  #AtCoderTags/problem_id/Tag/ の形式出ない場合、飛ばす
                     if len(text)<4:
-                        print("unsatisfied error.")
                         continue
 
                     problem_id = text[1]
@@ -121,12 +129,14 @@ def crawler():
                             search_tag.first_tag=tag_
                             db.session.commit()
         
-            MAX_ID = int(NEXT_MAX_ID)
-            max_id = int(search_timeline['statuses'][-1]['id'])
-            os.environ['MAX_ID']=str(NEXT_MAX_ID)
-            os.environ['max_id']=str(max_id)  
-            subprocess.call( ["heroku config:set MAX_ID='{}'".format(str(NEXT_MAX_ID))] )
-            subprocess.call( ["heroku config:set max_id='{}'".format(str(max_id))] )
+            MAX_ID = NEXT_MAX_ID
+            max_id = search_timeline['statuses'][-1]['id']
+            id['MAX_ID']=NEXT_MAX_ID
+            id['max_id']=max_id
+
+            with open('id.pickle', mode='wb') as f:
+                pickle.dump(id,f)
+            
         else:
             return
 
