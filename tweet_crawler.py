@@ -45,8 +45,8 @@ def crawler():
 
     while (True):
 
-        if now_max_id != -1:
-            params['max_id'] = now_max_id - 1
+        if now_max_id_ != -1:
+            params['max_id'] = now_max_id_ - 1
         req = twitter.get(url, params=params)
 
         print(req.status_code)
@@ -63,7 +63,7 @@ def crawler():
                 
             else:
                 #次のループ時に止まる場所であるNEXT_MAX_IDを指定。
-                if now_max_id == -1:
+                if now_max_id_ == -1:
                     NEXT_MAX_ID_ = int(search_timeline['statuses'][0]['id'])
                     id=db.session.query(id_list).first()
                     id.next_max_id=str(NEXT_MAX_ID_)
@@ -127,7 +127,7 @@ def crawler():
                             db.session.commit()
         
             MAX_ID_ = NEXT_MAX_ID_
-            now_max_id = search_timeline['statuses'][-1]['id']
+            now_max_id_ = search_timeline['statuses'][-1]['id']
             id=db.session.query(id_list).first()
             id.max_id=str(NEXT_MAX_ID_)
             id.now_max=str(now_max_id_)
