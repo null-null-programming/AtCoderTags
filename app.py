@@ -67,10 +67,14 @@ def tag_search(tag_name):
 
 @app.route('/tag_search/<tag_name>/<user_id>')
 def user_tag_search(tag_name,user_id):
-    #コンテスト名取得のため、AtCoderProblemsAPIを利用する。
+    #コンテスト名およびuser情報取得のため、AtCoderProblemsAPIを利用する。
     get_problem=requests.get('https://kenkoooo.com/atcoder/resources/merged-problems.json')
+    get_user_info=requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/results?user='+user_id))
     get_problem=get_problem.json()
+    get_user_info=get_user_info.json()
 
+    #コンテスト名取得
+    ############################################################################################################
     tagName = tag_name
     problems = db.session.query(problem_tag).filter_by(first_tag=tagName)
 
@@ -90,7 +94,22 @@ def user_tag_search(tag_name,user_id):
     #問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
     problems=sorted(problems,key=lambda x:(dict[str(x.problem_official_name)]["solver_count"],-dict[str(x.problem_official_name)]["predict"]),reverse=True)
 
-    return render_template('user_tag_search.html', tagName=tagName,problems=problems,dict=dict,user_id=user_id)
+    ############################################################################################################
+
+    #以下user情報取得
+
+    user_dict={}
+
+    #はじめに全ての問題をWAとする。
+    for problem in problems:
+        user_dict[str(problem.problem_official_name)]="WA"
+    
+    #その後、ACの問題が見つかり次第、書き換える。
+    for info in get_user_info:
+        if info["result"]=="AC":
+            user_dict[str(info["problem_id"])]="AC"
+
+    return render_template('user_tag_search.html', tagName=tagName,problems=problems,dict=dict,user_id=user_id,user_dict=user_dict)
 
 @app.route('/vote')
 def vote():

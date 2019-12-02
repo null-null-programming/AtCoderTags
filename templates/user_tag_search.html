@@ -64,6 +64,31 @@
                     </tr>
                 </thead> {% for problem in problems%}
                 <tbody>
+
+                    {% if user_dict[problem.problem_official_name]=="AC" %}
+                    <tr>
+                        <td scope="row" style="background-color: #c3e6cb;">{{loop.index}}</td>
+                        <td scope="row" style="background-color: #c3e6cb;">
+                            <b>{{problem.problem_official_name}}<b>
+                        </td>
+                        <td scope="row" style="background-color: #c3e6cb;">
+                            <a
+                                href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}">
+                                <b>{{dict[problem.problem_official_name]['title']}}</b>
+                            </a>
+                        </td>
+                        <td scope="row" style="background-color: #c3e6cb;">
+                            <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
+                        </td>
+                        <td scope="row" style="background-color: #c3e6cb;">
+                            {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
+                            <b>null</b>
+                            {% else %}
+                            <b>{{dict[problem.problem_official_name]['predict'] | int}}</b>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {%else%}
                     <tr>
                         <td scope="row">{{loop.index}}</td>
                         <td scope="row">
@@ -86,6 +111,7 @@
                             {%endif%}
                         </td>
                     </tr>
+                    {%endif%}
                     {%endfor%}
                 </tbody>
 
