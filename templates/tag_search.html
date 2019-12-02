@@ -105,10 +105,14 @@
     //User_IDを入力
     $('#id_submit').keypress(function (e) {
         if (e.which == 13) {
-            name = $('#user_id').val()
-            $('form').attr('action', '/tag_search/' + $('#tagName').html() + '/' + name);
-            $("#id_submit").submit();
-            return false;
+            var name = $('#user_id').val();
+            if (name == "") {
+                $('form').attr('action', '/tag_search/' + $('#tagName').html());
+                $("#id_submit").submit();
+            } else {
+                $('form').attr('action', '/tag_search/' + $('#tagName').html() + '/' + name);
+                $("#id_submit").submit();
+            }
         }
     });
 </script>

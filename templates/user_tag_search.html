@@ -44,10 +44,14 @@
     </nav>
 
     <div class="container-fluid">
-        <h1 id="tagName">{{tagName}}</h1>
-        <form id="id_submit" action="" method="GET">
-            <input id="user_id" type="text" value={{user_id}}>
-        </form>
+        <div>
+            <h1 id="tagName">{{tagName}}</h1>
+        </div>
+        <div>
+            <form id="id_submit" action="" method="GET">
+                <input id="user_id" type="text" value={{user_id}}>
+            </form>
+        </div>
         <br>
     </div>
 
@@ -129,10 +133,16 @@
 
 <script type="text/javascript">
     //User_IDを入力
-    $(' #id_submit').keypress(function (e) {
+    $('#id_submit').keypress(function (e) {
         if (e.which == 13) {
-            name = $('#user_id').val()
-            $('form').attr('action', '/tag_search/' + $('#tagName').html() + '/' + name); $("#id_submit").submit();
+            var name = $('#user_id').val();
+            if (name == "") {
+                $('form').attr('action', '/tag_search/' + $('#tagName').html());
+                $("#id_submit").submit();
+            } else {
+                $('form').attr('action', '/tag_search/' + $('#tagName').html() + '/' + name);
+                $("#id_submit").submit();
+            }
         }
     }); </script>
 
