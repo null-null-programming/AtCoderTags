@@ -46,7 +46,7 @@
     <div class="container-fluid">
         <h1 id="tagName">{{tagName}}</h1>
         <form id="id_submit" action="" method="GET">
-            <input id="user_id" type="text" placeholder="User ID">
+            <input id="user_id" type="text" value={{user_id}}>
         </form>
         <br>
     </div>
@@ -103,14 +103,11 @@
 
 <script type="text/javascript">
     //User_IDを入力
-    $('#id_submit').keypress(function (e) {
+    $(' #id_submit').keypress(function (e) {
         if (e.which == 13) {
             name = $('#user_id').val()
-            $('form').attr('action', '/tag_search/' + $('#tagName').html() + '/' + name);
-            $("#id_submit").submit();
-            return false;
+            $('form').attr('action', '/tag_search/' + $('#tagName').html() + '/' + name); $("#id_submit").submit();
         }
-    });
-</script>
+    }); </script>
 
 </html>
