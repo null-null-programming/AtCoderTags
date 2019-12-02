@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from collections import defaultdict
 from config import *
 import json
 import time
@@ -63,6 +64,55 @@ def tag_search():
     problems=sorted(problems,key=lambda x:(dict[str(x.problem_official_name)]["solver_count"],-dict[str(x.problem_official_name)]["predict"]),reverse=True)
 
     return render_template('tag_search.html', tagName=tagName,problems=problems,dict=dict)
+
+@app.route('/vote')
+def vote():
+    return render_template('vote.html')
+
+@app.route('/vote_result',methods=['POST'])
+def vote_result():
+    problem_id=request.form['problem_id']
+    tag=request.form['tag']
+
+    #白紙投票がある場合
+    if problem_id=="" or tag=="":
+        return render_template('error.html')
+
+    newTag=Tag(problem_id=problem_id,tag=tag)
+    db.session.add(newTag)
+    db.session.commit()
+
+    search_tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+
+    #Tagが存在しない場合、投票されたTagがその問題のジャンルになる。
+    if search_tag==None:
+        tag_params={
+            'problem_official_name':problem_id,
+            'first_tag':tag
+        }
+        newProblemTag=problem_tag(**tag_params)
+        db.session.add(newProblemTag)
+        db.session.commit()
+
+    #Tagが存在する場合、その問題に投票された全てのTagを集計し直し、ジャンルを決定する。
+    else:
+        tags=db.session.query(Tag).filter(Tag.problem_id==problem_id)
+        vote_num=defaultdict(int)
+
+        for t in tags:
+            vote_num[t.tag]+=1
+        
+        vote_num= sorted(vote_num.items(), key=lambda x:x[1],reverse=True)
+
+        tag_=None
+        if len(vote_num)!=0:
+            tag_=vote_num[0][0]
+        
+        if tag !=None:
+            search_tag.first_tag=tag_
+            db.session.commit()
+    
+    return render_template('success.html')
 
 @app.cli.command('initdb')
 def initdb_command():
