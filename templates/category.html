@@ -100,7 +100,7 @@
             select: function (event, ui) {
                 var name = ui.item.label;
                 $("#tag_search").val(name);
-                $('form').attr('action', '/tag_search?tagName=' + name);
+                $('form').attr('action', '/tag_search/' + name);
                 $("#search").submit();
             }
         });
