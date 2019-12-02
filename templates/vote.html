@@ -55,7 +55,7 @@
         </div>
         <div>
             <form id="search" action="/vote_result" method="post" autocomplete="off">
-                <input type="text" placeholder="problem_id" name="problem_id">
+                <input type="text" placeholder="problem_id" name="problem_id"><br>
                 <input id="tag_search" type="text" placeholder="tag_name" name="tag">
                 <input type="submit" value="submit">
             </form>
@@ -75,18 +75,9 @@
 <script type="text/javascript">
     (async function () {
         const tag = [
-            //what?
-            "Puzzle", "String-Parsing", "String-Manipulation", "String-Forward",
-            "Data-Manipulation", "Simulation", "Geometry", "Numerical-Analysis",
-            "Ad-Hoc", "Probability", "Combinational-Problem", "Number", "Graph", "Game",
-
-            //how?
-            "Ordering", "Searching", "Brute-Force",
-            "Backtracking", "Heuristic-Search", "Divide-and-Conquer",
-            "Dynamic-Programming", "Greedy-Methods", "Randomized-Algorithm",
-            "Graph-Algorithms", "Flow-Algorithms",
-            "Algorithms-with-Numbers", "Numerical-Algorithms",
-            "Geometric-Algorithms", "String-Algorithms", "List", "Hash", "Set", "Tree"
+            "Ad-Hoc", "Greedy-Methods", "String", "Mathematics",
+            "Graph", "Dynamic-Programming", "Data-Structure",
+            "Game", "Flow-Algorithms", "Geometry"
         ];
 
         $('#tag_search').autocomplete({
