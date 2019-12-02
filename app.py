@@ -38,7 +38,7 @@ def category():
     return render_template('category.html')
 
 
-@app.route('/tag_search/<tag_name>', methods=['POST'])
+@app.route('/tag_search/<tag_name>')
 def tag_search(tag_name):
     #コンテスト名取得のため、AtCoderProblemsAPIを利用する。
     get_problem=requests.get('https://kenkoooo.com/atcoder/resources/merged-problems.json')
