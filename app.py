@@ -37,11 +37,6 @@ def index():
 def explain():
     return render_template('tag_explain.html')
 
-@app.route('/category')
-def category():
-    return render_template('category.html')
-
-
 @app.route('/tag_search/<tag_name>')
 def tag_search(tag_name):
     #コンテスト名取得のため、AtCoderProblemsAPIを利用する。
