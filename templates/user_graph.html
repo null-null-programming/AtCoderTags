@@ -15,7 +15,6 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="AtCoderTagsは、AtCoderの問題にTagを投票出来るアプリです。カテゴリーから問題を選べるようになることを目標にしています。" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -40,29 +39,19 @@
                 <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="/explain" class="nav-link">Tag</a></li>
                 <li class="nav-item"><a href="/category" class="nav-link">Category</a></li>
-                <li class="nav-item active"><a href="/vote" class="nav-link">Vote</a></li>
-                <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
+                <li class="nav-item"><a href="/vote" class="nav-link">Vote</a></li>
+                <li class="nav-item active"><a href="/graph" class="nav-link">Graph</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="container-fluid">
-        <div>
-            <h3>Vote</h3>
-        </div>
-        <div class="jumbotron">
-            <h4>投票方法</h4>
-            <h5>problem_idは「abc001_1」などの問題URL末尾に記載されている形式で入力して下さい。</h5>
-            <h5>tag_nameは検索欄から選んで下さい。</h5>
-            <h5>Tagの一覧は「tag_nameに何かを入力→消去」で表示されます。</h5>
-        </div>
-        <div>
-            <form id="search" action="/vote_result" method="post" autocomplete="off">
-                <input type="text" placeholder="problem_id" name="problem_id"><br>
-                <input id="tag_search" type="text" placeholder="tag_name" name="tag">
-                <input type="submit" value="submit">
-            </form>
-        </div>
+        <form id="id_submit" action="" method="GET" autocomplete="off">
+            <input id="user_id" type="text" placeholder="User ID">
+        </form>
+        <canvas id="myRaderChart"></canvas>
+        <br>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
@@ -71,41 +60,70 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"
-    integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 
+<script>
+    var labels = [
+        "Searching", "Greedy-Methods", "String", "Mathematics",
+        "Graph", "Dynamic-Programming", "Data-Structure",
+        "Game", "Flow-Algorithms", "Geometry"
+    ]
+
+    percent = JSON.parse('{{dict|tojson|safe}}');
+
+    var data = []
+    for (label of labels) {
+        data.push(percent[label]);
+    }
+
+    var ctx = document.getElementById("myRaderChart");
+    var myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Aさん',
+                data: data,
+                backgroundColor: 'RGBA(225,95,150, 0.5)',
+                borderColor: 'RGBA(225,95,150, 1)',
+                borderWidth: 1,
+                pointBackgroundColor: 'RGB(46,106,177)'
+            }]
+        },
+        options: {
+            title: {
+                display: false
+            },
+            scale: {
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    stepSize: 10,
+                    callback: function (value, index, values) {
+                        return value + "%";
+                    }
+                }
+            }, legend: {
+                display: false
+            }
+        }
+    });
+</script>
 
 <script type="text/javascript">
-    (async function () {
-        const tag = [
-            "Searching", "Greedy-Methods", "String", "Mathematics",
-            "Graph", "Dynamic-Programming", "Data-Structure",
-            "Game", "Flow-Algorithms", "Geometry"
-        ];
-
-        $('#tag_search').autocomplete({
-            source: tag,
-            autoFocus: true,
-            delay: 0,
-            minLength: 0,
-            appendTo: "menu",
-        });
-        //input内でのEnter無効化
-        $(function () {
-            $(document).on("keypress", "input:not(.allow_submit)", function (event) {
-                return event.which !== 13;
-            });
-        });
-        //日本語入力をスタートしたら無効化
-        $('#tag_search').on('compositionstart', function () {
-            $('#tag_search').autocomplete('disable');
-        });
-        //日本語入力が確定したら有効化
-        $('#tag_search').on('compositionend', function () {
-            $('#tag_search').autocomplete('enable').autocomplete('search');
-        });
-
-    })();
+    //User_IDを入力
+    $('#id_submit').keypress(function (e) {
+        if (e.which == 13) {
+            var name = $('#user_id').val();
+            if (name == "") {
+                $('form').attr('action', '/graph');
+                $("#id_submit").submit();
+            } else {
+                $('form').attr('action', '/graph/' + name);
+                $("#id_submit").submit();
+            }
+        }
+    });
 </script>
 
 </html>

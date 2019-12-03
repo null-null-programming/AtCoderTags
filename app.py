@@ -164,6 +164,67 @@ def vote_result():
     
     return render_template('success.html')
 
+@app.route('/graph')
+def graph():
+    return render_template('graph.html')
+
+@app.route('/graph/<user_id>')
+def user_graph(user_id):
+    #AtCoderAPIからUser情報を取得する
+    get_user_info=requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/results?user='+user_id))
+    get_user_info=get_user_info.json()
+
+    #ジャンルリスト
+    category_list=["Searching", "Greedy-Methods", "String", "Mathematics",
+                "Graph", "Dynamic-Programming", "Data-Structure",
+                "Game", "Flow-Algorithms", "Geometry"]
+    
+    #ジャンル別の問題総数
+    sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,
+              "Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+              "Game":0, "Flow-Algorithms":0, "Geometry":0}
+
+    #ユーザーが各ジャンルの問題を何問解いたか
+    user_sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,
+                    "Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+                    "Game":0, "Flow-Algorithms":0, "Geometry":0}
+    
+    #ジャンル毎にUserが何％ACしているか
+    percent_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,
+                  "Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+                  "Game":0, "Flow-Algorithms":0, "Geometry":0}
+
+    ###########################################################################################
+    #ACリスト作成
+
+    #userがその問題をACしているかどうかのリスト
+    user_dict={}
+    #タグ付けされている全ての問題
+    all_problems=db.session.query(problem_tag).all()
+    #一旦、全てをWAとする。
+    for problem in all_problems:
+        user_dict[str(problem.problem_official_name)]="WA"
+    #その後、ACの問題が見つかり次第、書き換える。
+    for info in get_user_info:
+        if info["result"]=="AC":
+            user_dict[str(info["problem_id"])]="AC"
+    ############################################################################################
+    
+    for category in category_list:
+        problem_list=db.session.query(problem_tag).filter_by(first_tag=category).all()
+        sum_dict[category]=len(problem_list)
+
+        for problem in problem_list:
+            if user_dict[problem.problem_official_name]=="AC":
+                user_sum_dict[category]=user_sum_dict[category]+1
+
+        if sum_dict[category]==0:
+            percent_dict[category]=0
+        else:
+            percent_dict[category]=int((user_sum_dict[category]/sum_dict[category])*100)
+
+    return render_template('user_graph.html',dict=percent_dict)
+
 @app.cli.command('initdb')
 def initdb_command():
     db.create_all()
