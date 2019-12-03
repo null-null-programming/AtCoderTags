@@ -33,6 +33,10 @@ def index():
 
     return render_template('index.html',percentage=PERCENTAGE)
 
+@app.route('/explain')
+def explain():
+    return render_template('tag_explain.html')
+
 @app.route('/category')
 def category():
     return render_template('category.html')
