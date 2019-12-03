@@ -223,7 +223,7 @@ def user_graph(user_id):
         else:
             percent_dict[category]=int((user_sum_dict[category]/sum_dict[category])*100)
 
-    return render_template('user_graph.html',dict=percent_dict)
+    return render_template('user_graph.html',dict=percent_dict,user_id=user_id)
 
 @app.cli.command('initdb')
 def initdb_command():
