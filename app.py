@@ -114,10 +114,10 @@ def user_tag_search(tag_name,user_id):
 def vote():
     return render_template('vote.html')
 
-@app.route('/vote_result',methods=['POST'])
+@app.route('/vote_result')
 def vote_result():
-    problem_id=request.form['problem_id']
-    tag=request.form['tag']
+    problem_id=request.args.get('problem_id')
+    tag=request.args.get('tag')
 
     #白紙投票がある場合
     if problem_id=="" or tag=="":
