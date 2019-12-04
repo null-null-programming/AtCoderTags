@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NL8G3X8');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>AtCoderTags</title>
+</head>
+
+<body style="padding-top:5rem">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NL8G3X8" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="navbar navbar-expand-md  navbar-dark bg-dark fixed-top">
+        <a href="/" class="navbar-brand">AtCoderTags</a>
+
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav1">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/explain" class="nav-link">Category</a></li>
+                <li class="nav-item"><a href="/vote" class="nav-link">Vote</a></li>
+                <li class="nav-item active"><a href="/graph" class="nav-link">Graph</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <form id="id_submit" action="" method="GET" autocomplete="off">
+            <input id="user_id" type="text" placeholder="User ID">
+        </form>
+        <canvas id="myRaderChart"></canvas>
+        <br>
+        <h3>Problem Count</h3>
+        <canvas id="myBarChart"></canvas>
+        <br>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTM.
+    Ga3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
+<script>
+    var ctx = document.getElementById("myRaderChart");
+    var myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ["Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+                "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
+                "Game", "Flow-Algorithms", "Geometry"],
+            datasets: [{
+                label: 'Aさん',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: 'RGBA(225,95,150, 0.5)',
+                borderColor: 'RGBA(225,95,150, 1)',
+                borderWidth: 1,
+                pointBackgroundColor: 'RGB(46,106,177)'
+            }]
+        },
+        options: {
+            title: {
+                display: false
+            },
+            scale: {
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    stepSize: 10,
+                    callback: function (value, index, values) {
+                        return value + "%";
+                    }
+                }
+            }, legend: {
+                display: false
+            }
+        }
+    });
+</script>
+
+<script>
+    var sum_dict = JSON.parse('{{sum_dict|tojson|safe}}')
+    var ctx = document.getElementById("myBarChart");
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [''],
+            datasets: [
+                {
+                    label: 'Searching',
+                    data: [sum_dict["Searching"]],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: 'Greedy-Methods',
+                    data: [sum_dict["Greedy-Methods"]],
+                    backgroundColor: "#C299FF"
+                }, {
+                    label: 'String',
+                    data: [sum_dict["String"]],
+                    backgroundColor: "#8EB8FF"
+                }, {
+                    label: 'Mathematics',
+                    data: [sum_dict["Mathematics"]],
+                    backgroundColor: "#8EB8FF"
+                }, {
+                    label: 'Technique',
+                    data: [sum_dict["Technique"]],
+                    backgroundColor: "#777777"
+                }, {
+                    label: 'Construct',
+                    data: [sum_dict["Construct"]],
+                    backgroundColor: "#E4FF8D"
+                }, {
+                    label: 'Graph',
+                    data: [sum_dict["Graph"]],
+                    backgroundColor: "#FF4F02"
+                }, {
+                    label: 'DP',
+                    data: [sum_dict["Dynamic-Programming"]],
+                    backgroundColor: "#FF9872"
+                }, {
+                    label: 'Data-Structure',
+                    data: [sum_dict["Data-Structure"]],
+                    backgroundColor: "#86F9C5"
+                }, {
+                    label: 'Game',
+                    data: [sum_dict["Game"]],
+                    backgroundColor: "#93FFAB"
+                }, {
+                    label: 'Flow-Algorithms',
+                    data: [sum_dict["Flow-Algorithms"]],
+                    backgroundColor: "#8EF1FF"
+                }, {
+                    label: 'Geometry',
+                    data: [sum_dict["Geometry"]],
+                    backgroundColor: "#FFFF33"
+                },
+            ]
+        },
+        options: {
+            title: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMax: 10,
+                        suggestedMin: 0,
+                        stepSize: 1,
+                        callback: function (value, index, values) {
+                            return value + '問'
+                        }
+                    }
+                }]
+            },
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    //User_IDを入力
+    $('#id_submit').keypress(function (e) {
+        if (e.which == 13) {
+            var name = $('#user_id').val();
+            if (name == "") {
+                $('form').attr('action', '/graph');
+                $("#id_submit").submit();
+            } else {
+                $('form').attr('action', '/graph/' + name);
+                $("#id_submit").submit();
+            }
+        }
+    });
+</script>
+
+</html>
