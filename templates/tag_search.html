@@ -66,6 +66,9 @@
                 </thead> {% for problem in problems%}
                 <tbody>
                     <tr>
+                        {% if dict[problem.problem_official_name]['title']=="Error" %}
+                        {%continue%}
+                        {%endif%}
                         <td scope="row">{{loop.index}}</td>
                         <td scope="row">
                             <b>{{problem.problem_official_name}}<b>
