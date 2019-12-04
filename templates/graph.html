@@ -50,6 +50,8 @@
         </form>
         <canvas id="myRaderChart"></canvas>
         <br>
+        <canvas id="myBarChart"></canvas>
+        <br>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -94,6 +96,84 @@
             }, legend: {
                 display: false
             }
+        }
+    });
+</script>
+
+<script>
+    var ctx = document.getElementById("myBarChart");
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Problem Count'],
+            datasets: [
+                {
+                    label: '',
+                    data: [12],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [23],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [11],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [56],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [43],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [23],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [76],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [54],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [43],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [45],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [12],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                }, {
+                    label: '',
+                    data: [53],
+                    backgroundColor: "rgba(219,39,91,0.5)"
+                },
+            ]
+        },
+        options: {
+            title: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMax: 100,
+                        suggestedMin: 0,
+                        stepSize: 10,
+                        callback: function (value, index, values) {
+                            return value + '人'
+                        }
+                    }
+                }]
+            },
         }
     });
 </script>
