@@ -47,6 +47,8 @@
     <div class="container-fluid">
         <form id="id_submit" action="" method="GET" autocomplete="off">
             <input id="user_id" type="text" value={{user_id}} placeholder="User ID">
+            <input id="rival_id" type="text" value="" placeholder="Rival_ID">
+            <input type="submit" value="submit">
         </form>
         <canvas id="myRaderChart"></canvas>
         <br>
@@ -65,9 +67,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 
 <script>
+    var user_id = JSON.parse('{{user_id | tojson}}');
+
     var labels = ["Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
         "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
-        "Game", "Flow-Algorithms", "Geometry"]
+        "Game", "Flow-Algorithms", "Geometry"];
 
     percent = JSON.parse('{{dict|tojson|safe}}');
 
@@ -82,12 +86,12 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Aさん',
+                label: user_id,
                 data: data,
-                backgroundColor: 'RGBA(152,251,152, 0.5)',
-                borderColor: 'RGBA(152,251,152, 1)',
+                backgroundColor: 'RGBA(0,0,0, 0.5)',
+                borderColor: 'RGBA(0,0,0, 1)',
                 borderWidth: 1,
-                pointBackgroundColor: 'RGB(148,0,211)'
+                pointBackgroundColor: 'RGB(0,0,0)'
             }]
         },
         options: {
@@ -191,14 +195,18 @@
 
 <script type="text/javascript">
     //User_IDを入力
-    $('#id_submit').keypress(function (e) {
-        if (e.which == 13) {
-            var name = $('#user_id').val();
-            if (name == "") {
-                $('form').attr('action', '/graph');
+    $('#id_submit').submit(function () {
+        var name = $('#user_id').val();
+        var rival_name = $('#rival_id').val();
+        if (name == "") {
+            $('form').attr('action', '/graph');
+            $("#id_submit").submit();
+        } else {
+            if (rival_name == "") {
+                $('form').attr('action', '/graph/' + name);
                 $("#id_submit").submit();
             } else {
-                $('form').attr('action', '/graph/' + name);
+                $('form').attr('action', '/graph/' + name + '/' + rival_name);
                 $("#id_submit").submit();
             }
         }

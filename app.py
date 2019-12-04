@@ -235,6 +235,86 @@ def user_graph(user_id):
 
     return render_template('user_graph.html',dict=percent_dict,user_id=user_id,sum_dict=sum_dict)
 
+@app.route('/graph/<user_id>/<rival_id>')
+def user_and_rival_graph(user_id,rival_id):
+    #AtCoderAPIからUser情報を取得する
+    get_user_info=requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/results?user='+user_id))
+    get_user_info=get_user_info.json()
+
+    get_rival_info=requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/results?user='+rival_id))
+    get_rival_info=get_rival_info.json()
+
+    #ジャンルリスト
+    category_list=["Searching", "Greedy-Methods", "String", "Mathematics","Technique",
+                "Construct","Graph", "Dynamic-Programming", "Data-Structure",
+                "Game", "Flow-Algorithms", "Geometry"]
+    
+    #ジャンル別の問題総数
+    sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+              "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+              "Game":0, "Flow-Algorithms":0, "Geometry":0}
+
+    #ユーザーが各ジャンルの問題を何問解いたか
+    user_sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+                   "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+                   "Game":0, "Flow-Algorithms":0, "Geometry":0}
+    
+    rival_sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+                   "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+                   "Game":0, "Flow-Algorithms":0, "Geometry":0}
+    
+    #ジャンル毎にUserが何％ACしているか
+    percent_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+                  "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+                  "Game":0, "Flow-Algorithms":0, "Geometry":0}
+
+    rival_percent_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+                   "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+                   "Game":0, "Flow-Algorithms":0, "Geometry":0}
+
+    ###########################################################################################
+    #ACリスト作成
+
+    #userがその問題をACしているかどうかのリスト
+    user_dict={}
+    rival_dict={}
+
+    #タグ付けされている全ての問題
+    all_problems=db.session.query(problem_tag).all()
+    #一旦、全てをWAとする。
+    for problem in all_problems:
+        user_dict[str(problem.problem_official_name)]="WA"
+        rival_dict[str(problem.problem_official_name)]="WA"
+
+    #その後、ACの問題が見つかり次第、書き換える。
+    for info in get_user_info:
+        if info["result"]=="AC":
+            user_dict[str(info["problem_id"])]="AC"
+    
+    for info in get_rival_info:
+        if info["result"]=="AC":
+            rival_dict[str(info["problem_id"])]="AC"
+    ############################################################################################
+    
+    for category in category_list:
+        problem_list=db.session.query(problem_tag).filter_by(first_tag=category).all()
+        sum_dict[category]=len(problem_list)
+
+        for problem in problem_list:
+            if user_dict[problem.problem_official_name]=="AC":
+                user_sum_dict[category]=user_sum_dict[category]+1
+            if rival_dict[problem.problem_official_name]=="AC":
+                rival_sum_dict[category]=rival_sum_dict[category]+1
+
+        if sum_dict[category]==0:
+            percent_dict[category]=0
+            rival_percent_dict[category]=0
+        else:
+            percent_dict[category]=int((user_sum_dict[category]/sum_dict[category])*100)
+            rival_percent_dict[category]=int((rival_sum_dict[category]/sum_dict[category])*100)
+
+    return render_template('user_and_rival_graph.html',user_dict=percent_dict,rival_dict=rival_percent_dict,user_id=user_id,rival_id=rival_id,sum_dict=sum_dict)
+
 @app.cli.command('initdb')
 def initdb_command():
     db.create_all()

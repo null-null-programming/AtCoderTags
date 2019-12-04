@@ -46,8 +46,8 @@
 
     <div class="container-fluid">
         <form id="id_submit" action="" method="GET" autocomplete="off">
-            <input id="user_id" type="text" placeholder="User ID">
-            <input id="rival_id" type="text" placeholder="Rival_ID">
+            <input id="user_id" type="text" value={{user_id}} placeholder="User ID">
+            <input id="rival_id" type="text" value={{rival_id}} placeholder="Rival_ID">
             <input type="submit" value="submit">
         </form>
         <canvas id="myRaderChart"></canvas>
@@ -67,21 +67,47 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 
 <script>
+    var user_id = JSON.parse('{{user_id | tojson}}');
+    var rival_id = JSON.parse('{{rival_id | tojson}}')
+
+    var labels = ["Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+        "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
+        "Game", "Flow-Algorithms", "Geometry"]
+
+    percent_user = JSON.parse('{{user_dict|tojson|safe}}');
+    percent_rival = JSON.parse('{{rival_dict|tojson|safe}}');
+
+    var data_user = [];
+    for (label of labels) {
+        data_user.push(percent_user[label]);
+    }
+
+    var data_rival = [];
+    for (label of labels) {
+        data_rival.push(percent_rival[label]);
+    }
+
+
     var ctx = document.getElementById("myRaderChart");
     var myRadarChart = new Chart(ctx, {
         type: 'radar',
         data: {
-            labels: ["Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
-                "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
-                "Game", "Flow-Algorithms", "Geometry"],
+            labels: labels,
             datasets: [{
-                label: '',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: 'RGBA(225,95,150, 0.5)',
-                borderColor: 'RGBA(225,95,150, 1)',
+                label: user_id,
+                data: data_user,
+                backgroundColor: 'RGBA(0,0,0, 0.5)',
+                borderColor: 'RGBA(0,0,0, 1)',
                 borderWidth: 1,
-                pointBackgroundColor: 'RGB(46,106,177)'
-            }]
+                pointBackgroundColor: 'RGB(0,0,0)'
+            }, {
+                label: rival_id,
+                data: data_rival,
+                backgroundColor: 'RGBA(255,0,51,0.5)',
+                borderColor: 'RGBA(255,0,51, 1)',
+                borderWidth: 1,
+                pointBackgroundColor: 'RGB(255,0,51)'
+            },]
         },
         options: {
             title: {
@@ -114,7 +140,7 @@
                 {
                     label: 'Searching',
                     data: [sum_dict["Searching"]],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    backgroundColor: "#7B68EE"
                 }, {
                     label: 'Greedy-Methods',
                     data: [sum_dict["Greedy-Methods"]],
@@ -146,7 +172,7 @@
                 }, {
                     label: 'Data-Structure',
                     data: [sum_dict["Data-Structure"]],
-                    backgroundColor: "#86F9C5"
+                    backgroundColor: "#D2691E"
                 }, {
                     label: 'Game',
                     data: [sum_dict["Game"]],
