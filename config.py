@@ -7,6 +7,7 @@ import subprocess
 
 app = Flask(__name__)
 
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["SQLALCHEMY_DATABASE_URI"]
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db=SQLAlchemy(app)

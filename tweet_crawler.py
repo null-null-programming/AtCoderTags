@@ -25,7 +25,7 @@ class id_list(db.Model):
     next_max_id=db.Column(db.String(64))
 
 ### Functions
-@sched.scheduled_job('interval', minutes=1)
+@sched.scheduled_job('interval', minutes=15)
 def crawler():
     id=db.session.query(id_list).first()
     MAX_ID_ = int(id.max_id)

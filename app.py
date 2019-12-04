@@ -37,11 +37,6 @@ def index():
 def explain():
     return render_template('tag_explain.html')
 
-@app.route('/category')
-def category():
-    return render_template('category.html')
-
-
 @app.route('/tag_search/<tag_name>')
 def tag_search(tag_name):
     #コンテスト名取得のため、AtCoderProblemsAPIを利用する。
@@ -55,7 +50,7 @@ def tag_search(tag_name):
 
     #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
-        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"しばらくお待ち下さい","solver_count":-1,"predict":-1}
+        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"Error","solver_count":-1,"predict":-1}
     
     #official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
@@ -119,10 +114,10 @@ def user_tag_search(tag_name,user_id):
 def vote():
     return render_template('vote.html')
 
-@app.route('/vote_result',methods=['POST'])
+@app.route('/vote_result')
 def vote_result():
-    problem_id=request.form['problem_id']
-    tag=request.form['tag']
+    problem_id=request.args.get('problem_id')
+    tag=request.args.get('tag')
 
     #白紙投票がある場合
     if problem_id=="" or tag=="":
