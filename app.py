@@ -170,23 +170,23 @@ def user_graph(user_id):
     get_user_info=get_user_info.json()
 
     #ジャンルリスト
-    category_list=["Searching", "Greedy-Methods", "String", "Mathematics",
-                "Graph", "Dynamic-Programming", "Data-Structure",
+    category_list=["Searching", "Greedy-Methods", "String", "Mathematics","Technique",
+                "Construct","Graph", "Dynamic-Programming", "Data-Structure",
                 "Game", "Flow-Algorithms", "Geometry"]
     
     #ジャンル別の問題総数
-    sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,
-              "Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+    sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+              "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
               "Game":0, "Flow-Algorithms":0, "Geometry":0}
 
     #ユーザーが各ジャンルの問題を何問解いたか
-    user_sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,
-                    "Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
-                    "Game":0, "Flow-Algorithms":0, "Geometry":0}
+    user_sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+                   "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+                   "Game":0, "Flow-Algorithms":0, "Geometry":0}
     
     #ジャンル毎にUserが何％ACしているか
-    percent_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,
-                  "Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+    percent_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+                  "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
                   "Game":0, "Flow-Algorithms":0, "Geometry":0}
 
     ###########################################################################################
