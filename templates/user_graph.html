@@ -50,6 +50,9 @@
         </form>
         <canvas id="myRaderChart"></canvas>
         <br>
+        <h3>Problem Count</h3>
+        <canvas id="myBarChart"></canvas>
+        <br>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -81,10 +84,10 @@
             datasets: [{
                 label: 'Aさん',
                 data: data,
-                backgroundColor: 'RGBA(225,95,150, 0.5)',
-                borderColor: 'RGBA(225,95,150, 1)',
+                backgroundColor: 'RGBA(152,251,152, 0.5)',
+                borderColor: 'RGBA(152,251,152, 1)',
                 borderWidth: 1,
-                pointBackgroundColor: 'RGB(46,106,177)'
+                pointBackgroundColor: 'RGB(148,0,211)'
             }]
         },
         options: {
@@ -103,6 +106,85 @@
             }, legend: {
                 display: false
             }
+        }
+    });
+</script>
+
+<script>
+    var sum_dict = JSON.parse('{{sum_dict|tojson|safe}}')
+    var ctx = document.getElementById("myBarChart");
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [''],
+            datasets: [
+                {
+                    label: 'Searching',
+                    data: [sum_dict["Searching"]],
+                    backgroundColor: "#7B68EE"
+                }, {
+                    label: 'Greedy-Methods',
+                    data: [sum_dict["Greedy-Methods"]],
+                    backgroundColor: "#C299FF"
+                }, {
+                    label: 'String',
+                    data: [sum_dict["String"]],
+                    backgroundColor: "#8EB8FF"
+                }, {
+                    label: 'Mathematics',
+                    data: [sum_dict["Mathematics"]],
+                    backgroundColor: "#8EB8FF"
+                }, {
+                    label: 'Technique',
+                    data: [sum_dict["Technique"]],
+                    backgroundColor: "#777777"
+                }, {
+                    label: 'Construct',
+                    data: [sum_dict["Construct"]],
+                    backgroundColor: "#E4FF8D"
+                }, {
+                    label: 'Graph',
+                    data: [sum_dict["Graph"]],
+                    backgroundColor: "#FF4F02"
+                }, {
+                    label: 'DP',
+                    data: [sum_dict["Dynamic-Programming"]],
+                    backgroundColor: "#FF9872"
+                }, {
+                    label: 'Data-Structure',
+                    data: [sum_dict["Data-Structure"]],
+                    backgroundColor: "#D2691E"
+                }, {
+                    label: 'Game',
+                    data: [sum_dict["Game"]],
+                    backgroundColor: "#93FFAB"
+                }, {
+                    label: 'Flow-Algorithms',
+                    data: [sum_dict["Flow-Algorithms"]],
+                    backgroundColor: "#8EF1FF"
+                }, {
+                    label: 'Geometry',
+                    data: [sum_dict["Geometry"]],
+                    backgroundColor: "#FFFF33"
+                },
+            ]
+        },
+        options: {
+            title: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        suggestedMax: 10,
+                        suggestedMin: 0,
+                        stepSize: 1,
+                        callback: function (value, index, values) {
+                            return value + '問'
+                        }
+                    }
+                }]
+            },
         }
     });
 </script>

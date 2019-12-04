@@ -50,6 +50,7 @@
         </form>
         <canvas id="myRaderChart"></canvas>
         <br>
+        <h3>Problem Count</h3>
         <canvas id="myBarChart"></canvas>
         <br>
     </div>
@@ -101,60 +102,61 @@
 </script>
 
 <script>
+    var sum_dict = JSON.parse('{{sum_dict|tojson|safe}}')
     var ctx = document.getElementById("myBarChart");
     var myBarChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Problem Count'],
+            labels: [''],
             datasets: [
                 {
-                    label: '',
-                    data: [12],
+                    label: 'Searching',
+                    data: [sum_dict["Searching"]],
                     backgroundColor: "rgba(219,39,91,0.5)"
                 }, {
-                    label: '',
-                    data: [23],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Greedy-Methods',
+                    data: [sum_dict["Greedy-Methods"]],
+                    backgroundColor: "#C299FF"
                 }, {
-                    label: '',
-                    data: [11],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'String',
+                    data: [sum_dict["String"]],
+                    backgroundColor: "#8EB8FF"
                 }, {
-                    label: '',
-                    data: [56],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Mathematics',
+                    data: [sum_dict["Mathematics"]],
+                    backgroundColor: "#8EB8FF"
                 }, {
-                    label: '',
-                    data: [43],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Technique',
+                    data: [sum_dict["Technique"]],
+                    backgroundColor: "#777777"
                 }, {
-                    label: '',
-                    data: [23],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Construct',
+                    data: [sum_dict["Construct"]],
+                    backgroundColor: "#E4FF8D"
                 }, {
-                    label: '',
-                    data: [76],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Graph',
+                    data: [sum_dict["Graph"]],
+                    backgroundColor: "#FF4F02"
                 }, {
-                    label: '',
-                    data: [54],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'DP',
+                    data: [sum_dict["Dynamic-Programming"]],
+                    backgroundColor: "#FF9872"
                 }, {
-                    label: '',
-                    data: [43],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Data-Structure',
+                    data: [sum_dict["Data-Structure"]],
+                    backgroundColor: "#86F9C5"
                 }, {
-                    label: '',
-                    data: [45],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Game',
+                    data: [sum_dict["Game"]],
+                    backgroundColor: "#93FFAB"
                 }, {
-                    label: '',
-                    data: [12],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Flow-Algorithms',
+                    data: [sum_dict["Flow-Algorithms"]],
+                    backgroundColor: "#8EF1FF"
                 }, {
-                    label: '',
-                    data: [53],
-                    backgroundColor: "rgba(219,39,91,0.5)"
+                    label: 'Geometry',
+                    data: [sum_dict["Geometry"]],
+                    backgroundColor: "#FFFF33"
                 },
             ]
         },
@@ -165,11 +167,11 @@
             scales: {
                 yAxes: [{
                     ticks: {
-                        suggestedMax: 100,
+                        suggestedMax: 10,
                         suggestedMin: 0,
-                        stepSize: 10,
+                        stepSize: 1,
                         callback: function (value, index, values) {
-                            return value + '人'
+                            return value + '問'
                         }
                     }
                 }]

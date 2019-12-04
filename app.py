@@ -161,7 +161,22 @@ def vote_result():
 
 @app.route('/graph')
 def graph():
-    return render_template('graph.html')
+    #ジャンル
+    category_list=["Searching", "Greedy-Methods", "String", "Mathematics","Technique",
+            "Construct","Graph", "Dynamic-Programming", "Data-Structure",
+            "Game", "Flow-Algorithms", "Geometry"]
+
+    #各ジャンルの問題総数
+    sum_dict={"Searching":0, "Greedy-Methods":0, "String":0, "Mathematics":0,"Technique":0,
+              "Construct":0,"Graph":0, "Dynamic-Programming":0, "Data-Structure":0,
+              "Game":0, "Flow-Algorithms":0, "Geometry":0}
+    
+    
+    for category in category_list:
+        problem_list=db.session.query(problem_tag).filter_by(first_tag=category).all()
+        sum_dict[category]=len(problem_list)
+
+    return render_template('graph.html',sum_dict=sum_dict)
 
 @app.route('/graph/<user_id>')
 def user_graph(user_id):
@@ -218,7 +233,7 @@ def user_graph(user_id):
         else:
             percent_dict[category]=int((user_sum_dict[category]/sum_dict[category])*100)
 
-    return render_template('user_graph.html',dict=percent_dict,user_id=user_id)
+    return render_template('user_graph.html',dict=percent_dict,user_id=user_id,sum_dict=sum_dict)
 
 @app.cli.command('initdb')
 def initdb_command():
