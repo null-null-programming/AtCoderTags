@@ -51,15 +51,35 @@
         <div class="jumbotron">
             <h4>投票方法</h4>
             <h5>problem_idは「abc001_1」などの問題URL末尾に記載されている形式で入力して下さい。</h5>
-            <h5>tag_nameは検索欄から選んで下さい。</h5>
-            <h5>Tagの一覧は「tag_nameに何かを入力→消去」で表示されます。</h5>
+            <h5>Tagのカテゴリーを一覧から選び、クリックして下さい</h5>
         </div>
         <div>
-            <form id="search" action="/vote_result" method="get" autocomplete="off">
-                <input type="text" placeholder="problem_id" name="problem_id"><br>
-                <input id="tag_search" type="text" placeholder="tag_name" name="tag">
-                <input type="submit" value="submit" class="btn btn-success">
+            <form action="/vote_result" method="get" autocomplete="off">
+                <input type="text" placeholder="problem_id" name="problem_id">
+
+                <br>
+                <br>
+                <select name="tag" size=12>
+                    <option value="Searching">Searching</option>
+                    <option value="Greedy-Methods">Greedy-Methods</option>
+                    <option value="String">String</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Technique">Technique</option>
+                    <option value="Construct">Construct</option>
+                    <option value="Graph">Graph</option>
+                    <option value="Dynamic-Programming">Dynamic-Programming</option>
+                    <option value="Data-Structure">Data-Structure</option>
+                    <option value="Game">Game</option>
+                    <option value="Flow-Algorithms">Flow-Algorithms</option>
+                    <option value="Geometry">Geometry</option>
+                </select>
+                <br>
+                <br>
+
+                <input type="submit" value="submit" class="btn btn-primary">
             </form>
+            <br>
+            <br>
         </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -71,39 +91,5 @@
     crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"
     integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI=" crossorigin="anonymous"></script>
-
-
-<script type="text/javascript">
-    (async function () {
-        const tag = [
-            "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
-            "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
-            "Game", "Flow-Algorithms", "Geometry"
-        ];
-
-        $('#tag_search').autocomplete({
-            source: tag,
-            autoFocus: true,
-            delay: 0,
-            minLength: 0,
-            appendTo: "menu",
-        });
-        //input内でのEnter無効化
-        $(function () {
-            $(document).on("keypress", "input:not(.allow_submit)", function (event) {
-                return event.which !== 13;
-            });
-        });
-        //日本語入力をスタートしたら無効化
-        $('#tag_search').on('compositionstart', function () {
-            $('#tag_search').autocomplete('disable');
-        });
-        //日本語入力が確定したら有効化
-        $('#tag_search').on('compositionend', function () {
-            $('#tag_search').autocomplete('enable').autocomplete('search');
-        });
-
-    })();
-</script>
 
 </html>

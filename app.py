@@ -120,7 +120,7 @@ def vote_result():
     tag=request.args.get('tag')
 
     #白紙投票がある場合
-    if problem_id=="" or tag=="":
+    if problem_id=="" or tag==None:
         return render_template('error.html')
 
     newTag=Tag(problem_id=problem_id,tag=tag)
