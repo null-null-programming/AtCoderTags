@@ -50,7 +50,6 @@ def tag_search(tag_name):
 
     #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
-        print(problem.problem_official_name)
         dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"Error","solver_count":-1,"predict":-1}
     
     #official_nameからコンテスト名を得るために辞書を作成する。
@@ -59,6 +58,9 @@ def tag_search(tag_name):
 
         if dict[str(problem['id'])]['predict']==None:
             dict[str(problem['id'])]['predict']=-1
+    
+    for problem in prlblems:
+        print(dict[problem.problem_official_name]["solver_count"],dict[problem.problem_official_name]["predict"])
     
     #問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
     problems=sorted(problems,key=lambda x:(dict[str(x.problem_official_name)]["solver_count"],-dict[str(x.problem_official_name)]["predict"]),reverse=True)
