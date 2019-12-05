@@ -80,7 +80,11 @@
                             </a>
                         </td>
                         <td scope="row">
+                            {% if dict[problem.problem_official_name]['solver_count'] | int == -1 %}
                             <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
+                            {%else%}
+                            <b>null</b>
+                            {%endif%}
                         </td>
                         <td scope="row">
                             {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
