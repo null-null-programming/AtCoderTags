@@ -52,7 +52,7 @@
                 <h2>全ての問題をカテゴリー別に分けることを目標にしています。</h2>
             </div>
             <div>
-                <h1>現在「{{percentage}}%」の問題が投票済みです。</h1>
+                <h1 id=color-percentage>現在「{{percentage}}%」の問題が投票済みです。</h1>
             </div>
             <br>
             <div class="jumbotron">
@@ -119,5 +119,31 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+
+<script>
+    var percentage = JSON.parse('{{percentage|tojson}}');
+
+    if (percentage < 10) {
+        $('#color-percentage').css('color', 'grey');
+    } else if (percentage < 20) {
+        $('#color-percentage').css('color', 'brawn');
+    } else if (percentage < 30) {
+        $('#color-percentage').css('color', 'green');
+    } else if (percentage < 40) {
+        $('#color-percentage').css('color', 'cyan');
+    } else if (percentage < 50) {
+        $('#color-percentage').css('color', 'blue');
+    } else if (percentage < 60) {
+        $('#color-percentage').css('color', 'yellow');
+    } else if (percentage < 70) {
+        $('#color-percentage').css('color', 'orange');
+    } else if (percentage < 80) {
+        $('#color-percentage').css('color', 'red');
+    } else if (percentage < 90) {
+        $('#color-percentage').css('color', 'silver');
+    } else {
+        $('#color-percentage').css('color', 'gold');
+    }
+</script>
 
 </html>
