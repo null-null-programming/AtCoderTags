@@ -58,6 +58,9 @@ def tag_search(tag_name):
 
         if dict[str(problem['id'])]['predict']==None:
             dict[str(problem['id'])]['predict']=-1
+        
+        if dict[str(problem['id'])]['solver_count']==None:
+            dict[str(problem['id'])]['solver_count']=-1
     
     for problem in problems:
         print(dict[problem.problem_official_name]["solver_count"],dict[problem.problem_official_name]["predict"])
