@@ -50,6 +50,7 @@ def tag_search(tag_name):
 
     #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
+        print(problem.problem_official_name)
         dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"Error","solver_count":-1,"predict":-1}
     
     #official_nameからコンテスト名を得るために辞書を作成する。
