@@ -62,9 +62,6 @@ def tag_search(tag_name):
         if dict[str(problem['id'])]['solver_count']==None:
             dict[str(problem['id'])]['solver_count']=-1
     
-    for problem in problems:
-        print(dict[problem.problem_official_name]["solver_count"],dict[problem.problem_official_name]["predict"])
-    
     #問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
     problems=sorted(problems,key=lambda x:(dict[str(x.problem_official_name)]["solver_count"],-dict[str(x.problem_official_name)]["predict"]),reverse=True)
 
@@ -164,6 +161,20 @@ def vote_result():
             db.session.commit()
     
     return render_template('success.html')
+
+@app.route('/check')
+def check():
+    return render_template('check_problem.html')
+
+@app.route('/check/<problem_id>')
+def check_problem(problem_id):
+    tag=db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+
+    if tag==None:
+        return render_template('check_error.html')
+    else:
+        tag_name=tag.first_tag
+        return render_template('check_problem_result.html',tag_name=tag_name)
 
 @app.route('/graph')
 def graph():

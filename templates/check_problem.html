@@ -38,15 +38,24 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
                 <li class="nav-item "><a href="/explain" class="nav-link">Category</a></li>
-                <li class="nav-item active"><a href="/vote" class="nav-link">Vote</a></li>
-                <li class="nav-item "><a href="/check" class="nav-link">Check</a></li>
+                <li class="nav-item "><a href="/vote" class="nav-link">Vote</a></li>
+                <li class="nav-item active"><a href="/check" class="nav-link">Check</a></li>
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container-fluid jumbotron">
-        <h1>投票ありがとうございます。</h1>
+    <div class="container-fluid">
+        <div class="jumbotron">
+            <h4>問題のタグが何かを調べます</h4>
+            <h5>problem_idは「abc001_1」などの問題URL末尾に記載されている形式で入力して下さい。</h5>
+        </div>
+        <div>
+            <form id="submit" action="" method="get" autocomplete="off">
+                <input type="text" id="problem_id" placeholder="problem_id">
+                <input type="submit" value="Submit" class="btn btn-success">
+            </form>
+        </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -56,5 +65,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+
+<script>
+    $('#submit').submit(function () {
+        id = $('#problem_id').val();
+        if (id == "") {
+            $('form').attr('action', '/check');
+            $("#submit").submit();
+        } else {
+            $('form').attr('action', '/check/' + id);
+            $("#submit").submit();
+        }
+    });
+</script>
 
 </html>

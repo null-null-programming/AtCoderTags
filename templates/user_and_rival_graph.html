@@ -39,6 +39,7 @@
                 <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="/explain" class="nav-link">Category</a></li>
                 <li class="nav-item"><a href="/vote" class="nav-link">Vote</a></li>
+                <li class="nav-item "><a href="/check" class="nav-link">Check</a></li>
                 <li class="nav-item active"><a href="/graph" class="nav-link">Graph</a></li>
             </ul>
         </div>
@@ -48,11 +49,10 @@
         <form id="id_submit" action="" method="GET">
             <input id="user_id" type="text" value={{user_id}} placeholder="User ID">
             <input id="rival_id" type="text" value={{rival_id}} autocomplete="off" placeholder="Rival_ID">
-            <input type="submit" value="submit" class="btn btn-danger">
+            <input type="submit" value="Submit" class="btn btn-danger">
         </form>
         <canvas id="myRaderChart"></canvas>
         <br>
-        <h3>Problem Count</h3>
         <canvas id="myBarChart"></canvas>
         <br>
     </div>
