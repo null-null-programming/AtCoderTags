@@ -260,7 +260,31 @@ def check_problem(problem_id):
         return render_template("check_error.html")
     else:
         tag_name = tag.first_tag
-        return render_template("check_problem_result.html", tag_name=tag_name)
+
+        # 各ジャンルタグ数
+        sum_dict = {
+            "Searching": 0,
+            "Greedy-Methods": 0,
+            "String": 0,
+            "Mathematics": 0,
+            "Technique": 0,
+            "Construct": 0,
+            "Graph": 0,
+            "Dynamic-Programming": 0,
+            "Data-Structure": 0,
+            "Game": 0,
+            "Flow-Algorithms": 0,
+            "Geometry": 0,
+        }
+
+        tags = db.session.query(Tag).filter_by(problem_id=problem_id).all()
+
+        for i in tags:
+            sum_dict[i.tag] += 1
+
+        return render_template(
+            "check_problem_result.html", tag_name=tag_name, dict=sum_dict
+        )
 
 
 @app.route("/graph")

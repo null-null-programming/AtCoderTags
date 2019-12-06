@@ -51,6 +51,7 @@
             <h4>この問題のカテゴリーは「{{tag_name}}」です</h4>
         </div>
     </div>
+    <canvas id="myPieChart"></canvas>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
@@ -59,5 +60,40 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<script type="text/javascript"
+    src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.2.0/chartjs-plugin-colorschemes.min.js"></script>
+
+<script>
+    var labels = ["Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+        "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
+        "Game", "Flow-Algorithms", "Geometry"];
+
+    dict = JSON.parse('{{dict|tojson|safe}}')
+
+    data = []
+    for (label of labels) {
+        data.push(dict[label]);
+    }
+
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+                "Construct", "Graph", "DP", "Data-Structure",
+                "Game", "Flow-Algorithms", "Geometry"],
+            datasets: [{
+                data: data
+            }]
+        },
+        options: {
+            title: {
+                display: false
+            }
+        }
+    });
+</script>
 
 </html>
