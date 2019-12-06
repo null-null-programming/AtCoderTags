@@ -102,7 +102,7 @@ def user_tag_search(tag_name,user_id):
 
     #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
-        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"しばらくお待ち下さい","solver_count":-1,"predict":-1}
+        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"Error","solver_count":-1,"predict":-1}
     
     #official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
