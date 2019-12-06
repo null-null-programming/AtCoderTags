@@ -658,6 +658,9 @@ def user_collect(user_id):
             if dict[str(problem["id"])]["predict"] == None:
                 dict[str(problem["id"])]["predict"] = -1
 
+            if dict[str(problem["id"])]["solver_count"] == None:
+                dict[str(problem["id"])]["solver_count"] = -1
+
         # 問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
         problems = sorted(
             problems,
