@@ -350,6 +350,6 @@ def user_and_rival_graph(user_id,rival_id):
 
     return render_template('user_and_rival_graph.html',user_dict=percent_dict,rival_dict=rival_percent_dict,user_id=user_id,rival_id=rival_id,sum_dict=sum_dict)
 
-@app.cli.command('initdb')
-def initdb_command():
-    db.create_all()
+@app.route('/collect')
+def collect():
+    return render_template('collect.html')
