@@ -707,7 +707,7 @@ def user_collect(user_id):
 
                 problem_set.add(problem.problem_official_name)
                 return_list.append(dict[problem.problem_official_name])
-                continue
+                break
 
         now = 0
         problems.reverse()
@@ -721,7 +721,7 @@ def user_collect(user_id):
 
                 problem_set.add(problem.problem_official_name)
                 return_list.append(dict[problem.problem_official_name])
-                continue
+                break
 
     return render_template("user_collect.html", dict_list=return_list)
 
