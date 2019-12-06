@@ -353,3 +353,7 @@ def user_and_rival_graph(user_id,rival_id):
 @app.route('/collect')
 def collect():
     return render_template('collect.html')
+
+@app.route('/collect/<user_id>')
+def user_collect(user_id):
+    return render_template('user_collect.html')

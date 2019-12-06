@@ -46,16 +46,7 @@
         </div>
     </nav>
     <div class="container-fluid">
-        <div class="jumbotron">
-            <h4>ユーザーにとって丁度良い難易度の問題を集めます。
-                <br>user_idを入力して下さい。</h4>
-        </div>
-        <div>
-            <form id="submit" action="" method="get">
-                <input type="text" id="user_id" placeholder="user_id">
-                <input type="submit" value="Submit" class="text-white btn btn-warning">
-            </form>
-        </div>
+
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -65,18 +56,5 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
-
-<script>
-    $('#submit').submit(function () {
-        id = $('#user_id').val();
-        if (id == "") {
-            $('form').attr('action', '/collect');
-            $("#submit").submit();
-        } else {
-            $('form').attr('action', '/collect/' + id);
-            $("#submit").submit();
-        }
-    });
-</script>
 
 </html>
