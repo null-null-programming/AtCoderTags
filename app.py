@@ -19,14 +19,32 @@ class problem_tag(db.Model):
 
 @app.route('/')
 def index():
+    category_list=["Searching", "Greedy-Methods", "String", "Mathematics","Technique",
+                    "Construct","Graph", "Dynamic-Programming", "Data-Structure",
+                    "Game", "Flow-Algorithms", "Geometry"]
+
     #問題の総数を求める。
     get_problem=requests.get('https://kenkoooo.com/atcoder/resources/merged-problems.json')
     get_problem=get_problem.json()
     ALL_PROBLEM_NUM=len(get_problem)
 
+    #正式な問題名かをチェックするための辞書
+    add=defaultdict(int)
+
+    for problem in get_problem:
+        add[problem['id']]+=1
+
     #投票済みの問題の総数を求める。
     list=db.session.query(problem_tag).all()
-    VOTED_PROBLEM_NUM=len(list)
+    VOTED_PROBLEM_NUM=0
+
+    for tag in list:
+        #正しいカテゴリーかチェック
+        for category in category_list:
+            if tag.first_tag == category:
+                #問題名が正式かつタグのカテゴリーも正しいものならば総数に１加算される
+                VOTED_PROBLEM_NUM+=add[tag.problem_official_name]
+                break
 
     #投票済みパーセンテージ
     PERCENTAGE=round((VOTED_PROBLEM_NUM/ALL_PROBLEM_NUM)*100,3)
