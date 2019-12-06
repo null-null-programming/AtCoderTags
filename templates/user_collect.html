@@ -46,6 +46,46 @@
         </div>
     </nav>
     <div class="container-fluid">
+        <table class="table table-borderd container-fluid">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">solver</th>
+                    <th scope="col">difficulty</th>
+                </tr>
+            </thead> {% for dict in dict_list%}
+            <tbody>
+                <tr>
+                    <td scope="row">{{loop.index}}</td>
+                    <td scope="row">
+                        <b>{{dict['id']}}<b>
+                    </td>
+                    <td scope="row">
+                        <a href="https://atcoder.jp/contests/{{dict['contest_id']}}/tasks/dict['id']">
+                            <b>{{dict['title']}}</b>
+                        </a>
+                    </td>
+                    <td scope="row">
+                        {% if dict['solver_count'] | int == -1 %}
+                        <b>null</b>
+                        {%else%}
+                        <b>{{dict['solver_count'] | int}}</b>
+                        {%endif%}
+                    </td>
+                    <td scope="row">
+                        {%if dict['predict'] | int == -1 %}
+                        <b>null</b>
+                        {% else %}
+                        <b>{{dict['predict'] | int}}</b>
+                        {%endif%}
+                    </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+
+        </table>
 
     </div>
 </body>

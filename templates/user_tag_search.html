@@ -71,7 +71,9 @@
                     </tr>
                 </thead> {% for problem in problems%}
                 <tbody>
-
+                    {% if dict[problem.problem_official_name]['title']=="Error" %}
+                    {%continue%}
+                    {%endif%}
                     {% if user_dict[problem.problem_official_name]=="AC" %}
                     <tr>
                         <td scope="row" style="background-color: #c3e6cb;">{{loop.index}}</td>
