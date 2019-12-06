@@ -701,7 +701,7 @@ def user_collect(user_id):
             if user_dict[problem.problem_official_name] == "AC":
                 now += 1
 
-            if now == target and user_dict[problem.problem_official_name] == "WA":
+            if now >= target and user_dict[problem.problem_official_name] == "WA":
                 if problem.problem_official_name in problem_set:
                     continue
 
@@ -715,7 +715,7 @@ def user_collect(user_id):
             if user_dict[problem.problem_official_name] == "AC":
                 now += 1
 
-            if now == target and user_dict[problem.problem_official_name] == "WA":
+            if now >= target and user_dict[problem.problem_official_name] == "WA":
                 if problem.problem_official_name in problem_set:
                     continue
 
