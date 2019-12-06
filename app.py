@@ -356,4 +356,47 @@ def collect():
 
 @app.route('/collect/<user_id>')
 def user_collect(user_id):
+    #コンテスト名およびuser情報取得のため、AtCoderProblemsAPIを利用する。
+    get_problem=requests.get('https://kenkoooo.com/atcoder/resources/merged-problems.json')
+    get_user_info=requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/results?user='+user_id))
+    get_problem=get_problem.json()
+    get_user_info=get_user_info.json()
+
+    #コンテスト名取得
+    ############################################################################################################
+    tagName = tag_name
+    problems = db.session.query(problem_tag).filter_by(first_tag=tagName)
+
+    dict={}
+
+    #最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
+    for problem in problems:
+        dict[str(problem.problem_official_name)]={"contest_id":problem.problem_official_name,"title":"Error","solver_count":-1,"predict":-1}
+    
+    #official_nameからコンテスト名を得るために辞書を作成する。
+    for problem in get_problem:
+        dict[str(problem['id'])]=problem
+
+        if dict[str(problem['id'])]['predict']==None:
+            dict[str(problem['id'])]['predict']=-1
+    
+    #問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
+    problems=sorted(problems,key=lambda x:(dict[str(x.problem_official_name)]["solver_count"],-dict[str(x.problem_official_name)]["predict"]),reverse=True)
+
+    ############################################################################################################
+
+    #以下user情報取得
+
+    user_dict={}
+
+    #はじめに全ての問題をWAとする。
+    for problem in problems:
+        user_dict[str(problem.problem_official_name)]="WA"
+    
+    #その後、ACの問題が見つかり次第、書き換える。
+    for info in get_user_info:
+        if info["result"]=="AC":
+            user_dict[str(info["problem_id"])]="AC"
+
+
     return render_template('user_collect.html')
