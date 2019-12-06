@@ -71,7 +71,7 @@
     var user_id = JSON.parse('{{user_id | tojson}}');
     var rival_id = JSON.parse('{{rival_id | tojson}}')
 
-    var labels = ["Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+    var labels = ["Easy", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
         "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
         "Game", "Flow-Algorithms", "Geometry"]
 
@@ -137,56 +137,59 @@
         type: 'bar',
         data: {
             labels: [''],
-            datasets: [
-                {
-                    label: 'Searching',
-                    data: [sum_dict["Searching"]],
-                    backgroundColor: "#7B68EE"
-                }, {
-                    label: 'Greedy-Methods',
-                    data: [sum_dict["Greedy-Methods"]],
-                    backgroundColor: "#C299FF"
-                }, {
-                    label: 'String',
-                    data: [sum_dict["String"]],
-                    backgroundColor: "#8EB8FF"
-                }, {
-                    label: 'Mathematics',
-                    data: [sum_dict["Mathematics"]],
-                    backgroundColor: "#8EB8FF"
-                }, {
-                    label: 'Technique',
-                    data: [sum_dict["Technique"]],
-                    backgroundColor: "#777777"
-                }, {
-                    label: 'Construct',
-                    data: [sum_dict["Construct"]],
-                    backgroundColor: "#E4FF8D"
-                }, {
-                    label: 'Graph',
-                    data: [sum_dict["Graph"]],
-                    backgroundColor: "#FF4F02"
-                }, {
-                    label: 'DP',
-                    data: [sum_dict["Dynamic-Programming"]],
-                    backgroundColor: "#FF9872"
-                }, {
-                    label: 'Data-Structure',
-                    data: [sum_dict["Data-Structure"]],
-                    backgroundColor: "#D2691E"
-                }, {
-                    label: 'Game',
-                    data: [sum_dict["Game"]],
-                    backgroundColor: "#93FFAB"
-                }, {
-                    label: 'Flow-Algorithms',
-                    data: [sum_dict["Flow-Algorithms"]],
-                    backgroundColor: "#8EF1FF"
-                }, {
-                    label: 'Geometry',
-                    data: [sum_dict["Geometry"]],
-                    backgroundColor: "#FFFF33"
-                },
+            datasets: [{
+                label: 'Easy',
+                data: [sum_dict["Easy"]],
+                backgroundColor: "#000000"
+            }, {
+                label: 'Searching',
+                data: [sum_dict["Searching"]],
+                backgroundColor: "#7B68EE"
+            }, {
+                label: 'Greedy-Methods',
+                data: [sum_dict["Greedy-Methods"]],
+                backgroundColor: "#C299FF"
+            }, {
+                label: 'String',
+                data: [sum_dict["String"]],
+                backgroundColor: "#8EB8FF"
+            }, {
+                label: 'Mathematics',
+                data: [sum_dict["Mathematics"]],
+                backgroundColor: "#8EB8FF"
+            }, {
+                label: 'Technique',
+                data: [sum_dict["Technique"]],
+                backgroundColor: "#777777"
+            }, {
+                label: 'Construct',
+                data: [sum_dict["Construct"]],
+                backgroundColor: "#E4FF8D"
+            }, {
+                label: 'Graph',
+                data: [sum_dict["Graph"]],
+                backgroundColor: "#FF4F02"
+            }, {
+                label: 'DP',
+                data: [sum_dict["Dynamic-Programming"]],
+                backgroundColor: "#FF9872"
+            }, {
+                label: 'Data-Structure',
+                data: [sum_dict["Data-Structure"]],
+                backgroundColor: "#D2691E"
+            }, {
+                label: 'Game',
+                data: [sum_dict["Game"]],
+                backgroundColor: "#93FFAB"
+            }, {
+                label: 'Flow-Algorithms',
+                data: [sum_dict["Flow-Algorithms"]],
+                backgroundColor: "#8EF1FF"
+            }, {
+                label: 'Geometry',
+                data: [sum_dict["Geometry"]],
+                backgroundColor: "#FFFF33"
+            },
             ]
         },
         options: {
