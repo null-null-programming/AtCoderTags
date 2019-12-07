@@ -58,6 +58,9 @@
                 </tr>
             </thead> {% for dict in dict_list%}
             <tbody>
+                {% if dict['title'] =='Error' %}
+                {%continue%}
+                {% endif %}
                 <tr>
                     <td scope="row">{{loop.index}}</td>
                     <td scope="row">
