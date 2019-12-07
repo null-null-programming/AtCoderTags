@@ -50,7 +50,6 @@
         <table class="table table-borderd container-fluid">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">id</th>
                     <th scope="col">name</th>
                     <th scope="col">solver</th>
@@ -58,8 +57,10 @@
                 </tr>
             </thead> {% for dict in dict_list%}
             <tbody>
+                {% if dict['title'] =='Error' %}
+                {%continue%}
+                {% endif %}
                 <tr>
-                    <td scope="row">{{loop.index}}</td>
                     <td scope="row">
                         <b>{{dict['id']}}<b>
                     </td>

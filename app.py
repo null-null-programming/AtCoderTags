@@ -758,6 +758,8 @@ def user_collect(user_id):
             if now >= target and user_dict[problem.problem_official_name] == "WA":
                 if problem.problem_official_name in problem_set:
                     continue
+                if user_dict[str(problem.problem_official_name)]=="Error":
+                    continue
 
                 problem_set.add(problem.problem_official_name)
                 return_list.append(dict[problem.problem_official_name])
@@ -771,6 +773,8 @@ def user_collect(user_id):
 
             if now >= target and user_dict[problem.problem_official_name] == "WA":
                 if problem.problem_official_name in problem_set:
+                    continue
+                if user_dict[str(problem.problem_official_name)]=="Error":
                     continue
 
                 problem_set.add(problem.problem_official_name)
