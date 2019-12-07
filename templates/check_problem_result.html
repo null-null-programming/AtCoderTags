@@ -57,6 +57,8 @@
         </div>
     </div>
     <canvas id="myPieChart"></canvas>
+    <br>
+    <canvas id="myPieChart2"></canvas>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
@@ -75,9 +77,9 @@
         "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
         "Game", "Flow-Algorithms", "Geometry"];
 
-    dict = JSON.parse('{{dict|tojson|safe}}')
+    var dict = JSON.parse('{{dict|tojson|safe}}')
 
-    data = []
+    var data = []
     for (label of labels) {
         data.push(dict[label]);
     }
@@ -91,6 +93,35 @@
                 "Game", "Flow-Algorithms", "Geometry"],
             datasets: [{
                 data: data
+            }]
+        },
+        options: {
+            title: {
+                display: false
+            }
+        }
+    });
+</script>
+
+<script>
+    var second_labels = JSON.parse('{{list|tojson|safe}}');
+    var second_dict = JSON.parse('{{second_dict|tojson|safe}}');
+
+    var data2 = []
+    for (label of second_labels) {
+        data2.push(second_dict[label]);
+    }
+
+    console.log(data2)
+    console.log(second_labels)
+
+    var ctx2 = document.getElementById("myPieChart2");
+    var myPieChart2 = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: second_labels,
+            datasets: [{
+                data: data2
             }]
         },
         options: {

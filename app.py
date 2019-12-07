@@ -260,11 +260,18 @@ def vote_result():
         if tag != None:
             search_tag.first_tag = tag_
             db.session.commit()
+
+        if search_tag.first_tag in ["Easy","Ad-Hoc","Greedy-Methods","Construct"]:
+            search_tag.second_tag=None
+            db.session.commit()
+            return render_template("success.html")
         
         if tag2 != None:
             vote_num2 = defaultdict(int)
 
-            for t in tags:
+            second_tags=db.session.query(Tag).filter(Tag.problem_id==problem_id,Tag.tag==search_tag.first_tag)
+
+            for t in second_tags:
                 vote_num2[t.tag_second] += 1
 
             vote_num2 = sorted(vote_num2.items(), key=lambda x: x[1], reverse=True)
@@ -325,13 +332,20 @@ def check_problem(problem_id):
 
         second_sum_dict=defaultdict(int)
 
+        name_list=set()
+
         tags = db.session.query(Tag).filter_by(problem_id=problem_id).all()
 
         for i in tags:
             sum_dict[i.tag] += 1
+            if i.tag_second !=None:
+                second_sum_dict[name_dict[i.tag_second]]+=1
+                name_list.add(name_dict[i.tag_second])
+
+        name_list=list(name_list)
 
         return render_template(
-            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag
+            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag,list=name_list,second_dict=second_sum_dict
         )
 
 
