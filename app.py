@@ -265,12 +265,8 @@ def check_problem(problem_id):
 
         # 各ジャンルタグ数
         sum_dict = {
-<<<<<<< HEAD
-            "Easy": 0,
-=======
             "Easy":0,
             "Ad-Hoc":0,
->>>>>>> master
             "Searching": 0,
             "Greedy-Methods": 0,
             "String": 0,
@@ -317,12 +313,8 @@ def graph():
 
     # 各ジャンルの問題総数
     sum_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -372,12 +364,8 @@ def user_graph(user_id):
 
     # ジャンル別の問題総数
     sum_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -394,12 +382,8 @@ def user_graph(user_id):
 
     # ユーザーが各ジャンルの問題を何問解いたか
     user_sum_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -416,12 +400,8 @@ def user_graph(user_id):
 
     # ジャンル毎にUserが何％ACしているか
     percent_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -505,12 +485,8 @@ def user_and_rival_graph(user_id, rival_id):
 
     # ジャンル別の問題総数
     sum_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -527,12 +503,8 @@ def user_and_rival_graph(user_id, rival_id):
 
     # ユーザーが各ジャンルの問題を何問解いたか
     user_sum_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -548,12 +520,8 @@ def user_and_rival_graph(user_id, rival_id):
     }
 
     rival_sum_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -570,12 +538,8 @@ def user_and_rival_graph(user_id, rival_id):
 
     # ジャンル毎にUserが何％ACしているか
     percent_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -591,12 +555,8 @@ def user_and_rival_graph(user_id, rival_id):
     }
 
     rival_percent_dict = {
-<<<<<<< HEAD
-        "Easy": 0,
-=======
         "Easy":0,
         "Ad-Hoc":0,
->>>>>>> master
         "Searching": 0,
         "Greedy-Methods": 0,
         "String": 0,
@@ -701,7 +661,7 @@ def user_collect(user_id):
     ]
 
     # 各カテゴリーの出題確率
-    probability = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    probability = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0]
     problem_sum = 0
     SIZE = len(category_list)
 
@@ -830,4 +790,3 @@ def explain_tag(tag):
 def explain_second_tag(first_tag, second_tag):
     #TODO
     return
-
