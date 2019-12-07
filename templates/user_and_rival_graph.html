@@ -16,6 +16,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/image/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>AtCoder Tags</title>
@@ -71,7 +72,7 @@
     var user_id = JSON.parse('{{user_id | tojson}}');
     var rival_id = JSON.parse('{{rival_id | tojson}}')
 
-    var labels = ["Easy", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+    var labels = ["Easy", "Ad-Hoc", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
         "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
         "Game", "Flow-Algorithms", "Geometry"]
 
@@ -141,6 +142,10 @@
                 label: 'Easy',
                 data: [sum_dict["Easy"]],
                 backgroundColor: "#000000"
+            }, {
+                label: 'Ad-Hoc',
+                data: [sum_dict["Ad-Hoc"]],
+                backgroundColor: "#FF00FF"
             }, {
                 label: 'Searching',
                 data: [sum_dict["Searching"]],
