@@ -12,6 +12,7 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     problem_id = db.Column(db.String(64))
     tag = db.Column(db.String(64))
+    tag_second =db.Column(db.String(64))
 
 
 class problem_tag(db.Model):
@@ -19,6 +20,7 @@ class problem_tag(db.Model):
     problem_official_name = db.Column(db.String(64))
     # first_tag:最も表の多いTag
     first_tag = db.Column(db.String(64))
+    second_tag=db.Column(db.String(64))
 
 
 @app.route("/")
@@ -202,12 +204,15 @@ def vote():
 def vote_result():
     problem_id = request.args.get("problem_id")
     tag = request.args.get("tag")
+    tag2= request.args.get("tag2")
+
+    print(tag,tag2)
 
     # 白紙投票がある場合
     if problem_id == "" or tag == None:
         return render_template("error.html")
 
-    newTag = Tag(problem_id=problem_id, tag=tag)
+    newTag = Tag(problem_id=problem_id, tag=tag,tag_second=tag2)
     db.session.add(newTag)
     db.session.commit()
 
@@ -219,7 +224,7 @@ def vote_result():
 
     # Tagが存在しない場合、投票されたTagがその問題のジャンルになる。
     if search_tag == None:
-        tag_params = {"problem_official_name": problem_id, "first_tag": tag}
+        tag_params = {"problem_official_name": problem_id, "first_tag": tag,"second_tag":tag2}
         newProblemTag = problem_tag(**tag_params)
         db.session.add(newProblemTag)
         db.session.commit()
@@ -241,6 +246,28 @@ def vote_result():
         if tag != None:
             search_tag.first_tag = tag_
             db.session.commit()
+        
+        if tag2 != None:
+            vote_num2 = defaultdict(int)
+
+            for t in tags:
+                vote_num2[t.tag_second] += 1
+                print(t.tag,t.tag_second)
+
+            vote_num2 = sorted(vote_num2.items(), key=lambda x: x[1], reverse=True)
+
+            tag_ = None
+            if len(vote_num2) != 0:
+                if vote_num2[0][0] !=None:
+                    tag_ = vote_num2[0][0]
+                elif len(vote_num2)>1:
+                    tag_ = vote_num2[1][0]
+
+            if tag != None:
+                search_tag.second_tag = tag_
+                db.session.commit()
+    
+    print(search_tag.first_tag,search_tag.second_tag)
 
     return render_template("success.html")
 
@@ -792,5 +819,117 @@ def explain_tag(tag):
 
 @app.route("/tags/<first_tag>/<second_tag>")
 def explain_second_tag(first_tag, second_tag):
-    #TODO
+    # コンテスト名取得のため、AtCoderProblemsAPIを利用する。
+    get_problem = requests.get(
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+    )
+    get_problem = get_problem.json()
+
+    tagName = second_tag
+    problems = db.session.query(problem_tag).filter_by(second_tag=tagName)
+
+    dict = {}
+
+    # 最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
+    for problem in problems:
+        dict[str(problem.problem_official_name)] = {
+            "contest_id": problem.problem_official_name,
+            "title": "Error",
+            "solver_count": -1,
+            "predict": -1,
+        }
+
+    # official_nameからコンテスト名を得るために辞書を作成する。
+    for problem in get_problem:
+        dict[str(problem["id"])] = problem
+
+        if dict[str(problem["id"])]["predict"] == None:
+            dict[str(problem["id"])]["predict"] = -1
+
+        if dict[str(problem["id"])]["solver_count"] == None:
+            dict[str(problem["id"])]["solver_count"] = -1
+
+    # 問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
+    problems = sorted(
+        problems,
+        key=lambda x: (
+            dict[str(x.problem_official_name)]["solver_count"],
+            -dict[str(x.problem_official_name)]["predict"],
+        ),
+        reverse=True,
+    )
+
+    return render_template(
+        "second_tag_search.html",first_tag=first_tag, tagName=tagName, problems=problems, dict=dict
+    )
     return
+
+@app.route('/tags/<first_tag>/<second_tag>/<user_id>')
+def user_explain_second_tag(first_tag,second_tag,user_id):
+# コンテスト名およびuser情報取得のため、AtCoderProblemsAPIを利用する。
+    get_problem = requests.get(
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+    )
+    get_user_info = requests.get(
+        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id)
+    )
+    get_problem = get_problem.json()
+    get_user_info = get_user_info.json()
+
+    # コンテスト名取得
+    ############################################################################################################
+    tagName = second_tag
+    problems = db.session.query(problem_tag).filter_by(second_tag=tagName)
+
+    dict = {}
+
+    # 最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
+    for problem in problems:
+        dict[str(problem.problem_official_name)] = {
+            "contest_id": problem.problem_official_name,
+            "title": "Error",
+            "solver_count": -1,
+            "predict": -1,
+        }
+
+    # official_nameからコンテスト名を得るために辞書を作成する。
+    for problem in get_problem:
+        dict[str(problem["id"])] = problem
+
+        if dict[str(problem["id"])]["predict"] == None:
+            dict[str(problem["id"])]["predict"] = -1
+
+    # 問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
+    problems = sorted(
+        problems,
+        key=lambda x: (
+            dict[str(x.problem_official_name)]["solver_count"],
+            -dict[str(x.problem_official_name)]["predict"],
+        ),
+        reverse=True,
+    )
+
+    ############################################################################################################
+
+    # 以下user情報取得
+
+    user_dict = {}
+
+    # はじめに全ての問題をWAとする。
+    for problem in problems:
+        user_dict[str(problem.problem_official_name)] = "WA"
+
+    # その後、ACの問題が見つかり次第、書き換える。
+    for info in get_user_info:
+        if info["result"] == "AC":
+            user_dict[str(info["problem_id"])] = "AC"
+
+    return render_template(
+        "user_second_tag_search.html",
+        first_tag=first_tag,
+        tagName=tagName,
+        problems=problems,
+        dict=dict,
+        user_id=user_id,
+        user_dict=user_dict,
+    )

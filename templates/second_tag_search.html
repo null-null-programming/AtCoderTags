@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NL8G3X8');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="../static/image/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>AtCoder Tags</title>
+</head>
+
+<body style="padding-top:5rem">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NL8G3X8" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="navbar navbar-expand-md  navbar-dark bg-dark fixed-top">
+        <a href="/" class="navbar-brand">AtCoder Tags</a>
+
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav1">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item active"><a href="/explain" class="nav-link">Category</a></li>
+                <li class="nav-item"><a href="/vote" class="nav-link">Vote</a></li>
+                <li class="nav-item "><a href="/check" class="nav-link">Check</a></li>
+                <li class="nav-item "><a href="/collect" class="nav-link">Collect</a></li>
+                <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <h1 id="tagName">{{tagName}}</h1>
+        <form id="id_submit" action="" method="GET">
+            <input id="user_id" type="text" placeholder="User ID">
+        </form>
+        <br>
+    </div>
+
+    <div>
+        <div>
+            <table class="table table-borderd container-fluid">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">solver</th>
+                        <th scope="col">difficulty</th>
+                    </tr>
+                </thead> {% for problem in problems%}
+                <tbody>
+                    <tr>
+                        {% if dict[problem.problem_official_name]['title']=="Error" %}
+                        {%continue%}
+                        {%endif%}
+                        <td scope="row">{{loop.index}}</td>
+                        <td scope="row">
+                            <b>{{problem.problem_official_name}}<b>
+                        </td>
+                        <td scope="row">
+                            <a
+                                href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}">
+                                <b>{{dict[problem.problem_official_name]['title']}}</b>
+                            </a>
+                        </td>
+                        <td scope="row">
+                            {% if dict[problem.problem_official_name]['solver_count'] | int == -1 %}
+                            <b>null</b>
+                            {%else%}
+                            <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
+                            {%endif%}
+                        </td>
+                        <td scope="row">
+                            {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
+                            <b>null</b>
+                            {% else %}
+                            <b>{{dict[problem.problem_official_name]['predict'] | int}}</b>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTM.
+    Ga3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    //User_IDを入力
+    $('#id_submit').keypress(function (e) {
+        if (e.which == 13) {
+            var first_name = JSON.parse('{{first_tag|tojson}}')
+            var name = $('#user_id').val();
+            if (name == "") {
+                $('form').attr('action', '/tags/' + first_name + '/' + $('#tagName').html());
+                $("#id_submit").submit();
+            } else {
+                $('form').attr('action', '/tags/' + first_name + '/' + $('#tagName').html() + '/' + name);
+                $("#id_submit").submit();
+            }
+        }
+    });
+</script>
+
+</html>
