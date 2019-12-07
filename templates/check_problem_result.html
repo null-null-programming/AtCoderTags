@@ -49,7 +49,11 @@
 
     <div class="container-fluid">
         <div class="jumbotron">
+            {%if second_tag == None%}
             <h4>この問題のカテゴリーは「{{tag_name}}」です</h4>
+            {%else%}
+            <h4>この問題のカテゴリーは「{{tag_name}}:{{second_tag}}」です</h4>
+            {%endif%}
         </div>
     </div>
     <canvas id="myPieChart"></canvas>

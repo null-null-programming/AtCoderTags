@@ -7,7 +7,6 @@ import json
 import time
 import requests
 
-
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     problem_id = db.Column(db.String(64))
@@ -22,6 +21,23 @@ class problem_tag(db.Model):
     first_tag = db.Column(db.String(64))
     second_tag=db.Column(db.String(64))
 
+name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Search":"三分探索","DFS":"深さ優先探索",
+"BFS":"幅優先探索","Bit-Brute-Force":"bit全探索","Heuristic":"ヒューリスティック","Other":"その他","String-Operation":"文字列処理",
+"Rolling-Hash":"ローリングハッシュ","Manacher":"Manacher","Suffix-Array":"Suffix-Array","Z-Algorithm":"Z-Algorithm",
+"Trie":"Trie","Cumulative-Sum":"累積和","imos":"imos法","Two-Pointers":"尺取り法","Split-And-List":"半分全列挙",
+"Square-Division":"平方分割","Divid-And-Conquer":"分割統治法","Doubling":"ダブリング","Shortest-Path":"最短経路",
+"Minimum-Spanning-Tree":"最小全域木","LCA":"最小共通祖先","Strongly-Connected-Components":"強連結成分分解","Topological-Sort":"トポロジカルソート",
+"Euler-Tour":"オイラーツアー","HL-Decomposition":"HL分解","Centroid-Decomposition":"重心分解","Check-Tree":"木の同型判定",
+"Two-Edge-Connected-Components":"二重辺連結成分分解","Bi-Connected-Components":"二重頂点連結成分分解","Cycle-Basis":"サイクル基底",
+"dfs-tree":"dfs木","Erdesh":"エルデシュガライの定理","Simple-DP":"基礎DP","String-DP":"文字列DP","Section-DP":"区間DP","Digit-DP":"桁DP",
+"Tree-DP":"木DP","Every-Direction-DP":"全方位木DP","Bit-DP":"bitDP","Probability-DP":"確率DP","Expected-Value-DP":"期待値DP",
+"Insert-DP":"挿入DP","Link-DP":"連結DP","Inline-DP":"インラインDP","Matrix-Power":"行列累乗","CHT":"Convex-Hull-Trick","Monge-DP":"Monge-DP",
+"Alien-DP":"Alien-DP","Kitamasa":"きたまさ法","stack":"stack","queue":"queue","set":"set","map":"map","deque":"deque",
+"multiset":"multiset","priority_queue":"priority_queue","Union-Find-Tree":"Union-Find-Tree","BIT":"Binary-Indexed-Tree","Segment-Tree":"Segment-Tree",
+"Lazy-Segment-Tree":"Lazy-Segment-Tree","Sparse-Table":"Sparse-Table","WaveletMatrix":"WaveletMatrix","Persistent-Data-Structures":"永続データ構造",
+"Balanced-Tree":"平衡二分探索木","Nim":"Nim","Grundy":"Grundy数","Backtrack":"後退解析","Mini-Max":"ミニマックス法","unique":"特殊な性質",
+"Max-Flow":"最大流問題","Min-Cost-Flow":"最小費用流問題","Bipartite-Matching":"二部マッチング","Min-Cut":"最小カット","Burn":"燃やす埋める",
+"Convex-Hull":"凸包","Declination-Sorting":"偏角ソート","Three-D":"三次元","Number":"整数","Combinatorics":"組み合わせ","Probability":"確率","Expected-Value":"期待値"}
 
 @app.route("/")
 def index():
@@ -284,6 +300,10 @@ def check_problem(problem_id):
         return render_template("check_error.html")
     else:
         tag_name = tag.first_tag
+        second_tag=None
+
+        if tag.second_tag!=None:
+            second_tag = name_dict[tag.second_tag]
 
         # 各ジャンルタグ数
         sum_dict = {
@@ -303,13 +323,15 @@ def check_problem(problem_id):
             "Geometry": 0,
         }
 
+        second_sum_dict=defaultdict(int)
+
         tags = db.session.query(Tag).filter_by(problem_id=problem_id).all()
 
         for i in tags:
             sum_dict[i.tag] += 1
 
         return render_template(
-            "check_problem_result.html", tag_name=tag_name, dict=sum_dict
+            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag
         )
 
 
@@ -810,24 +832,6 @@ def user_collect(user_id):
 def explain_tag(tag):
     html_name = tag + ".html"
     return render_template(html_name)
-
-name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Search":"三分探索","DFS":"深さ優先探索",
-"BFS":"幅優先探索","Bit-Brute-Force":"bit全探索","Heuristic":"ヒューリスティック","Other":"その他","String-Operation":"文字列処理",
-"Rolling-Hash":"ローリングハッシュ","Manacher":"Manacher","Suffix-Array":"Suffix-Array","Z-Algorithm":"Z-Algorithm",
-"Trie":"Trie","Cumulative-Sum":"累積和","imos":"imos法","Two-Pointers":"尺取り法","Split-And-List":"半分全列挙",
-"Square-Division":"平方分割","Divid-And-Conquer":"分割統治法","Doubling":"ダブリング","Shortest-Path":"最短経路",
-"Minimum-Spanning-Tree":"最小全域木","LCA":"最小共通祖先","Strongly-Connected-Components":"強連結成分分解","Topological-Sort":"トポロジカルソート",
-"Euler-Tour":"オイラーツアー","HL-Decomposition":"HL分解","Centroid-Decomposition":"重心分解","Check-Tree":"木の同型判定",
-"Two-Edge-Connected-Components":"二重辺連結成分分解","Bi-Connected-Components":"二重頂点連結成分分解","Cycle-Basis":"サイクル基底",
-"dfs-tree":"dfs木","Erdesh":"エルデシュガライの定理","Simple-DP":"基礎DP","String-DP":"文字列DP","Section-DP":"区間DP","Digit-DP":"桁DP",
-"Tree-DP":"木DP","Every-Direction-DP":"全方位木DP","Bit-DP":"bitDP","Probability-DP":"確率DP","Expected-Value-DP":"期待値DP",
-"Insert-DP":"挿入DP","Link-DP":"連結DP","Inline-DP":"インラインDP","Matrix-Power":"行列累乗","CHT":"Convex-Hull-Trick","Monge-DP":"Monge-DP",
-"Alien-DP":"Alien-DP","Kitamasa":"きたまさ法","stack":"stack","queue":"queue","set":"set","map":"map","deque":"deque",
-"multiset":"multiset","priority_queue":"priority_queue","Union-Find-Tree":"Union-Find-Tree","BIT":"Binary-Indexed-Tree","Segment-Tree":"Segment-Tree",
-"Lazy-Segment-Tree":"Lazy-Segment-Tree","Sparse-Table":"Sparse-Table","WaveletMatrix":"WaveletMatrix","Persistent-Data-Structures":"永続データ構造",
-"Balanced-Tree":"平衡二分探索木","Nim":"Nim","Grundy":"Grundy数","Backtrack":"後退解析","Mini-Max":"ミニマックス法","unique":"特殊な性質",
-"Max-Flow":"最大流問題","Min-Cost-Flow":"最小費用流問題","Bipartite-Matching":"二部マッチング","Min-Cut":"最小カット","Burn":"燃やす埋める",
-"Convex-Hull":"凸包","Declination-Sorting":"偏角ソート","Three-D":"三次元","Number":"整数","Combinatorics":"組み合わせ","Probability":"確率","Expected-Value":"期待値"}
 
 @app.route("/tags/<first_tag>/<second_tag>")
 def explain_second_tag(first_tag, second_tag):
