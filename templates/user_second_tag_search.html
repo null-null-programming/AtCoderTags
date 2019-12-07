@@ -48,9 +48,7 @@
     </nav>
 
     <div class="container-fluid">
-        <div>
-            <h1 id="tagName">{{tagName}}</h1>
-        </div>
+        <h1>{{name_dict[tagName]}}</h1>
         <div>
             <form id="id_submit" action="" method="GET">
                 <input id="user_id" type="text" value={{user_id}}>
@@ -144,10 +142,10 @@
             var first_name = JSON.parse('{{first_tag|tojson}}')
             var name = $('#user_id').val();
             if (name == "") {
-                $('form').attr('action', '/tags/' + first_name + '/' + $('#tagName').html());
+                $('form').attr('action', '/tags/' + first_name + '/' + JSON.parse('{{tagName|tojson}}'));
                 $("#id_submit").submit();
             } else {
-                $('form').attr('action', '/tags/' + first_name + '/' + $('#tagName').html() + '/' + name);
+                $('form').attr('action', '/tags/' + first_name + '/' + JSON.parse('{{tagName|tojson}}') + '/' + name);
                 $("#id_submit").submit();
             }
         }

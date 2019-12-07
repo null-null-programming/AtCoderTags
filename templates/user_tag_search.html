@@ -48,9 +48,7 @@
     </nav>
 
     <div class="container-fluid">
-        <div>
-            <h1 id="tagName">{{tagName}}</h1>
-        </div>
+        <h1 id="tagName">{{tagName}}</h1>
         <div>
             <form id="id_submit" action="" method="GET">
                 <input id="user_id" type="text" value={{user_id}}>
@@ -143,10 +141,10 @@
         if (e.which == 13) {
             var name = $('#user_id').val();
             if (name == "") {
-                $('form').attr('action', '/tag_search/' + $('#tagName').html());
+                $('form').attr('action', '/tag_search/' + JSON.parse('{{tagName|tojson}}'));
                 $("#id_submit").submit();
             } else {
-                $('form').attr('action', '/tag_search/' + $('#tagName').html() + '/' + name);
+                $('form').attr('action', '/tag_search/' + JSON.parse('{{tagName|tojson}}') + '/' + name);
                 $("#id_submit").submit();
             }
         }
