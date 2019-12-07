@@ -206,8 +206,6 @@ def vote_result():
     tag = request.args.get("tag")
     tag2= request.args.get("tag2")
 
-    print(tag,tag2)
-
     # 白紙投票がある場合
     if problem_id == "" or tag == None:
         return render_template("error.html")
@@ -252,7 +250,6 @@ def vote_result():
 
             for t in tags:
                 vote_num2[t.tag_second] += 1
-                print(t.tag,t.tag_second)
 
             vote_num2 = sorted(vote_num2.items(), key=lambda x: x[1], reverse=True)
 
@@ -266,8 +263,6 @@ def vote_result():
             if tag != None:
                 search_tag.second_tag = tag_
                 db.session.commit()
-    
-    print(search_tag.first_tag,search_tag.second_tag)
 
     return render_template("success.html")
 
