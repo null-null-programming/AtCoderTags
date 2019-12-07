@@ -72,7 +72,7 @@
     var user_id = JSON.parse('{{user_id | tojson}}');
     var rival_id = JSON.parse('{{rival_id | tojson}}')
 
-    var labels = ["Easy", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+    var labels = ["Easy", "Ad-Hoc", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
         "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
         "Game", "Flow-Algorithms", "Geometry"]
 
@@ -142,6 +142,10 @@
                 label: 'Easy',
                 data: [sum_dict["Easy"]],
                 backgroundColor: "#000000"
+            }, {
+                label: 'Ad-Hoc',
+                data: [sum_dict["Ad-Hoc"]],
+                backgroundColor: "#FF00FF"
             }, {
                 label: 'Searching',
                 data: [sum_dict["Searching"]],

@@ -73,12 +73,12 @@
     var myRadarChart = new Chart(ctx, {
         type: 'radar',
         data: {
-            labels: ["Easy", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+            labels: ["Easy", "Ad-Hoc", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
                 "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
                 "Game", "Flow-Algorithms", "Geometry"],
             datasets: [{
                 label: '',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 backgroundColor: 'RGBA(225,95,150, 0.5)',
                 borderColor: 'RGBA(225,95,150, 1)',
                 borderWidth: 1,
@@ -117,6 +117,10 @@
                     label: 'Easy',
                     data: [sum_dict["Easy"]],
                     backgroundColor: "#000000"
+                }, {
+                    label: "Ad-Hoc",
+                    data: [sum_dict["Ad-Hoc"]],
+                    backgroundColor: "#FF00FF"
                 }, {
                     label: 'Searching',
                     data: [sum_dict["Searching"]],
