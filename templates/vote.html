@@ -17,6 +17,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="../static/image/favicon.ico">
+    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>AtCoder Tags</title>
@@ -28,7 +29,7 @@
             style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <nav class="navbar navbar-expand-md  navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:#FF0033;">
         <a href="/" class="navbar-brand">AtCoder Tags</a>
 
         <button class="navbar-toggler" data-toggle="collapse" data-target="#nav1">
@@ -47,14 +48,9 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="jumbotron">
-            <h4>投票方法</h4>
-            <h5>problem_idは「abc001_1」などの問題URL末尾に記載されている形式で入力して下さい</h5>
-            <h5>Tagのカテゴリーを一覧から選び、クリックして下さい</h5>
-            <br>
-            <h5>二つ目のカテゴリーが右に出る場合は、二つ目を選びクリックして下さい</h5>
-            <h5>（一部のカテゴリーは一つだけしか出ません）</h5>
+    <div class="container" style="width: 100%; max-width: 90%;">
+        <div>
+            <h2 style=" border-bottom: 1px solid #dee2e6!important"><strong>Vote</strong></h2>
         </div>
         <div>
             <form action="/vote_result" method="get" autocomplete="off">
@@ -186,7 +182,7 @@
                 <br>
                 <br>
 
-                <input type="submit" value="Submit" class="btn btn-primary">
+                <input type="submit" value="Submit" class="btn btn-dark">
             </form>
             <br>
             <br>
