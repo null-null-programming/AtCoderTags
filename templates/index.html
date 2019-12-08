@@ -20,10 +20,11 @@
     <link rel="shortcut icon" href="../static/image/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
     <style>
-        body {
+        nav,
+        .title {
             font-family: 'Bangers', cursive;
         }
     </style>
@@ -57,7 +58,7 @@
 
     <div class="container" style="width: 100%; max-width: 90%;">
         <div>
-            <h1 class="display-1" style=" border-bottom: 1px solid #dee2e6!important">AtCoder Tags
+            <h1 class='title display-1' style=" border-bottom: 1px solid #dee2e6!important">AtCoder Tags
             </h1>
             <h4>AtCoderの全ての問題をカテゴリー分類することを目標とするWebアプリです</h4>
         </div>
@@ -65,14 +66,14 @@
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>・Tag投票方法</strong></h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Tag Vote</strong></h3>
             <h6>Voteページまたはuserscriptから投票します</h6>
             <h6><strong style="color:#FF0033;">{{percentage}}</strong>％の問題が投票済みです</h6>
         </div>
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>・userscript</strong>の使い方</h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>userscript</strong></h3>
             <h6>1:ブラウザに<a href="https://tampermonkey.net">Tampermonkey</a>をインストールします</h6>
             <h6>2:GreasyForkで<a
                     href="https://greasyfork.org/ja/scripts/393121-atcodertags-helper">AtCoderTagsHelper</a>をインストールします
@@ -82,20 +83,20 @@
         <br>
         <br>
         <div>
-            <h1 style="border-bottom: 1px solid #dee2e6!important"><strong>
+            <h1 class=' title' style="border-bottom: 1px solid #dee2e6!important"><strong>
                     Guidance</strong></h1>
         </div>
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>・Category</strong></h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Category</strong></h3>
             <h6><strong>AtCoder</strong>の問題を分類しました</h6>
             <h6>各ページに問題をまとめています</h6>
         </div>
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>・Vote</strong></h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Vote</strong></h3>
             <h6>投票ページです</h6>
             <h6>problem_idは<strong>abc001_1</strong>などの形式で入力して下さい</h6>
             <h6>確認方法は問題ページのURL末尾を見て下さい</h6>
@@ -103,19 +104,19 @@
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>・Check</strong></h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Check</strong></h3>
             <h6>問題のTagを調べるページです</h6>
         </div>
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>・Collect</strong></h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Collect</strong></h3>
             <h6>ユーザーにとって丁度いい難易度の問題を数問探すページです</h6>
         </div>
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>・Graph</strong></h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Graph</strong></h3>
             <h6>グラフ分析をするページです</h6>
             <h6>１つ目のグラフはユーザーが各カテゴリーの問題を何％ACしているかを表すレーダーチャートです</h6>
             <h6>２つ目のグラフはTagが投票された問題のカテゴリーの割合を表す棒グラフです</h6>
@@ -124,7 +125,7 @@
         <br>
         <br>
         <div>
-            <h3 style="border-bottom: 1px solid #dee2e6!important"><strong>Contact</strong></h3>
+            <h3 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Contact</strong></h3>
             <h6>バグや改善点などがあれば連絡して頂けると嬉しいです。</h6>
             <h6>Twitter:<a href="https://twitter.com/__Null_Null_">@__Null_Null_</a></h6>
             <h6>GitHub :<a href="https://github.com/null-null-programming">null-null-programming</a></h6>
