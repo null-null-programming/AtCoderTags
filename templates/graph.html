@@ -48,11 +48,14 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container" style="width: 100%; max-width: 90%;">
+        <div>
+            <h2 style="border-bottom: 1px solid #dee2e6!important"><strong>Graph</strong></h2>
+        </div>
         <form id="id_submit" action="" method="GET">
             <input id="user_id" type="text" placeholder="User ID">
             <input id="rival_id" type="text" autocomplete="off" placeholder="Rival_ID">
-            <input type="submit" value="Submit" class="btn btn-danger">
+            <input type="submit" value="Submit" class="btn btn-dark">
         </form>
         <canvas id="myRaderChart"></canvas>
         <br>
@@ -80,10 +83,10 @@
             datasets: [{
                 label: '',
                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: 'RGBA(225,95,150, 0.5)',
-                borderColor: 'RGBA(225,95,150, 1)',
+                backgroundColor: 'RGBA(255,0,51, 0.5)',
+                borderColor: 'RGBA(255,0,51,, 1)',
                 borderWidth: 1,
-                pointBackgroundColor: 'RGB(46,106,177)'
+                pointBackgroundColor: 'RGB(255,0,51,)'
             }]
         },
         options: {

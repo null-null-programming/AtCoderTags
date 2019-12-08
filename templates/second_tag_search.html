@@ -48,60 +48,63 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <h1>{{first_tag}}:{{name_dict[tagName]}}</h1>
-        <form id="id_submit" action="" method="GET">
-            <input id="user_id" type="text" placeholder="User ID">
-        </form>
-        <br>
-    </div>
-
-    <div>
+    <div class="container" style="width: 100%; max-width: 90%;">
         <div>
-            <table class="table table-borderd container-fluid">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">id</th>
-                        <th scope="col">name</th>
-                        <th scope="col">solver</th>
-                        <th scope="col">difficulty</th>
-                    </tr>
-                </thead> {% for problem in problems%}
-                <tbody>
-                    <tr>
-                        {% if dict[problem.problem_official_name]['title']=="Error" %}
-                        {%continue%}
-                        {%endif%}
-                        <td scope="row">{{loop.index}}</td>
-                        <td scope="row">
-                            <b>{{problem.problem_official_name}}<b>
-                        </td>
-                        <td scope="row">
-                            <a
-                                href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}">
-                                <b>{{dict[problem.problem_official_name]['title']}}</b>
-                            </a>
-                        </td>
-                        <td scope="row">
-                            {% if dict[problem.problem_official_name]['solver_count'] | int == -1 %}
-                            <b>null</b>
-                            {%else%}
-                            <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
-                            {%endif%}
-                        </td>
-                        <td scope="row">
-                            {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
-                            <b>null</b>
-                            {% else %}
-                            <b>{{dict[problem.problem_official_name]['predict'] | int}}</b>
-                            {%endif%}
-                        </td>
-                    </tr>
-                    {%endfor%}
-                </tbody>
+            <h2><strong>{{first_tag}}:{{name_dict[tagName]}}</strong></h2>
+            <br>
+            <form id="id_submit" action="" method="GET">
+                <input id="user_id" type="text" placeholder="User ID">
+            </form>
+            <br>
+        </div>
 
-            </table>
+        <div>
+            <div>
+                <table class="table table-borderd">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">id</th>
+                            <th scope="col">name</th>
+                            <th scope="col">solver</th>
+                            <th scope="col">difficulty</th>
+                        </tr>
+                    </thead> {% for problem in problems%}
+                    <tbody>
+                        <tr>
+                            {% if dict[problem.problem_official_name]['title']=="Error" %}
+                            {%continue%}
+                            {%endif%}
+                            <td scope="row">{{loop.index}}</td>
+                            <td scope="row">
+                                <b>{{problem.problem_official_name}}<b>
+                            </td>
+                            <td scope="row">
+                                <a
+                                    href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}">
+                                    <b>{{dict[problem.problem_official_name]['title']}}</b>
+                                </a>
+                            </td>
+                            <td scope="row">
+                                {% if dict[problem.problem_official_name]['solver_count'] | int == -1 %}
+                                <b>null</b>
+                                {%else%}
+                                <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
+                                {%endif%}
+                            </td>
+                            <td scope="row">
+                                {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
+                                <b>null</b>
+                                {% else %}
+                                <b>{{dict[problem.problem_official_name]['predict'] | int}}</b>
+                                {%endif%}
+                            </td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+
+                </table>
+            </div>
         </div>
     </div>
 </body>
@@ -120,10 +123,10 @@
             var first_name = JSON.parse('{{first_tag|tojson}}')
             var name = $('#user_id').val();
             if (name == "") {
-                $('form').attr('action', '/tags/' + first_name + '/' + $('#tagName').html());
+                $('form').attr('action', '/tags/' + first_name + '/' + JSON.parse('{{tagName|tojson}}'));
                 $("#id_submit").submit();
             } else {
-                $('form').attr('action', '/tags/' + first_name + '/' + $('#tagName').html() + '/' + name);
+                $('form').attr('action', '/tags/' + first_name + '/' + JSON.parse('{{tagName|tojson}}') + '/' + name);
                 $("#id_submit").submit();
             }
         }

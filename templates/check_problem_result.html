@@ -48,18 +48,20 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="jumbotron">
+    <div class="container" style="width: 100%; max-width: 90%;">
+        <div>
             {%if second_tag == None%}
-            <h4>この問題のカテゴリーは「{{tag_name}}」です</h4>
+            <h2 style="border-bottom: 1px solid #dee2e6!important"><strong>Category ＜{{tag_name}}＞</strong></h2>
             {%else%}
-            <h4>この問題のカテゴリーは「{{tag_name}}:{{second_tag}}」です</h4>
+            <h2 style="border-bottom: 1px solid #dee2e6!important"><strong>Category
+                    ＜{{tag_name}}:{{second_tag}}＞</strong></h2>
             {%endif%}
         </div>
+        <br>
+        <canvas id="myPieChart"></canvas>
+        <br>
+        <canvas id="myPieChart2"></canvas>
     </div>
-    <canvas id="myPieChart"></canvas>
-    <br>
-    <canvas id="myPieChart2"></canvas>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>

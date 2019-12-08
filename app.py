@@ -337,7 +337,8 @@ def check_problem(problem_id):
         tags = db.session.query(Tag).filter_by(problem_id=problem_id).all()
 
         for i in tags:
-            sum_dict[i.tag] += 1
+            if i.tag!=None:
+                sum_dict[i.tag] += 1
             if i.tag_second !=None:
                 second_sum_dict[name_dict[i.tag_second]]+=1
                 name_list.add(name_dict[i.tag_second])

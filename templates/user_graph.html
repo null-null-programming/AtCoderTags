@@ -48,11 +48,14 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container" style="width: 100%; max-width: 90%;">
+        <div>
+            <h2 style="border-bottom: 1px solid #dee2e6!important"><strong>Graph</strong></h2>
+        </div>
         <form id="id_submit" action="" method="GET">
             <input id="user_id" type="text" value={{user_id}} placeholder="User ID">
             <input id="rival_id" type="text" value="" autocomplete="off" placeholder="Rival_ID">
-            <input type="submit" value="Submit" class="btn btn-danger">
+            <input type="submit" value="Submit" class="btn btn-dark">
         </form>
         <canvas id="myRaderChart"></canvas>
         <br>
@@ -92,9 +95,9 @@
                 label: user_id,
                 data: data,
                 backgroundColor: 'RGBA(0,0,0, 0.5)',
-                borderColor: 'RGBA(0,0,0, 1)',
+                borderColor: 'RGBA(0,0,0,1)',
                 borderWidth: 1,
-                pointBackgroundColor: 'RGB(0,0,0)'
+                pointBackgroundColor: 'RGB(9,0,0,1)'
             }]
         },
         options: {
