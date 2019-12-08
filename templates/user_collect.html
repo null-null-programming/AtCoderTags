@@ -47,49 +47,47 @@
             </ul>
         </div>
     </nav>
-    <div class="container" style="width: 100%; max-width: 90%;"></div>
-    <table class="table table-borderd ">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">name</th>
-                <th scope="col">solver</th>
-                <th scope="col">difficulty</th>
-            </tr>
-        </thead> {% for dict in dict_list%}
-        <tbody>
-            {% if dict['title'] =='Error' %}
-            {%continue%}
-            {% endif %}
-            <tr>
-                <td scope="row">
-                    <b>{{dict['id']}}<b>
-                </td>
-                <td scope="row">
-                    <a href="https://atcoder.jp/contests/{{dict['contest_id']}}/tasks/{{dict['id']}}">
-                        <b>{{dict['title']}}</b>
-                    </a>
-                </td>
-                <td scope="row">
-                    {% if dict['solver_count'] | int == -1 %}
-                    <b>null</b>
-                    {%else%}
-                    <b>{{dict['solver_count'] | int}}</b>
-                    {%endif%}
-                </td>
-                <td scope="row">
-                    {%if dict['predict'] | int == -1 %}
-                    <b>null</b>
-                    {% else %}
-                    <b>{{dict['predict'] | int}}</b>
-                    {%endif%}
-                </td>
-            </tr>
-            {%endfor%}
-        </tbody>
-
-    </table>
-
+    <div class="container" style="width: 100%; max-width: 90%;">
+        <table class="table table-borderd ">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">solver</th>
+                    <th scope="col">difficulty</th>
+                </tr>
+            </thead> {% for dict in dict_list%}
+            <tbody>
+                {% if dict['title'] =='Error' %}
+                {%continue%}
+                {% endif %}
+                <tr>
+                    <td scope="row">
+                        <b>{{dict['id']}}<b>
+                    </td>
+                    <td scope="row">
+                        <a href="https://atcoder.jp/contests/{{dict['contest_id']}}/tasks/{{dict['id']}}">
+                            <b>{{dict['title']}}</b>
+                        </a>
+                    </td>
+                    <td scope="row">
+                        {% if dict['solver_count'] | int == -1 %}
+                        <b>null</b>
+                        {%else%}
+                        <b>{{dict['solver_count'] | int}}</b>
+                        {%endif%}
+                    </td>
+                    <td scope="row">
+                        {%if dict['predict'] | int == -1 %}
+                        <b>null</b>
+                        {% else %}
+                        <b>{{dict['predict'] | int}}</b>
+                        {%endif%}
+                    </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="

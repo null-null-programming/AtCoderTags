@@ -1,15 +1,23 @@
 a:link {
-    color: #FF0033;
+    color: #FF0033 !important;
 }
 
 a:visited {
-    color: #FF0033;
+    color: #FF0033 !important; 
 }
 
 a:hover {
-    color: #FF0033;
+    color: #FF0033 !important;
 }
 
 a:active {
-    color: #FF0033;
+    color: #FF0033 !important;
+}
+
+a{
+    color:#FF0033 !important;
+}
+
+b{
+    color:#FF0033 !important;
 }

@@ -76,20 +76,20 @@
                         {%endif%}
                         {% if user_dict[problem.problem_official_name]=="AC" %}
                         <tr>
-                            <td scope="row" style="background-color: #c3e6cb;">{{loop.index}}</td>
-                            <td scope="row" style="background-color: #c3e6cb;">
+                            <td scope="row" style="background-color: #CCCCCC;">{{loop.index}}</td>
+                            <td scope="row" style="background-color: #CCCCCC;">
                                 <b>{{problem.problem_official_name}}<b>
                             </td>
-                            <td scope="row" style="background-color: #c3e6cb;">
-                                <a
-                                    href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}">
+                            <td scope="row" style="background-color: #CCCCCC;">
+                                <a href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}"
+                                    style="color:#FF0033;">
                                     <b>{{dict[problem.problem_official_name]['title']}}</b>
                                 </a>
                             </td>
-                            <td scope="row" style="background-color: #c3e6cb;">
+                            <td scope="row" style="background-color: #CCCCCC;">
                                 <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
                             </td>
-                            <td scope="row" style="background-color: #c3e6cb;">
+                            <td scope="row" style="background-color: #CCCCCC;">
                                 {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
                                 <b>null</b>
                                 {% else %}
@@ -104,8 +104,8 @@
                                 <b>{{problem.problem_official_name}}<b>
                             </td>
                             <td scope="row">
-                                <a
-                                    href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}">
+                                <a href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}"
+                                    style="color:#FF0033;">
                                     <b>{{dict[problem.problem_official_name]['title']}}</b>
                                 </a>
                             </td>
