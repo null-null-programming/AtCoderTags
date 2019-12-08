@@ -339,7 +339,7 @@ def check_problem(problem_id):
         for i in tags:
             if i.tag!=None:
                 sum_dict[i.tag] += 1
-            if i.tag_second !=None:
+            if i.tag_second !=None and i.tag_second !='null':
                 second_sum_dict[name_dict[i.tag_second]]+=1
                 name_list.add(name_dict[i.tag_second])
 
