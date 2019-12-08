@@ -309,7 +309,7 @@ def check_problem(problem_id):
         tag_name = tag.first_tag
         second_tag=None
 
-        if tag.second_tag!=None:
+        if tag.second_tag!=None and tag.second_tag!='null':
             second_tag = name_dict[tag.second_tag]
 
         # 各ジャンルタグ数
