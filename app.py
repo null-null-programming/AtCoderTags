@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from collections import defaultdict
 from config import *
 import numpy
@@ -26,6 +27,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     user_image_url = db.Column(db.String(120), index=True, unique=True)
     twitter_id = db.Column(db.String(64), nullable=False, unique=True)
+    vote_count=db.Column(db.Integer)
 
 
 name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Search":"三分探索","DFS":"深さ優先探索",
@@ -293,6 +295,11 @@ def vote_result():
             if tag != None:
                 search_tag.second_tag = tag_
                 db.session.commit()
+    
+    if not current_user.isanonymous:
+        user=db.session.query(User).filter_by(twitter_id=current_user.id)
+        user.vote_count+=1
+        db.session.commit()
 
     return render_template("success.html")
 
@@ -1021,9 +1028,8 @@ def oauth_callback():
     if user:
         user.twitter_id=twitter_id
         user.username=username
-        user.profile_image_url=profile_image_url
     else:
-        user=User(twitter_id=twitter_id,username=username,user_image_url=profile_image_url)
+        user=User(twitter_id=twitter_id,username=username,user_image_url=profile_image_url,vote_count=0)
         db.session.add(user)
 
     db.session.commit()
@@ -1034,3 +1040,45 @@ def oauth_callback():
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+################################################################
+
+@app.route('/user_page/<user_twitter_id>')
+def user_page(user_twitter_id):
+    user=db.session.query(User).filter_by(twitter_id=user_twitter_id).first()
+    
+    #順位計算
+    rank_dict=dict({})
+    all_user=db.session.query(User).order_by(desc(User.vote_count)).all()
+
+    for  i in all_user:
+        rank_dict[i.vote_count]=-1
+        
+    for i in range(0,len(all_user)):
+        if rank_dict[all_user[i].vote_count]!=-1:
+            continue
+        else:
+            rank_dict[all_user[i].vote_count]=i+1
+
+    rank=rank_dict[user.vote_count]
+    return render_template('user_page.html',user=user,rank=rank)
+
+@app.route('/ranking/<int:page>')
+def ranking(page=1):
+    #ページネーション
+    per_page = 1
+    users=db.session.query(User).order_by(desc(User.vote_count)).paginate(page, per_page, error_out=False)
+
+    #順位計算（繰り上がり処理付き）
+    rank=dict({})
+    user=db.session.query(User).order_by(desc(User.vote_count)).all()
+    for  i in user:
+        rank[i.vote_count]=-1
+    
+    for i in range(0,len(user)):
+        if rank[user[i].vote_count]!=-1:
+            continue
+        else:
+            rank[user[i].vote_count]=i+1
+
+    return render_template('ranking.html',users=users,page=page,per_page=per_page,rank=rank)
