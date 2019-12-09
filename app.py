@@ -21,6 +21,13 @@ class problem_tag(db.Model):
     first_tag = db.Column(db.String(64))
     second_tag=db.Column(db.String(64))
 
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    user_image_url = db.Column(db.String(120), index=True, unique=True)
+    twitter_id = db.Column(db.String(64), nullable=False, unique=True)
+
+
 name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Search":"三分探索","DFS":"深さ優先探索",
 "BFS":"幅優先探索","Bit-Brute-Force":"bit全探索","Heuristic":"ヒューリスティック","Other":"その他","String-Operation":"文字列処理",
 "Rolling-Hash":"ローリングハッシュ","Manacher":"Manacher","Suffix-Array":"Suffix-Array","Z-Algorithm":"Z-Algorithm",
@@ -977,14 +984,9 @@ def login():
 
 
 @app.route('/logout')
-@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
-@login_manager.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
 @app.route('/oauth/twitter')
 def oauth_authorize():
@@ -1028,3 +1030,7 @@ def oauth_callback():
 
     login_user(user,True)
     return redirect(url_for('index'))
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))

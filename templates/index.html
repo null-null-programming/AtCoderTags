@@ -56,6 +56,11 @@
                 <li class="nav-item "><a href="/check" class="nav-link">Check</a></li>
                 <li class="nav-item "><a href="/collect" class="nav-link">Collect</a></li>
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
+                {% if current_user.is_authenticated == False%}
+                <li class="nav-item"><a href="/oauth/twitter" class="nav-link">Login</a></li>
+                {%else%}
+                <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+                {%endif%}
             </ul>
         </div>
     </nav>
