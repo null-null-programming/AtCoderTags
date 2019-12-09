@@ -1066,7 +1066,7 @@ def user_page(user_twitter_id):
 @app.route('/ranking/<int:page>')
 def ranking(page=1):
     #ページネーション
-    per_page = 1
+    per_page = 100
     users=db.session.query(User).order_by(desc(User.vote_count)).paginate(page, per_page, error_out=False)
 
     #順位計算（繰り上がり処理付き）
