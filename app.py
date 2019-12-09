@@ -82,6 +82,10 @@ def index():
 
     # 投票済みの問題の総数を求める。
     list = db.session.query(problem_tag).all()
+    all_tag=db.session.query(Tag).all()
+
+    ALL_VOTED_NUM=len(all_tag)
+
     VOTED_PROBLEM_NUM = 0
 
     for tag in list:
@@ -95,7 +99,7 @@ def index():
     # 投票済みパーセンテージ
     PERCENTAGE = round((VOTED_PROBLEM_NUM / ALL_PROBLEM_NUM) * 100, 3)
 
-    return render_template("index.html", percentage=PERCENTAGE)
+    return render_template("index.html", percentage=PERCENTAGE,voted_num=ALL_VOTED_NUM)
 
 
 @app.route("/explain")
