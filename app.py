@@ -1009,7 +1009,7 @@ def oauth_authorize():
 
 @app.route('/oauth/twitter/callback')
 def oauth_callback():
-    request_token = session.pop('request_token')
+    request_token = session.pop('request_token',None)
     oauth_session = service.get_auth_session(
         request_token[0],
         request_token[1],
