@@ -965,3 +965,66 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
         user_dict=user_dict,
         name_dict=name_dict
     )
+
+############################################################
+#ログイン処理
+
+@app.route('/login')
+def login():
+    user=User.query.get(id=request.form['id'])
+    login_user(user,True)
+    return redirect(url_for('index'))
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+@app.route('/oauth/twitter')
+def oauth_authorize():
+    if not current_user.is_anonymous:
+        return redirect(url_for('index'))
+    else:
+        request_token=service.get_request_token(
+            params={'oauth_callback':url_for('oauth_callback',provider='twitter',_external=True)}
+        )
+        session['request_token'] = request_token
+        
+        return redirect(service.get_authorize_url(request_token[0]))
+
+@app.route('/oauth/twitter/callback')
+def oauth_callback():
+    request_token = session.pop('request_token')
+    oauth_session = service.get_auth_session(
+        request_token[0],
+        request_token[1],
+        data={'oauth_verifier':request.args['oauth_verifier']}
+    )
+
+    profile = oauth_session.get('account/verify_credentials.json').json()
+    twitter_id = str(profile.get('id'))
+    username=str(profile.get('name'))
+    profile_image_url = str(profile.get('profile_image_url'))
+
+
+
+    user=db.session.query(User).filter(User.twitter_id==twitter_id).first()
+
+    if user:
+        user.twitter_id=twitter_id
+        user.username=username
+        user.profile_image_url=profile_image_url
+    else:
+        user=User(twitter_id=twitter_id,username=username,user_image_url=profile_image_url)
+        db.session.add(user)
+
+    db.session.commit()
+
+    login_user(user,True)
+    return redirect(url_for('index'))
