@@ -53,8 +53,7 @@
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
                 <li class="nav-item"><a href="/ranking/1" class="nav-link">Ranking</a></li>
                 {% if current_user.is_authenticated == True %}
-                <li class="nav-item active"><a href="/user_page/{{current_user.twitter_id}}"
-                        class="nav-link">User_Page</a>
+                <li class="nav-item active"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
                 </li>
                 {%endif%}
                 {% if current_user.is_authenticated == False%}
@@ -69,7 +68,9 @@
     <div class="container" style="width: 100%; max-width: 90%;">
         <h1 class='title'><strong>User Page</strong></h1>
         <br>
-        <h2><strong>{{user.username}}：{{rank}}位：{{user.vote_count}}回</strong></h2>
+        <h2><img src={{user.user_image_url}} alt=''
+                style="width:36px;height:36px;vertical-align:middle;"><strong>{{user.username}}：{{rank}}位：{{user.vote_count}}回</strong>
+        </h2>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="

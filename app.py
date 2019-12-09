@@ -234,6 +234,11 @@ def vote_result():
     # 白紙投票がある場合
     if problem_id == "" or tag == None:
         return render_template("error.html")
+    
+    if not current_user.is_anonymous:
+        user=db.session.query(User).filter_by(id=current_user.id).first()
+        user.vote_count+=1
+        db.session.commit()
 
     newTag = Tag(problem_id=problem_id, tag=tag,tag_second=tag2)
     db.session.add(newTag)
@@ -295,11 +300,6 @@ def vote_result():
             if tag != None:
                 search_tag.second_tag = tag_
                 db.session.commit()
-    
-    if not current_user.isanonymous:
-        user=db.session.query(User).filter_by(twitter_id=current_user.id)
-        user.vote_count+=1
-        db.session.commit()
 
     return render_template("success.html")
 
@@ -1043,9 +1043,9 @@ def load_user(id):
 
 ################################################################
 
-@app.route('/user_page/<user_twitter_id>')
-def user_page(user_twitter_id):
-    user=db.session.query(User).filter_by(twitter_id=user_twitter_id).first()
+@app.route('/user_page/<user_id>')
+def user_page(user_id):
+    user=db.session.query(User).filter_by(id=user_id).first()
     
     #順位計算
     rank_dict=dict({})

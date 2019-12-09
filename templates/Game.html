@@ -56,7 +56,7 @@
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
                 <li class="nav-item"><a href="/ranking/1" class="nav-link">Ranking</a></li>
                 {% if current_user.is_authenticated == True %}
-                <li class="nav-item"><a href="/user_page/{{current_user.twitter_id}}" class="nav-link">User_Page</a>
+                <li class="nav-item"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
                 </li>
                 {%endif%}
                 {% if current_user.is_authenticated == False%}
