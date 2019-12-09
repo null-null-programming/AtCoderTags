@@ -22,7 +22,7 @@ class problem_tag(db.Model):
     first_tag = db.Column(db.String(64))
     second_tag=db.Column(db.String(64))
 
-class User(UserMixin, db.Model):
+class User_(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     user_image_url = db.Column(db.String(120), index=True, unique=True)
@@ -236,7 +236,7 @@ def vote_result():
         return render_template("error.html")
     
     if not current_user.is_anonymous:
-        user=db.session.query(User).filter_by(id=current_user.id).first()
+        user=db.session.query(User_).filter_by(id=current_user.id).first()
         user.vote_count+=1
         db.session.commit()
 
@@ -985,7 +985,7 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
 
 @app.route('/login')
 def login():
-    user=User.query.get(id=request.form['id'])
+    user=User_.query.get(id=request.form['id'])
     login_user(user,True)
     return redirect(url_for('index'))
 
@@ -1023,13 +1023,13 @@ def oauth_callback():
 
 
 
-    user=db.session.query(User).filter(User.twitter_id==twitter_id).first()
+    user=db.session.query(User_).filter(User_.twitter_id==twitter_id).first()
 
     if user:
         user.twitter_id=twitter_id
         user.username=username
     else:
-        user=User(twitter_id=twitter_id,username=username,user_image_url=profile_image_url,vote_count=0)
+        user=User_(twitter_id=twitter_id,username=username,user_image_url=profile_image_url,vote_count=0)
         db.session.add(user)
 
     db.session.commit()
@@ -1039,17 +1039,17 @@ def oauth_callback():
 
 @login_manager.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User_.query.get(int(id))
 
 ################################################################
 
 @app.route('/user_page/<user_id>')
 def user_page(user_id):
-    user=db.session.query(User).filter_by(id=user_id).first()
+    user=db.session.query(User_).filter_by(id=user_id).first()
     
     #順位計算
     rank_dict=dict({})
-    all_user=db.session.query(User).order_by(desc(User.vote_count)).all()
+    all_user=db.session.query(User_).order_by(desc(User_.vote_count)).all()
 
     for  i in all_user:
         rank_dict[i.vote_count]=-1
@@ -1067,11 +1067,11 @@ def user_page(user_id):
 def ranking(page=1):
     #ページネーション
     per_page = 100
-    users=db.session.query(User).order_by(desc(User.vote_count)).paginate(page, per_page, error_out=False)
+    users=db.session.query(User_).order_by(desc(User__.vote_count)).paginate(page, per_page, error_out=False)
 
     #順位計算（繰り上がり処理付き）
     rank=dict({})
-    user=db.session.query(User).order_by(desc(User.vote_count)).all()
+    user=db.session.query(User_).order_by(desc(User_.vote_count)).all()
     for  i in user:
         rank[i.vote_count]=-1
     
