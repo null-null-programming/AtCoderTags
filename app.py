@@ -1067,7 +1067,7 @@ def user_page(user_id):
 def ranking(page=1):
     #ページネーション
     per_page = 100
-    users=db.session.query(User_).order_by(desc(User__.vote_count)).paginate(page, per_page, error_out=False)
+    users=db.session.query(User_).order_by(desc(User_.vote_count)).paginate(page, per_page, error_out=False)
 
     #順位計算（繰り上がり処理付き）
     rank=dict({})
