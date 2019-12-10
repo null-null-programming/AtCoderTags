@@ -1079,14 +1079,10 @@ def ranking(page=1):
     for  i in user:
         rank[i.vote_count]=-1
     
-    print(rank)
-    
-    for i in range(0,len(user)):
-        print(user[i].vote_count)
-        if rank[user[i].vote_count]==-1:
-            print(i)
-            rank[user[i].vote_count]=i+1
-        print(rank[user[i].vote_count])
-        print(' ')
+    i=1
+    for u in user:
+        if rank[u.vote_count]==-1:
+            rank[u.vote_count]=i
+            i+=1
 
     return render_template('ranking.html',users=users,page=page,per_page=per_page,rank=rank)
