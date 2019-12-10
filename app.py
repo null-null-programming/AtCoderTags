@@ -1087,6 +1087,7 @@ def ranking(page=1):
             continue
         else:
             rank[user[i].vote_count]=i+1
-        
+        print(rank[user[i].vote_count])
+        print(' ')
 
     return render_template('ranking.html',users=users,page=page,per_page=per_page,rank=rank)
