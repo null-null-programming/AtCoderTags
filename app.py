@@ -231,6 +231,9 @@ def vote():
 
 @app.route("/vote_result")
 def vote_result():
+    #####################################################################################
+    #タグを投票する処理
+
     problem_id = request.args.get("problem_id")
     tag = request.args.get("tag")
     tag2= request.args.get("tag2")
@@ -304,8 +307,49 @@ def vote_result():
             if tag != None:
                 search_tag.second_tag = tag_
                 db.session.commit()
+    #####################################################################################
+    #グラフを表示する処理
 
-    return render_template("success.html")
+    tag_name = tag
+    second_tag=None
+
+    if tag2!=None and tag2!='null':
+        second_tag = name_dict[tag2]
+
+    # 各ジャンルタグ数
+    sum_dict = {
+        "Easy":0,
+        "Ad-Hoc":0,
+        "Searching": 0,
+        "Greedy-Methods": 0,
+        "String": 0,
+        "Mathematics": 0,
+        "Technique": 0,
+        "Construct": 0,
+        "Graph": 0,
+        "Dynamic-Programming": 0,
+        "Data-Structure": 0,
+        "Game": 0,
+        "Flow-Algorithms": 0,
+        "Geometry": 0,
+    }
+
+    second_sum_dict=defaultdict(int)
+
+    name_list=set()
+
+    tags = db.session.query(Tag).filter_by(problem_id=problem_id).all()
+
+    for i in tags:
+        if i.tag!=None:
+            sum_dict[i.tag] += 1
+        if i.tag_second !=None and i.tag_second !='null':
+            second_sum_dict[name_dict[i.tag_second]]+=1
+            name_list.add(name_dict[i.tag_second])
+
+    name_list=list(name_list)
+
+    return render_template("success.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag,list=name_list,second_dict=second_sum_dict)
 
 
 @app.route("/check")

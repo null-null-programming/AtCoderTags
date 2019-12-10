@@ -25,6 +25,10 @@
         .title {
             font-family: 'Bangers', cursive;
         }
+
+        a:not(.navbar) {
+            color: #FF0033;
+        }
     </style>
     <title>AtCoder Tags</title>
 </head>
@@ -46,8 +50,8 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
                 <li class="nav-item "><a href="/explain" class="nav-link">Category</a></li>
-                <li class="nav-item active"><a href="/vote" class="nav-link">Vote</a></li>
-                <li class="nav-item "><a href="/check" class="nav-link">Check</a></li>
+                <li class="nav-item "><a href="/vote" class="nav-link">Vote</a></li>
+                <li class="nav-item active"><a href="/check" class="nav-link">Check</a></li>
                 <li class="nav-item "><a href="/collect" class="nav-link">Collect</a></li>
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
                 <li class="nav-item"><a href="/ranking/1" class="nav-link">Ranking</a></li>
@@ -65,8 +69,14 @@
     </nav>
 
     <div class="container" style="width: 100%; max-width: 90%;">
-        <h1 class='title'><strong>Success!</strong></h1>
-        <h4>投票ありがとうございます</h4>
+        <div>
+            <h1 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Success!</strong></h1>
+            <h1>投票ありがとうございます</h1>
+        </div>
+        <br>
+        <canvas id="myPieChart"></canvas>
+        <br>
+        <canvas id="myPieChart2"></canvas>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -76,5 +86,66 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<script type="text/javascript"
+    src="https://github.com/nagix/chartjs-plugin-colorschemes/releases/download/v0.2.0/chartjs-plugin-colorschemes.min.js"></script>
+
+<script>
+    var labels = ["Easy", "Ad-Hoc", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+        "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
+        "Game", "Flow-Algorithms", "Geometry"];
+
+    var dict = JSON.parse('{{dict|tojson|safe}}')
+
+    var data = []
+    for (label of labels) {
+        data.push(dict[label]);
+    }
+
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["Easy", "Ad-Hoc", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+                "Construct", "Graph", "DP", "Data-Structure",
+                "Game", "Flow-Algorithms", "Geometry"],
+            datasets: [{
+                data: data
+            }]
+        },
+        options: {
+            title: {
+                display: false
+            }
+        }
+    });
+</script>
+
+<script>
+    var second_labels = JSON.parse('{{list|tojson|safe}}');
+    var second_dict = JSON.parse('{{second_dict|tojson|safe}}');
+
+    var data2 = []
+    for (label of second_labels) {
+        data2.push(second_dict[label]);
+    }
+
+    var ctx2 = document.getElementById("myPieChart2");
+    var myPieChart2 = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: second_labels,
+            datasets: [{
+                data: data2
+            }]
+        },
+        options: {
+            title: {
+                display: false
+            }
+        }
+    });
+</script>
 
 </html>
