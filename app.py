@@ -1083,9 +1083,7 @@ def ranking(page=1):
     
     for i in range(0,len(user)):
         print(user[i].vote_count)
-        if rank[user[i].vote_count]!=-1:
-            continue
-        else:
+        if rank[user[i].vote_count]==-1:
             rank[user[i].vote_count]=i+1
         print(rank[user[i].vote_count])
         print(' ')
