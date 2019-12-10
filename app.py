@@ -1058,11 +1058,11 @@ def user_page(user_id):
     for  i in all_user:
         rank_dict[i.vote_count]=-1
         
-    for i in range(0,len(all_user)):
-        if rank_dict[all_user[i].vote_count]!=-1:
-            continue
-        else:
-            rank_dict[all_user[i].vote_count]=i+1
+   i=1
+    for u in all_user:
+        if rank[u.vote_count]==-1:
+            rank[u.vote_count]=i
+            i+=1
 
     rank=rank_dict[user.vote_count]
     return render_template('user_page.html',user=user,rank=rank)
