@@ -1058,7 +1058,7 @@ def user_page(user_id):
     for  i in all_user:
         rank_dict[i.vote_count]=-1
         
-   i=1
+    i=1
     for u in all_user:
         if rank_dict[u.vote_count]==-1:
             rank_dict[u.vote_count]=i
