@@ -442,7 +442,7 @@ def check_problem(problem_id):
         name_list=list(name_list)
 
         return render_template(
-            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=tag2,list=name_list,second_dict=second_sum_dict
+            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag,list=name_list,second_dict=second_sum_dict
         )
 
 
