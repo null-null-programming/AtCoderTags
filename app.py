@@ -394,6 +394,7 @@ def check_problem(problem_id):
         if tag.second_tag!=None and tag.second_tag!='null':
             second_tag = name_dict[tag.second_tag]
 
+        tag0=name_dict[tag.first_tag]
         tag1=name_dict[tag.second_tag]
         tag2=name_dict[tag.second_second_tag]
         tag3=name_dict[tag.second_third_tag]
@@ -432,7 +433,7 @@ def check_problem(problem_id):
         name_list=list(name_list)
 
         return render_template(
-            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag,list=name_list,second_dict=second_sum_dict,tag1=tag1,tag2=tag2,tag3=tag3
+            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag,list=name_list,second_dict=second_sum_dict,tag0=tag0,tag1=tag1,tag2=tag2,tag3=tag3
         )
 
 
