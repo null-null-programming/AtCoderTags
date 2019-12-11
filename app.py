@@ -393,8 +393,8 @@ def check_problem(problem_id):
 
         if tag.second_tag!=None and tag.second_tag!='null':
             second_tag = name_dict[tag.second_tag]
-
-        tag0=name_dict[tag.first_tag]
+            
+        tag0=tag_name
         tag1=name_dict[tag.second_tag]
         tag2=name_dict[tag.second_second_tag]
         tag3=name_dict[tag.second_third_tag]
