@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, session, request, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from requests_oauthlib import OAuth1Session
 from flask_migrate import Migrate
 from flask_login import (
@@ -15,6 +16,7 @@ import os
 import subprocess
 
 app = Flask(__name__)
+CORS(app)
 
 app.jinja_env.add_extension("jinja2.ext.loopcontrols")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["SQLALCHEMY_DATABASE_URI"]

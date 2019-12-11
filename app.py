@@ -49,7 +49,7 @@ name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Sea
 "Balanced-Tree":"平衡二分探索木","Nim":"Nim","Grundy":"Grundy数","Backtrack":"後退解析","Mini-Max":"ミニマックス法","unique":"特殊な性質",
 "Max-Flow":"最大流問題","Min-Cost-Flow":"最小費用流問題","Bipartite-Matching":"二部マッチング","Min-Cut":"最小カット","Burn":"燃やす埋める",
 "Convex-Hull":"凸包","Declination-Sorting":"偏角ソート","Three-D":"三次元","Number":"整数","Combinatorics":"組み合わせ","Probability":"確率","Expected-Value":"期待値",
-"Matrix":"行列","Parsing":"構文解析","Easy":"Easy","Ad-Hoc":"Ad-Hoc","Greedy-Methods":"Greedy-Methods","Construct":"Construct"}
+"Matrix":"行列","Parsing":"構文解析","Easy":"Easy","Ad-Hoc":"Ad-Hoc","Greedy-Methods":"Greedy-Methods","Construct":"Construct","None":"None"}
 
 @app.route("/")
 def index():
@@ -394,6 +394,10 @@ def check_problem(problem_id):
         if tag.second_tag!=None and tag.second_tag!='null':
             second_tag = name_dict[tag.second_tag]
 
+        tag1=name_dict[tag.second_tag]
+        tag2=name_dict[tag.second_second_tag]
+        tag3=name_dict[tag.second_third_tag]
+
         # 各ジャンルタグ数
         sum_dict = {
             "Easy":0,
@@ -428,7 +432,7 @@ def check_problem(problem_id):
         name_list=list(name_list)
 
         return render_template(
-            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag,list=name_list,second_dict=second_sum_dict
+            "check_problem_result.html", tag_name=tag_name, dict=sum_dict,second_tag=second_tag,list=name_list,second_dict=second_sum_dict,tag1=tag1,tag2=tag2,tag3=tag3
         )
 
 
