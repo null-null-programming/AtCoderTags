@@ -21,6 +21,8 @@ class problem_tag(db.Model):
     # first_tag:最も表の多いTag
     first_tag = db.Column(db.String(64))
     second_tag=db.Column(db.String(64))
+    second_second_tag=db.Column(db.String(64))
+    second_third_tag=db.Column(db.String(64))
 
 class User_(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,7 +49,7 @@ name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Sea
 "Balanced-Tree":"平衡二分探索木","Nim":"Nim","Grundy":"Grundy数","Backtrack":"後退解析","Mini-Max":"ミニマックス法","unique":"特殊な性質",
 "Max-Flow":"最大流問題","Min-Cost-Flow":"最小費用流問題","Bipartite-Matching":"二部マッチング","Min-Cut":"最小カット","Burn":"燃やす埋める",
 "Convex-Hull":"凸包","Declination-Sorting":"偏角ソート","Three-D":"三次元","Number":"整数","Combinatorics":"組み合わせ","Probability":"確率","Expected-Value":"期待値",
-"Matrix":"行列","Parsing":"構文解析"}
+"Matrix":"行列","Parsing":"構文解析","Easy":"Easy","Ad-Hoc":"Ad-Hoc","Greedy-Methods":"Greedy-Methods","Construct":"Construct"}
 
 @app.route("/")
 def index():
@@ -242,11 +244,19 @@ def vote_result():
     # 白紙投票がある場合
     if problem_id == "" or tag == None:
         return render_template("error.html")
+
+    
+    #もし下位分類が存在しないカテゴリーだった場合、下位分類は上位分類と同じにする。
+    if tag in ["Easy","Ad-Hoc","Greedy-Methods","Construct"]:
+        tag2=tag
     
     if not current_user.is_anonymous:
         user=db.session.query(User_).filter_by(id=current_user.id).first()
         user.vote_count+=1
         db.session.commit()
+    
+
+    print(tag,tag2)
 
     newTag = Tag(problem_id=problem_id, tag=tag,tag_second=tag2)
     db.session.add(newTag)
@@ -267,6 +277,8 @@ def vote_result():
 
     # Tagが存在する場合、その問題に投票された全てのTagを集計し直し、ジャンルを決定する。
     else:
+        ####################################################################################################
+        #first_tag
         tags = db.session.query(Tag).filter(Tag.problem_id == problem_id)
         vote_num = defaultdict(int)
 
@@ -279,73 +291,49 @@ def vote_result():
         if len(vote_num) != 0:
             tag_ = vote_num[0][0]
 
-        if tag != None:
+        if tag_ != None:
             search_tag.first_tag = tag_
             db.session.commit()
 
-        if search_tag.first_tag in ["Easy","Ad-Hoc","Greedy-Methods","Construct"]:
-            search_tag.second_tag=None
+        ###########################################################################################################
+        #second_tag
+        vote_num2 = defaultdict(int)
+
+        second_tags=db.session.query(Tag).filter(Tag.problem_id==problem_id)
+
+        for t in second_tags:
+            vote_num2[t.tag_second] += 1
+
+        vote_num2 = sorted(vote_num2.items(), key=lambda x: x[1], reverse=True)
+
+
+        #下位分類の上位３位まで
+        tag_ = None
+        tag2_= None
+        tag3_= None
+        if len(vote_num2) != 0:
+            for i in range(0,len(vote_num2)) :
+                if vote_num2[i][0]!=None and vote_num2[i][0] != 'null':
+                    tag_=vote_num2[i][0]
+                    if i+1 <len(vote_num2):
+                        tag2_=vote_num2[i+1][0]
+                    if i+2 <len(vote_num2):
+                        tag3_=vote_num2[i+2][0]
+                    
+                    break
+
+
+        if tag_ != None:
+            search_tag.second_tag = tag_
             db.session.commit()
-
-            #グラフを表示する処理
-            tag_name = tag
-
-            # 各ジャンルタグ数
-            sum_dict = {
-                "Easy":0,
-                "Ad-Hoc":0,
-                "Searching": 0,
-                "Greedy-Methods": 0,
-                "String": 0,
-                "Mathematics": 0,
-                "Technique": 0,
-                "Construct": 0,
-                "Graph": 0,
-                "Dynamic-Programming": 0,
-                "Data-Structure": 0,
-                "Game": 0,
-                "Flow-Algorithms": 0,
-                "Geometry": 0,
-            }
-
-            second_sum_dict=defaultdict(int)
-
-            name_list=set()
-
-            tags = db.session.query(Tag).filter_by(problem_id=problem_id).all()
-
-            for i in tags:
-                if i.tag!=None:
-                    sum_dict[i.tag] += 1
-                if i.tag_second !=None and i.tag_second !='null':
-                    second_sum_dict[name_dict[i.tag_second]]+=1
-                    name_list.add(name_dict[i.tag_second])
-
-            name_list=list(name_list)
-
-            return render_template("success.html", tag_name=tag_name, dict=sum_dict,list=name_list,second_dict=second_sum_dict)
-
+        if tag2_ != None:
+            search_tag.second_second_tag = tag2_
+            db.session.commit()
+        if tag3_ != None:
+            search_tag.second_third_tag = tag3_
+            db.session.commit()
         
-        if tag2 != None:
-            vote_num2 = defaultdict(int)
-
-            second_tags=db.session.query(Tag).filter(Tag.problem_id==problem_id,Tag.tag==search_tag.first_tag)
-
-            for t in second_tags:
-                vote_num2[t.tag_second] += 1
-
-            vote_num2 = sorted(vote_num2.items(), key=lambda x: x[1], reverse=True)
-
-            tag_ = None
-            if len(vote_num2) != 0:
-                if vote_num2[0][0] !=None:
-                    tag_ = vote_num2[0][0]
-                elif len(vote_num2)>1:
-                    tag_ = vote_num2[1][0]
-
-            if tag != None:
-                search_tag.second_tag = tag_
-                db.session.commit()
+        print(search_tag.second_tag,search_tag.second_second_tag,search_tag.second_third_tag)
     #####################################################################################
     #グラフを表示する処理
 
