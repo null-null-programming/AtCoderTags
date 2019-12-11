@@ -92,7 +92,8 @@
                             {%endif%}
                             <td scope="row">{{loop.index}}</td>
                             <td scope="row">
-                                <b>{{problem.problem_official_name}}<b>
+                                <a href="/check/{{problem.problem_official_name}}"
+                                    style="color:#FF0033;"><strong>{{problem.problem_official_name}}</strong></a>
                             </td>
                             <td scope="row">
                                 <a href="https://atcoder.jp/contests/{{dict[problem.problem_official_name]['contest_id']}}/tasks/{{problem.problem_official_name}}"
