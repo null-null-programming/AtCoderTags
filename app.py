@@ -315,13 +315,15 @@ def vote_result():
             for i in range(0,len(vote_num2)) :
                 if vote_num2[i][0]!=None and vote_num2[i][0] != 'null':
                     tag_=vote_num2[i][0]
-                    if i+1 <len(vote_num2):
-                        tag2_=vote_num2[i+1][0]
-                    if i+2 <len(vote_num2):
-                        tag3_=vote_num2[i+2][0]
-                    
                     break
-
+            for i in range(0,len(vote_num2)):
+                if vote_num2[i][0]!=None and vote_num2[i][0] != 'null' and vote_num2[i][0]!=tag_:
+                    tag2_=vote_num2[i][0]
+                    break
+            for i in range(0,len(vote_num2)):
+                if vote_num2[i][0]!=None and vote_num2[i][0] != 'null' and vote_num2[i][0]!=tag_ and vote_num2[i][0]!=tag2_:
+                    tag3_=vote_num2[i][0]
+                    break
 
         if tag_ != None:
             search_tag.second_tag = tag_
