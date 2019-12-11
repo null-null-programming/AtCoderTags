@@ -254,9 +254,6 @@ def vote_result():
         user=db.session.query(User_).filter_by(id=current_user.id).first()
         user.vote_count+=1
         db.session.commit()
-    
-
-    print(tag,tag2)
 
     newTag = Tag(problem_id=problem_id, tag=tag,tag_second=tag2)
     db.session.add(newTag)
@@ -334,8 +331,6 @@ def vote_result():
         if tag3_ != None:
             search_tag.second_third_tag = tag3_
             db.session.commit()
-        
-        print(search_tag.second_tag,search_tag.second_second_tag,search_tag.second_third_tag)
     #####################################################################################
     #グラフを表示する処理
 
