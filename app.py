@@ -1153,7 +1153,7 @@ def user_page(user_id):
         get_user_info = requests.get(str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + atcoder_user_id.atcoder_user_id))
         get_atcoder_info =requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/v2/user_info?user='+atcoder_user_id.atcoder_user_id))
 
-        if get_user_info ==None or get_atcoder_info ==None:
+        if get_user_info.status_code !=200 or get_atcoder_info.status_code !=200:
             return render_template('user_page_no_graph.html',user=user,rank=rank)
 
         get_user_info = get_user_info.json()
