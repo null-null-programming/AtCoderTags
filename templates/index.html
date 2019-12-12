@@ -179,10 +179,19 @@
                 <h6>累計投票数の順位表です</h6>
             </div>
             <br>
+            {% if current_user.is_authenticated %}
+            <div>
+                <h2 class='title'><strong><a href="/user_page/{{current_user.id}}"
+                            style="color:#212529;">User_Page</a></strong> <i class="fas fa-user"></i>
+                </h2>
+                <h6>ユーザーの情報を見ることができます</h6>
+            </div>
+            {%else%}
             <div>
                 <h2 class='title'><strong style="color:#212529;">User_Page</strong> <i class="fas fa-user"></i></h2>
                 <h6>ユーザーの情報を見ることができます</h6>
             </div>
+            {%endif%}
             <br>
             <div>
                 <h2 class='title'><strong><a href="/settings" style="color:#212529;">Settings</a></strong> <i
