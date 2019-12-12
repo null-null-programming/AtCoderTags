@@ -7,6 +7,10 @@ import numpy
 import json
 import time
 import requests
+import csv
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import ssl
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -1148,6 +1152,10 @@ def user_page(user_id):
         # AtCoderAPIからUser情報を取得する
         get_user_info = requests.get(str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + atcoder_user_id.atcoder_user_id))
         get_atcoder_info =requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/v2/user_info?user='+atcoder_user_id.atcoder_user_id))
+
+        if get_user_info ==None or get_atcoder_info ==None:
+            return render_template('user_page_no_graph.html',user=user,rank=rank)
+
         get_user_info = get_user_info.json()
         get_atcoder_info=get_atcoder_info.json()
 
@@ -1253,12 +1261,23 @@ def user_page(user_id):
                 percent_dict[category] = int(
                     (user_sum_dict[category] / sum_dict[category]) * 100
                 )
+        
+        ################################################################################################
+        #ユーザーのレート取得
+        # URLの指定
+        html = urlopen(str("https://atcoder.jp/users/"+atcoder_user_id.atcoder_user_id))
+        bsObj = BeautifulSoup(html, "html.parser")
+
+        # テーブルを指定
+        table = bsObj.findAll("table", {"class":"tablesorter"})[0]
+        rows = table.findAll("tr")
 
         return render_template(
             "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=get_atcoder_info
         )
+
     else:
-         return render_template('user_page_no_graph.html',user=user,rank=rank)
+        return render_template('user_page_no_graph.html',user=user,rank=rank)
 
 @app.route('/ranking/<int:page>')
 def ranking(page=1):
