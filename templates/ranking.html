@@ -53,7 +53,7 @@
                 <li class="nav-item "><a href="/explain" class="nav-link">Category <i class="fas fa-tags"></i></a></li>
                 <li class="nav-item"><a href="/vote" class="nav-link">Vote <i class="fas fa-vote-yea"></i></a></li>
                 <li class="nav-item "><a href="/check" class="nav-link">Check <i class="fas fa-search"></i></a></li>
-                <li class="nav-item "><a href="/collect" class="nav-link">Collect <i class="far fa-file-alt"></i></a>
+                <li class="nav-item "><a href="/collect" class="nav-link">Collect <i class="fas fa-file-alt"></i></a>
                 </li>
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph <i class="fas fa-chart-pie"></i></a></li>
                 <li class="nav-item active"><a href="/ranking/1" class="nav-link">Ranking <i
@@ -61,7 +61,7 @@
                 </li>
                 {% if current_user.is_authenticated == True %}
                 <li class="nav-item"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page <i
-                            class="far fa-user"></i></a>
+                            class="fas fa-user"></i></a>
                 </li>
                 <li class="nav-item"><a href="/settings" class="nav-link">Settings <i class="fas fa-cog"></i></a></li>
                 {%endif%}
@@ -78,7 +78,7 @@
 
     <div class="container" style="width: 100%; max-width: 90%;">
         <div>
-            <h1 class='title'><strong>Ranking</strong></h1>
+            <h1 class='title'><strong>Ranking<i class="fas fa-signal"></i></strong></h1>
         </div>
         <div>
             <table class="table table-borderd ">
