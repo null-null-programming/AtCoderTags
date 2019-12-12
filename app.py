@@ -1268,7 +1268,7 @@ def user_page(user_id):
         #ユーザーのレート取得
         # URLの指定
         # URLの指定
-        html = urlopen("https://atcoder.jp/users/" + "null_null")
+        html = urlopen("https://atcoder.jp/users/" +atcoder_user_id.atcoder_user_id )
         bsObj = BeautifulSoup(html, "html.parser")
         
         # テーブルを指定
