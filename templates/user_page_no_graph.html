@@ -66,11 +66,19 @@
     </nav>
 
     <div class="container" style="width: 100%; max-width: 90%;">
-        <h1 class='title'><strong>User Page</strong></h1>
-        <br>
+        <h1 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>User Page</strong></h1>
         <h2><img src={{user.user_image_url}} alt=''
-                style="width:36px;height:36px;vertical-align:middle;"><strong>{{user.username}}：{{rank}}位：{{user.vote_count}}票</strong>
+                style="width:36px;height:36px;vertical-align:middle;"><strong>{{user.username}}</strong>
         </h2>
+        <br>
+        <div class='title'>
+            <h2>
+                <strong>Vote_Rank:<b style='color:#FF0033'>{{rank}}</b>位</strong>
+            </h2>
+            <h2>
+                <strong>Vote_Count:<b style='color:#FF0033'>{{user.vote_count}}</b>票</strong>
+            </h2>
+        </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
