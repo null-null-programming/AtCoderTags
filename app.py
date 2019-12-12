@@ -1160,6 +1160,8 @@ def user_page(user_id):
 
         get_user_info = get_user_info.json()
         get_atcoder_info=get_atcoder_info.json()
+        get_atcoder_info["accepted_count_rank"]+=1
+        get_atcoder_info["rated_point_sum_rank"]+=1
 
         # ジャンルリスト
         category_list = [
