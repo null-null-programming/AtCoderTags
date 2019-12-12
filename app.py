@@ -1265,12 +1265,6 @@ def user_page(user_id):
         ################################################################################################
         #ユーザーのレート取得
         # URLの指定
-        html = urlopen(str("https://atcoder.jp/users/"+atcoder_user_id.atcoder_user_id))
-        bsObj = BeautifulSoup(html, "html.parser")
-
-        # テーブルを指定
-        table = bsObj.findAll("table", {"class":"tablesorter"})[0]
-        rows = table.findAll("tr")
 
         return render_template(
             "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=get_atcoder_info
