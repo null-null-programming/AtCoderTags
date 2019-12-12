@@ -1151,9 +1151,6 @@ def user_page(user_id):
         get_user_info = get_user_info.json()
         get_atcoder_info=get_atcoder_info.json()
 
-        #user_info
-        atcoder_dict=json.loads(get_atcoder_info)
-
         # ジャンルリスト
         category_list = [
             "Easy",
@@ -1258,7 +1255,7 @@ def user_page(user_id):
                 )
 
         return render_template(
-            "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=atcoder_dict
+            "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=get_atcoder_info
         )
     else:
          return render_template('user_page_no_graph.html',user=user,rank=rank)
