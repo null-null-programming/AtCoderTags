@@ -30,6 +30,7 @@ class User_(UserMixin, db.Model):
     user_image_url = db.Column(db.String(120), index=True, unique=True)
     twitter_id = db.Column(db.String(64), nullable=False, unique=True)
     vote_count=db.Column(db.Integer)
+    atcoder_user_id=db.Column(db.String(64))
 
 
 name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Search":"三分探索","DFS":"深さ優先探索",
@@ -1104,7 +1105,7 @@ def oauth_callback():
         user.twitter_id=twitter_id
         user.username=username
     else:
-        user=User_(twitter_id=twitter_id,username=username,user_image_url=profile_image_url,vote_count=0)
+        user=User_(twitter_id=twitter_id,username=username,user_image_url=profile_image_url,vote_count=0,atcoder_user_id='')
         db.session.add(user)
 
     db.session.commit()
@@ -1120,6 +1121,7 @@ def load_user(id):
 
 @app.route('/user_page/<user_id>')
 def user_page(user_id):
+    #順位表計算
     user=db.session.query(User_).filter_by(id=user_id).first()
     
     #順位計算
@@ -1136,7 +1138,130 @@ def user_page(user_id):
             i+=1
 
     rank=rank_dict[user.vote_count]
-    return render_template('user_page.html',user=user,rank=rank)
+
+    #############################################################################
+    #ユーザーのグラフ
+
+    atcoder_user_id=db.session.query(User_).filter_by(id=user_id).first()
+
+    if atcoder_user_id.atcoder_user_id != None and atcoder_user_id != '':
+        # AtCoderAPIからUser情報を取得する
+        get_user_info = requests.get(str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + atcoder_user_id))
+        get_atcoder_info =request.get(str('https://kenkoooo.com/atcoder/atcoder-api/v2/user_info?user='+atcoder_user_id))
+        get_user_info = get_user_info.json()
+        get_atcoder_info=get_atcoder_info.json()
+
+        #user_info
+        atcoder_dict=json.loads(get_atcoder_info)
+
+        # ジャンルリスト
+        category_list = [
+            "Easy",
+            "Ad-Hoc",
+            "Searching",
+            "Greedy-Methods",
+            "String",
+            "Mathematics",
+            "Technique",
+            "Construct",
+            "Graph",
+            "Dynamic-Programming",
+            "Data-Structure",
+            "Game",
+            "Flow-Algorithms",
+            "Geometry",
+        ]
+
+        # ジャンル別の問題総数
+        sum_dict = {
+            "Easy":0,
+            "Ad-Hoc":0,
+            "Searching": 0,
+            "Greedy-Methods": 0,
+            "String": 0,
+            "Mathematics": 0,
+            "Technique": 0,
+            "Construct": 0,
+            "Graph": 0,
+            "Dynamic-Programming": 0,
+            "Data-Structure": 0,
+            "Game": 0,
+            "Flow-Algorithms": 0,
+            "Geometry": 0,
+        }
+
+        # ユーザーが各ジャンルの問題を何問解いたか
+        user_sum_dict = {
+            "Easy":0,
+            "Ad-Hoc":0,
+            "Searching": 0,
+            "Greedy-Methods": 0,
+            "String": 0,
+            "Mathematics": 0,
+            "Technique": 0,
+            "Construct": 0,
+            "Graph": 0,
+            "Dynamic-Programming": 0,
+            "Data-Structure": 0,
+            "Game": 0,
+            "Flow-Algorithms": 0,
+            "Geometry": 0,
+        }
+
+        # ジャンル毎にUserが何％ACしているか
+        percent_dict = {
+            "Easy":0,
+            "Ad-Hoc":0,
+            "Searching": 0,
+            "Greedy-Methods": 0,
+            "String": 0,
+            "Mathematics": 0,
+            "Technique": 0,
+            "Construct": 0,
+            "Graph": 0,
+            "Dynamic-Programming": 0,
+            "Data-Structure": 0,
+            "Game": 0,
+            "Flow-Algorithms": 0,
+            "Geometry": 0,
+        }
+
+        ###########################################################################################
+        # ACリスト作成
+
+        # userがその問題をACしているかどうかのリスト
+        user_dict = {}
+        # タグ付けされている全ての問題
+        all_problems = db.session.query(problem_tag).all()
+        # 一旦、全てをWAとする。
+        for problem in all_problems:
+            user_dict[str(problem.problem_official_name)] = "WA"
+        # その後、ACの問題が見つかり次第、書き換える。
+        for info in get_user_info:
+            if info["result"] == "AC":
+                user_dict[str(info["problem_id"])] = "AC"
+        ############################################################################################
+
+        for category in category_list:
+            problem_list = db.session.query(problem_tag).filter_by(first_tag=category).all()
+            sum_dict[category] = len(problem_list)
+
+            for problem in problem_list:
+                if user_dict[problem.problem_official_name] == "AC":
+                    user_sum_dict[category] = user_sum_dict[category] + 1
+
+            if sum_dict[category] == 0:
+                percent_dict[category] = 0
+            else:
+                percent_dict[category] = int(
+                    (user_sum_dict[category] / sum_dict[category]) * 100
+                )
+
+        return render_template(
+            "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=atcoder_dict
+        )
+    else:
+         return render_template('user_page_no_graph.html',user=user,rank=rank)
 
 @app.route('/ranking/<int:page>')
 def ranking(page=1):
@@ -1157,3 +1282,15 @@ def ranking(page=1):
             i+=1
 
     return render_template('ranking.html',users=users,page=page,per_page=per_page,rank=rank)
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
+
+@app.route('/settings/id')
+def id_settings():
+    user_id=request.args.get('user_id')
+    temp=db.session.query(User_).filter_by(id=current_user.id).first()
+    temp.atcoder_user_id=user_id
+    db.session.commit()
+    return redirect(url_for('settings'))

@@ -62,6 +62,7 @@
                 {% if current_user.is_authenticated == True %}
                 <li class="nav-item"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
                 </li>
+                <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
                 {%endif%}
                 {% if current_user.is_authenticated == False%}
                 <li class="nav-item"><a href="/oauth/twitter" class="nav-link">Login</a></li>

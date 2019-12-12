@@ -59,6 +59,7 @@
                 {% if current_user.is_authenticated == True %}
                 <li class="nav-item"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
                 </li>
+                <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
                 {%endif%}
                 {% if current_user.is_authenticated == False%}
                 <li class="nav-item"><a href="/oauth/twitter" class="nav-link">Login</a></li>
@@ -161,6 +162,16 @@
             <div>
                 <h2 class='title'><strong><a href="/ranking/1" style="color:#212529;">?Ranking</a></strong></h2>
                 <h6>累計投票数の順位表です</h6>
+            </div>
+            <br>
+            <div>
+                <h2 class='title'><strong><a href="/ranking/1" style="color:#212529;">?User_Page</a></strong></h2>
+                <h6>ユーザーの情報を見ることができます</h6>
+            </div>
+            <br>
+            <div>
+                <h2 class='title'><strong><a href="/ranking/1" style="color:#212529;">?Settings</a></strong></h2>
+                <h6>AtCoderのUser_IDを設定できます<br>ユーザーページにAtCoderの情報が載るようになります</h6>
             </div>
         </div>
         <br>

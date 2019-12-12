@@ -54,6 +54,7 @@
                 {% if current_user.is_authenticated == True %}
                 <li class="nav-item active"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
                 </li>
+                <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
                 {%endif%}
                 {% if current_user.is_authenticated == False%}
                 <li class="nav-item"><a href="/oauth/twitter" class="nav-link">Login</a></li>
@@ -68,8 +69,39 @@
         <h1 class='title'><strong>User Page</strong></h1>
         <br>
         <h2><img src={{user.user_image_url}} alt=''
-                style="width:36px;height:36px;vertical-align:middle;"><strong>{{user.username}}：{{rank}}位：{{user.vote_count}}票</strong>
+                style="width:36px;height:36px;vertical-align:middle;"><strong>{{user.username}}</strong>
         </h2>
+        <div class='title'>
+            <div>
+                <h2>
+                    <strong>Vote_Rank:<b style='color:#FF0033'>{{rank}}</b>位</strong>
+                </h2>
+                <h2>
+                    <strong>Vote_Count:<b style='color:#FF0033'>{{user.vote_count}}</b>票</strong>
+                </h2>
+            </div>
+            <br>
+            <div>
+                <h2>
+                    <strong>{{atcoder_dict['user_id']}}</strong>
+                </h2>
+                <h2>
+                    <strong>accepted_count:<b style='color:#FF0033'>{{atcoder_dict['accepted_count']}}回</b></strong>
+                </h2>
+                <h2>
+                    <strong>accepted_count_rank:<b
+                            style='color:#FF0033'>{{atcoder_dict['accepted_count_rank']}}</b>位</strong>
+                </h2>
+                <h2>
+                    <strong>rated_point_sum:<b style='color:#FF0033'>{{atcoder_dict['rated_point_sum']}}</b>点</strong>
+                </h2>
+                <h2>
+                    <strong>rated_point_sum_rank:<b
+                            style='color:#FF0033'>{{atcoder_dict['rated_point_sum_rank']}}</b>位</strong>
+                </h2>
+            </div>
+        </div>
+        <canvas id="myRaderChart"></canvas>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -79,5 +111,54 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+
+
+<script>
+    var user_id = JSON.parse('{{user_id | tojson}}');
+
+    var labels = ["Easy", "Ad-Hoc", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
+        "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
+        "Game", "Flow-Algorithms", "Geometry"];
+
+    percent = JSON.parse('{{dict|tojson|safe}}');
+
+    var data = []
+    for (label of labels) {
+        data.push(percent[label]);
+    }
+
+    var ctx = document.getElementById("myRaderChart");
+    var myRadarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: user_id,
+                data: data,
+                backgroundColor: 'RGBA(0,0,0, 0.5)',
+                borderColor: 'RGBA(0,0,0,1)',
+                borderWidth: 1,
+                pointBackgroundColor: 'RGB(9,0,0,1)'
+            }]
+        },
+        options: {
+            title: {
+                display: false
+            },
+            scale: {
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    stepSize: 10,
+                    callback: function (value, index, values) {
+                        return value + "%";
+                    }
+                }
+            }, legend: {
+                display: false
+            }
+        }
+    });
+</script>
 
 </html>

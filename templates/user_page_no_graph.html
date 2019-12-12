@@ -25,15 +25,11 @@
         .title {
             font-family: 'Bangers', cursive;
         }
-
-        a:not(nav) {
-            color: #FF0033;
-        }
     </style>
     <title>AtCoder Tags</title>
 </head>
 
-<body style="padding-top:5.0rem">
+<body style="padding-top:5rem">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NL8G3X8" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
@@ -49,14 +45,14 @@
         <div class="collapse navbar-collapse" id="nav1">
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="/explain" class="nav-link">Category</a></li>
+                <li class="nav-item "><a href="/explain" class="nav-link">Category</a></li>
                 <li class="nav-item"><a href="/vote" class="nav-link">Vote</a></li>
                 <li class="nav-item "><a href="/check" class="nav-link">Check</a></li>
                 <li class="nav-item "><a href="/collect" class="nav-link">Collect</a></li>
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
-                <li class="nav-item active"><a href="/ranking/1" class="nav-link">Ranking</a></li>
+                <li class="nav-item"><a href="/ranking/1" class="nav-link">Ranking</a></li>
                 {% if current_user.is_authenticated == True %}
-                <li class="nav-item"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
+                <li class="nav-item active"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
                 </li>
                 <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
                 {%endif%}
@@ -70,47 +66,11 @@
     </nav>
 
     <div class="container" style="width: 100%; max-width: 90%;">
-        <div>
-            <h1 class='title'><strong>Ranking</strong></h1>
-        </div>
-        <div>
-            <table class="table table-borderd ">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">name</th>
-                        <th scope="col">count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users.items %}
-                    <tr>
-                        <td scope="row"><strong>{{rank[user.vote_count]}}位</strong></th>
-                        <td><img src={{user.user_image_url}} alt=''
-                                style="width:36px;height:36px;vertical-align:middle;"> <a
-                                href="/user_page/{{user.id}}"><strong>{{user.username}}</strong></a></td>
-                        <td scope="row"><strong>{{user.vote_count}}票</strong></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="title">
-
-            <ul class="pagination">
-                {% if users.has_prev %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for('ranking', page=users.prev_num)}}"
-                        style="color: #FF0033;">Prev</a>
-                </li>
-                {% endif %} {% if users.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ url_for('ranking', page=users.next_num)}}"
-                        style="color: #FF0033;">Next</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+        <h1 class='title'><strong>User Page</strong></h1>
+        <br>
+        <h2><img src={{user.user_image_url}} alt=''
+                style="width:36px;height:36px;vertical-align:middle;"><strong>{{user.username}}：{{rank}}位：{{user.vote_count}}票</strong>
+        </h2>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
