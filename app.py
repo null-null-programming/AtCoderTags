@@ -12,6 +12,8 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
 
+ssl._create_default_https_context = ssl._create_unverified_context
+
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     problem_id = db.Column(db.String(64))
@@ -1265,9 +1267,16 @@ def user_page(user_id):
         ################################################################################################
         #ユーザーのレート取得
         # URLの指定
+        # URLの指定
+        html = urlopen("https://atcoder.jp/users/" + "null_null")
+        bsObj = BeautifulSoup(html, "html.parser")
+        
+        # テーブルを指定
+        table = bsObj.findAll("table", {"class": "dl-table"})[1]
+        rate = table.findAll("span")[0].text
 
         return render_template(
-            "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=get_atcoder_info
+            "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=get_atcoder_info,rate=rate
         )
 
     else:
