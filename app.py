@@ -1287,9 +1287,7 @@ def settings():
 @app.route('/settings/id')
 def id_settings():
     user_id=request.args.get('user_id')
-    print(user_id)
     temp=db.session.query(User_).filter_by(id=current_user.id).first()
     temp.atcoder_user_id=user_id
     db.session.commit()
-    print(temp.atcoder_user_id)
     return redirect(url_for('settings'))
