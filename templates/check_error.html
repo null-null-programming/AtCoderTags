@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <style>
         nav,
         .title {
@@ -44,22 +45,28 @@
 
         <div class="collapse navbar-collapse" id="nav1">
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-                <li class="nav-item "><a href="/explain" class="nav-link">Category</a></li>
-                <li class="nav-item "><a href="/vote" class="nav-link">Vote</a></li>
-                <li class="nav-item active"><a href="/check" class="nav-link">Check</a></li>
-                <li class="nav-item "><a href="/collect" class="nav-link">Collect</a></li>
-                <li class="nav-item"><a href="/graph" class="nav-link">Graph</a></li>
-                <li class="nav-item"><a href="/ranking/1" class="nav-link">Ranking</a></li>
-                {% if current_user.is_authenticated == True %}
-                <li class="nav-item"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page</a>
+                <li class="nav-item"><a href="/" class="nav-link">Home <i class="fas fa-home"></i></a></li>
+                <li class="nav-item "><a href="/explain" class="nav-link">Category <i class="fas fa-tags"></i></a></li>
+                <li class="nav-item"><a href="/vote" class="nav-link">Vote <i class="fas fa-vote-yea"></i></a></li>
+                <li class="nav-item active"><a href="/check" class="nav-link">Check <i class="fas fa-search"></i></a>
                 </li>
-                <li class="nav-item"><a href="/settings" class="nav-link">Settings</a></li>
+                <li class="nav-item "><a href="/collect" class="nav-link">Collect <i class="far fa-file-alt"></i></a>
+                </li>
+                <li class="nav-item"><a href="/graph" class="nav-link">Graph <i class="fas fa-chart-pie"></i></a></li>
+                <li class="nav-item"><a href="/ranking/1" class="nav-link">Ranking <i class="fas fa-signal"></i></a>
+                </li>
+                {% if current_user.is_authenticated == True %}
+                <li class="nav-item"><a href="/user_page/{{current_user.id}}" class="nav-link">User_Page <i
+                            class="far fa-user"></i></a>
+                </li>
+                <li class="nav-item"><a href="/settings" class="nav-link">Settings <i class="fas fa-cog"></i></a></li>
                 {%endif%}
                 {% if current_user.is_authenticated == False%}
-                <li class="nav-item"><a href="/oauth/twitter" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="/oauth/twitter" class="nav-link">Login <i
+                            class="fas fa-sign-in-alt"></i></a></li>
                 {%else%}
-                <li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+                <li class="nav-item"><a href="/logout" class="nav-link">Logout <i class="fas fa-sign-out-alt"></i></a>
+                </li>
                 {%endif%}
             </ul>
         </div>
