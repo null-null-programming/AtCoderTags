@@ -1146,8 +1146,8 @@ def user_page(user_id):
 
     if atcoder_user_id.atcoder_user_id != None and atcoder_user_id != '':
         # AtCoderAPIからUser情報を取得する
-        get_user_info = requests.get(str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + atcoder_user_id))
-        get_atcoder_info =request.get(str('https://kenkoooo.com/atcoder/atcoder-api/v2/user_info?user='+atcoder_user_id))
+        get_user_info = requests.get(str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + atcoder_user_id.atcoder_user_id))
+        get_atcoder_info =request.get(str('https://kenkoooo.com/atcoder/atcoder-api/v2/user_info?user='+atcoder_user_id.atcoder_user_id))
         get_user_info = get_user_info.json()
         get_atcoder_info=get_atcoder_info.json()
 
