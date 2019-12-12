@@ -76,11 +76,15 @@
         <div>
             <h1 class='title'><strong>Graph <i class="fas fa-chart-pie"></i></strong></h1>
         </div>
-        <form id="id_submit" action="" method="GET">
-            <input id="user_id" type="text" value={{user_id}} placeholder="User_ID">
-            <input id="rival_id" type="text" value="" autocomplete="off" placeholder="Rival_ID">
-            <input type="submit" value="Submit" class="btn btn-dark title">
-        </form>
+        <div class='form-group form-inline'>
+            <form id="id_submit" action="" method="GET">
+                <input id="user_id" class='form-control' style='width:230px;' type="text" value={{user_id}}
+                    placeholder="User_ID">
+                <input id="rival_id" class='form-control' style='width:230px;' type="text" value="" autocomplete="off"
+                    placeholder="Rival_ID">
+                <input type="submit" value="Submit" class="btn btn-dark title">
+            </form>
+        </div>
         <canvas id="myRaderChart"></canvas>
         <br>
         <canvas id="myBarChart"></canvas>

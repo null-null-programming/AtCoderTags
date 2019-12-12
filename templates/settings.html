@@ -77,10 +77,13 @@
                     class="fas fa-cog"></i></strong></h1>
         <h4>AtCoderのUser IDを設定できます<br>ユーザーページにAtCoderの情報が載るようになります</h4>
         <br>
-        <form id="id_submit" action="/settings/id" method="GET">
-            <input id="user_id" type="text" name='user_id' placeholder="User ID">
-            <input type="submit" value="Submit" class="btn btn-dark title">
-        </form>
+        <div class='form-group form-inline'>
+            <form id="id_submit" action="/settings/id" method="GET" autocomplete="off">
+                <input id="user_id" class='form-control' style='width:230px;' type="text" name='user_id'
+                    placeholder="User ID">
+                <input type="submit" value="Submit" class="btn btn-dark title">
+            </form>
+        </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="

@@ -75,9 +75,11 @@
     <div class="container" style="width: 100%; max-width: 90%;">
         <div>
             <h1><strong>{{first_tag}}:{{name_dict[tagName]}}</strong></h1>
-            <form id="id_submit" action="" method="GET">
-                <input id="user_id" type="text" placeholder="User ID">
-            </form>
+            <div class='form-group form-inline'>
+                <form id="id_submit" action="" method="GET">
+                    <input id="user_id" class='form-control' style='width:230px;' type="text" placeholder="User ID">
+                </form>
+            </div>
             <br>
         </div>
 
