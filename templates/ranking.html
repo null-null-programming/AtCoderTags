@@ -106,13 +106,13 @@
             <ul class="pagination">
                 {% if users.has_prev %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('ranking', page=users.prev_num)}}"
-                        style="color: #FF0033;">Prev</a>
+                    <a class="page-link" href="{{ url_for('ranking', page=users.prev_num)}}" style="color: #FF0033;"><i
+                            class="fas fa-arrow-left fa-2x"></i></a>
                 </li>
                 {% endif %} {% if users.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('ranking', page=users.next_num)}}"
-                        style="color: #FF0033;">Next</a>
+                    <a class="page-link" href="{{ url_for('ranking', page=users.next_num)}}" style="color: #FF0033;"><i
+                            class="fas fa-arrow-right fa-2x"></i></a>
                 </li>
                 {% endif %}
             </ul>
