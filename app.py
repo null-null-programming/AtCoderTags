@@ -500,6 +500,8 @@ def user_graph(user_id):
     get_user_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
+    if get_user_info.status_code!=200:
+        return render_template('error.html')
     get_user_info = get_user_info.json()
 
     # ジャンルリスト
@@ -616,11 +618,15 @@ def user_and_rival_graph(user_id, rival_id):
     get_user_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
+    if get_user_info.status_code!=200:
+        return render_template('error.html')
     get_user_info = get_user_info.json()
 
     get_rival_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + rival_id),headers=headers
     )
+    if get_rival_info.status_code!=200:
+        return render_template('error.html')
     get_rival_info = get_rival_info.json()
 
     # ジャンルリスト
@@ -1005,7 +1011,7 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
     get_user_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
-    
+
     if get_user_info.status_code!=200:
         return render_template('error.html')
 
