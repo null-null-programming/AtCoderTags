@@ -128,7 +128,7 @@ def tag_search(tag_name):
 
     tagName = tag_name
     problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
-
+    
     dict = {}
 
     # 最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
@@ -174,6 +174,10 @@ def user_tag_search(tag_name, user_id):
     get_user_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
+    if get_user_info.status_code!=200:
+        return render_template('error.html')
+
+
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
 
@@ -1001,6 +1005,10 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
     get_user_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
+    
+    if get_user_info.status_code!=200:
+        return render_template('error.html')
+
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
 
