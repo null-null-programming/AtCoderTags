@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
+headers = {'Accept-Encoding': 'gzip'}
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -79,7 +80,7 @@ def index():
 
     # 問題の総数を求める。
     get_problem = requests.get(
-        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
     )
     get_problem = get_problem.json()
     ALL_PROBLEM_NUM = len(get_problem)
@@ -121,7 +122,7 @@ def explain():
 def tag_search(tag_name):
     # コンテスト名取得のため、AtCoderProblemsAPIを利用する。
     get_problem = requests.get(
-        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
     )
     get_problem = get_problem.json()
 
@@ -168,10 +169,10 @@ def tag_search(tag_name):
 def user_tag_search(tag_name, user_id):
     # コンテスト名およびuser情報取得のため、AtCoderProblemsAPIを利用する。
     get_problem = requests.get(
-        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
     )
     get_user_info = requests.get(
-        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id)
+        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
@@ -493,7 +494,7 @@ def graph():
 def user_graph(user_id):
     # AtCoderAPIからUser情報を取得する
     get_user_info = requests.get(
-        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id)
+        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     get_user_info = get_user_info.json()
 
@@ -609,12 +610,12 @@ def user_graph(user_id):
 def user_and_rival_graph(user_id, rival_id):
     # AtCoderAPIからUser情報を取得する
     get_user_info = requests.get(
-        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id)
+        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     get_user_info = get_user_info.json()
 
     get_rival_info = requests.get(
-        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + rival_id)
+        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + rival_id),headers=headers
     )
     get_rival_info = get_rival_info.json()
 
@@ -788,10 +789,10 @@ def collect():
 def user_collect(user_id):
     # コンテスト名およびuser情報取得のため、AtCoderProblemsAPIを利用する。
     get_problem = requests.get(
-        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
     )
     get_user_info = requests.get(
-        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id)
+        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
@@ -946,7 +947,7 @@ def explain_tag(tag):
 def explain_second_tag(first_tag, second_tag):
     # コンテスト名取得のため、AtCoderProblemsAPIを利用する。
     get_problem = requests.get(
-        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
     )
     get_problem = get_problem.json()
 
@@ -995,10 +996,10 @@ def explain_second_tag(first_tag, second_tag):
 def user_explain_second_tag(first_tag,second_tag,user_id):
 # コンテスト名およびuser情報取得のため、AtCoderProblemsAPIを利用する。
     get_problem = requests.get(
-        "https://kenkoooo.com/atcoder/resources/merged-problems.json"
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
     )
     get_user_info = requests.get(
-        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id)
+        str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
@@ -1152,8 +1153,8 @@ def user_page(user_id):
 
     if atcoder_user_id.atcoder_user_id != None and atcoder_user_id != '':
         # AtCoderAPIからUser情報を取得する
-        get_user_info = requests.get(str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + atcoder_user_id.atcoder_user_id))
-        get_atcoder_info =requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/v2/user_info?user='+atcoder_user_id.atcoder_user_id))
+        get_user_info = requests.get(str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + atcoder_user_id.atcoder_user_id),headers=headers)
+        get_atcoder_info =requests.get(str('https://kenkoooo.com/atcoder/atcoder-api/v2/user_info?user='+atcoder_user_id.atcoder_user_id),headers=headers)
 
         if get_user_info.status_code !=200 or get_atcoder_info.status_code !=200:
             return render_template('user_page_no_graph.html',user=user,rank=rank)
