@@ -1407,7 +1407,7 @@ def news():
             for problem_id in problems:
                 tag = db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
                 if tag==None:
-                    temp_list.append('null')
+                    temp_list.append('None')
                     continue
 
                 if tag.second_tag!=None:
