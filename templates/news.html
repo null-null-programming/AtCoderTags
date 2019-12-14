@@ -25,6 +25,10 @@
         .title {
             font-family: 'Bangers', cursive;
         }
+
+        .table {
+            margin-bottom: 0rem;
+        }
     </style>
     <title>AtCoder Tags</title>
 </head>
@@ -45,9 +49,9 @@
         <div class="collapse navbar-collapse" id="nav1">
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="/" class="nav-link">Home <i class="fas fa-home"></i></a></li>
-                <li class="nav-item "><a href="/explain" class="nav-link">Category <i class="fas fa-tags"></i></a></li>
-                <li class="nav-item active"><a href="/vote" class="nav-link">Vote <i class="fas fa-vote-yea"></i></a>
+                <li class="nav-item active"><a href="/explain" class="nav-link">Category <i class="fas fa-tags"></i></a>
                 </li>
+                <li class="nav-item"><a href="/vote" class="nav-link">Vote <i class="fas fa-vote-yea"></i></a></li>
                 <li class="nav-item "><a href="/check" class="nav-link">Check <i class="fas fa-search"></i></a></li>
                 <li class="nav-item "><a href="/collect" class="nav-link">Collect <i class="fas fa-file-alt"></i></a>
                 </li>
@@ -72,10 +76,41 @@
     </nav>
 
     <div class="container" style="width: 100%; max-width: 90%;">
-        <h1 class='title' style="border-bottom: 1px solid #dee2e6!important"><strong>Error <i
-                    class="fas fa-exclamation-circle"></i></strong></h1>
-        <h4><strong>{{message}}</strong></h4>
+        <h1><strong id="tagName" class='title'>NEWS</strong> <i class="fas fa-newspaper"></i></h1>
+        <br>
+        <div>
+            <div>
+                {% for tags in tag_list%}
+                </h4>
+                <table class="table table-responsive table-bordered" style="table-layout:fixed;">
+                    <thead>
+                        {%for i in range(0,max_length)%}
+                        <th scope="col"></th>
+                        {%endfor%}
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {%for i in range(0,max_length)%}
+                            {% if i < tags|length %}
+                            <td scope="row" style="width:200px;">
+                                <h5><strong>{{tags[i]}}</strong></h5>
+                            </td>
+                            {%else%}
+                            <td scope="row" style="width:200px;">
+                                <h5><strong></strong></h5>
+                            </td>
+                            {%endif%}
+                            {%endfor%}
+
+                        </tr>
+                    </tbody>
+                </table>
+                {%endfor%}
+            </div>
+        </div>
     </div>
+    <br>
+    <br>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

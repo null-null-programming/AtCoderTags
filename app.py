@@ -175,7 +175,7 @@ def user_tag_search(tag_name, user_id):
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     if get_user_info.status_code!=200:
-        return render_template('error.html')
+        return render_template('error.html',message='ユーザーが存在しません')
 
 
     get_problem = get_problem.json()
@@ -255,8 +255,42 @@ def vote_result():
 
     # 白紙投票がある場合
     if problem_id == "" or tag == None:
-        return render_template("error.html")
+        return render_template("error.html",message='空欄が存在します')
 
+    ##############################################################################################
+    #現在開催中のコンテストの場合エラーを出す
+    # URLの指定
+    check_set=set()
+
+    html = urlopen("https://atcoder.jp/home")
+    bsObj = BeautifulSoup(html, "html.parser")
+    
+    # テーブルを指定
+    recent_table = bsObj.find(id="contest-table-")
+
+    if recent_table !=None:
+        table=recent_table.findAll('td')
+
+        for i in range(0,len(table)):
+            #time and date は飛ばす
+            if i%2==0:
+                continue
+
+            add_url=table[i].find("a").attrs["href"]
+
+            #problem_idを抜き出す
+            html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
+            bsObj2 = BeautifulSoup(html2, "html.parser")
+            table2=bsObj2.findAll('tr')
+
+            for row in table2:
+                if len(row.findAll("a"))>0:
+                    check_set.add(row.findAll("a")[0].attrs["href"].split('/')[-1])
+                    print(row.findAll("a")[0].attrs["href"].split('/')[-1])
+    
+    if problem_id in check_set:
+        return render_template('error.html',message='コンテスト終了までお待ち下さい。終了している場合は、もうしばらくお待ち下さい。')
+    ##############################################################################################
     
     #もし下位分類が存在しないカテゴリーだった場合、下位分類は上位分類と同じにする。
     if tag in ["Easy","Ad-Hoc","Greedy-Methods","Construct"]:
@@ -501,7 +535,7 @@ def user_graph(user_id):
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     if get_user_info.status_code!=200:
-        return render_template('error.html')
+        return render_template('error.html',message='ユーザーが存在しません')
     get_user_info = get_user_info.json()
 
     # ジャンルリスト
@@ -619,14 +653,14 @@ def user_and_rival_graph(user_id, rival_id):
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
     if get_user_info.status_code!=200:
-        return render_template('error.html')
+        return render_template('error.html','ユーザーが存在しません')
     get_user_info = get_user_info.json()
 
     get_rival_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + rival_id),headers=headers
     )
     if get_rival_info.status_code!=200:
-        return render_template('error.html')
+        return render_template('error.html','ライバルが存在しません')
     get_rival_info = get_rival_info.json()
 
     # ジャンルリスト
@@ -1013,7 +1047,7 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
     )
 
     if get_user_info.status_code!=200:
-        return render_template('error.html')
+        return render_template('error.html',message='ユーザーが存在しません')
 
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
@@ -1329,3 +1363,57 @@ def id_settings():
     temp.atcoder_user_id=user_id
     db.session.commit()
     return redirect(url_for('settings'))
+
+@app.route('/news')
+def news():
+
+    html = urlopen("https://atcoder.jp/home")
+    bsObj = BeautifulSoup(html, "html.parser")
+    
+    # テーブルを指定
+    recent_table = bsObj.find(id="contest-table-recent")
+    
+    problem_list=[]
+    if recent_table !=None:
+        table=recent_table.findAll('td')
+
+        for i in range(0,len(table)):
+            #time and date は飛ばす
+            if i%2==0:
+                continue
+            
+            add_url=table[i].find("a").attrs["href"]
+
+            #problem_idを抜き出す
+            html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
+            bsObj2 = BeautifulSoup(html2, "html.parser")
+            table2=bsObj2.findAll('tr')
+
+            temp_list=[]
+            for row in table2:
+                if len(row.findAll("a"))>0:
+                    temp_list.append(row.findAll("a")[0].attrs["href"].split('/')[-1])
+             
+            problem_list.append(temp_list)
+    
+    tag_list=[]
+    for problems in problem_list:
+        temp_list=[]
+        for problem_id in problems:
+            tag = db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+            if tag==None:
+                temp_list.append('null')
+                continue
+
+            if tag.second_tag!=None:
+                temp_list.append(name_dict[tag.second_tag])
+            else:
+                temp_list.append(name_dict[tag.first_tag])
+
+        tag_list.append(temp_list)  
+    
+    max_length=0
+    for tag in tag_list:
+        max_length=max(max_length,len(tag))
+
+    return render_template('news.html', tag_list=tag_list,max_length=max_length)
