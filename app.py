@@ -1407,10 +1407,8 @@ def news():
             for problem_id in problems:
                 tag = db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
                 if tag==None:
-                    temp_list.append('')
+                    temp_list.append(' ')
                     continue
-                
-                print(tag.first_tag,tag.second_tag)
 
                 if tag.second_tag!=None:
                     if tag.second_tag=="その他":
@@ -1421,13 +1419,11 @@ def news():
                     temp_list.append(tag.first_tag)
 
             tag_list.append(temp_list)  
-            print(temp_list)
         
         max_length=0
         for tag in tag_list:
             max_length=max(max_length,len(tag))
 
-        print(tag_list)
     except Exception as e:
         return render_template('error.html',message=e)
 
