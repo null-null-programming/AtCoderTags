@@ -1418,6 +1418,8 @@ def news():
         max_length=0
         for tag in tag_list:
             max_length=max(max_length,len(tag))
+
+        print(tag_list)
     except Exception as e:
         return render_template('error.html',message=e)
 
