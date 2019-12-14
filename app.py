@@ -258,38 +258,41 @@ def vote_result():
         return render_template("error.html",message='空欄が存在します')
 
     ##############################################################################################
-    #現在開催中のコンテストの場合エラーを出す
-    # URLの指定
-    check_set=set()
+    try:
+        #現在開催中のコンテストの場合エラーを出す
+        # URLの指定
+        check_set=set()
 
-    html = urlopen("https://atcoder.jp/home")
-    bsObj = BeautifulSoup(html, "html.parser")
-    
-    # テーブルを指定
-    recent_table = bsObj.find(id="contest-table-")
+        html = urlopen("https://atcoder.jp/home")
+        bsObj = BeautifulSoup(html, "html.parser")
+        
+        # テーブルを指定
+        recent_table = bsObj.find(id="contest-table-")
 
-    if recent_table !=None:
-        table=recent_table.findAll('td')
+        if recent_table !=None:
+            table=recent_table.findAll('td')
 
-        for i in range(0,len(table)):
-            #time and date は飛ばす
-            if i%2==0:
-                continue
+            for i in range(0,len(table)):
+                #time and date は飛ばす
+                if i%2==0:
+                    continue
 
-            add_url=table[i].find("a").attrs["href"]
+                add_url=table[i].find("a").attrs["href"]
 
-            #problem_idを抜き出す
-            html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
-            bsObj2 = BeautifulSoup(html2, "html.parser")
-            table2=bsObj2.findAll('tr')
+                #problem_idを抜き出す
+                html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
+                bsObj2 = BeautifulSoup(html2, "html.parser")
+                table2=bsObj2.findAll('tr')
 
-            for row in table2:
-                if len(row.findAll("a"))>0:
-                    check_set.add(row.findAll("a")[0].attrs["href"].split('/')[-1])
-                    print(row.findAll("a")[0].attrs["href"].split('/')[-1])
-    
-    if problem_id in check_set:
-        return render_template('error.html',message='コンテスト終了までお待ち下さい。終了している場合は、もうしばらくお待ち下さい。')
+                for row in table2:
+                    if len(row.findAll("a"))>0:
+                        check_set.add(row.findAll("a")[0].attrs["href"].split('/')[-1])
+                        print(row.findAll("a")[0].attrs["href"].split('/')[-1])
+        
+        if problem_id in check_set:
+            return render_template('error.html',message='コンテスト終了までお待ち下さい。終了している場合は、もうしばらくお待ち下さい。')
+    except Exception as e:
+        return render_template('error.html',message=e)
     ##############################################################################################
     
     #もし下位分類が存在しないカテゴリーだった場合、下位分類は上位分類と同じにする。
