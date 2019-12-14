@@ -79,11 +79,11 @@
 
     <div class="container" style="width: 100%; max-width: 90%;">
         <h1><strong id="tagName" class='title'>NEWS</strong> <i class="fas fa-newspaper"></i></h1>
-        <br>
         <div>
             <div>
                 {% for tags in tag_list%}
-                </h4>
+                <br>
+                <h4><strong>{{problem_name_list[loop.index-1]}}</strong></h4>
                 <table class="table table-responsive table-bordered" style="table-layout:fixed;">
                     <tbody>
                         <tr>
