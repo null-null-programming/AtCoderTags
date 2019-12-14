@@ -1398,7 +1398,9 @@ def news():
                         temp_list.append(row.findAll("a")[0].attrs["href"].split('/')[-1])
                 
                 problem_list.append(temp_list)
-        
+
+        print(problem_list)
+
         tag_list=[]
         for problems in problem_list:
             temp_list=[]
@@ -1407,13 +1409,16 @@ def news():
                 if tag==None:
                     temp_list.append('null')
                     continue
-
+                
+                print(tag.first_tag,tag.second_tag)
+                
                 if tag.second_tag!=None:
                     temp_list.append(name_dict[tag.second_tag])
                 else:
                     temp_list.append(name_dict[tag.first_tag])
 
             tag_list.append(temp_list)  
+            print(temp_list)
         
         max_length=0
         for tag in tag_list:
