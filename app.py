@@ -1378,6 +1378,8 @@ def news():
         
         problem_list=[]
         problem_name_list=[]
+        url_list=[]
+
         if recent_table !=None:
             table=recent_table.findAll('td')
 
@@ -1388,6 +1390,7 @@ def news():
                 
                 add_url=table[i].find("a").attrs["href"]
                 problem_name_list.append(table[i].find("a").text)
+                url_list.append(str("https://atcoder.jp"+add_url))
 
                 #problem_idを抜き出す
                 html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
@@ -1427,4 +1430,4 @@ def news():
     except Exception as e:
         return render_template('error.html',message=e)
 
-    return render_template('news.html', tag_list=tag_list,max_length=max_length,problem_name_list=problem_name_list)
+    return render_template('news.html', tag_list=tag_list,max_length=max_length,problem_name_list=problem_name_list,url_list=url_list)
