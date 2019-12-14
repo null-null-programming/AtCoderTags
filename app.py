@@ -1366,54 +1366,56 @@ def id_settings():
 
 @app.route('/news')
 def news():
+    try:
+        html = urlopen("https://atcoder.jp/home")
+        bsObj = BeautifulSoup(html, "html.parser")
+        
+        # テーブルを指定
+        recent_table = bsObj.find(id="contest-table-recent")
+        
+        problem_list=[]
+        if recent_table !=None:
+            table=recent_table.findAll('td')
 
-    html = urlopen("https://atcoder.jp/home")
-    bsObj = BeautifulSoup(html, "html.parser")
-    
-    # テーブルを指定
-    recent_table = bsObj.find(id="contest-table-recent")
-    
-    problem_list=[]
-    if recent_table !=None:
-        table=recent_table.findAll('td')
+            for i in range(0,len(table)):
+                #time and date は飛ばす
+                if i%2==0:
+                    continue
+                
+                add_url=table[i].find("a").attrs["href"]
 
-        for i in range(0,len(table)):
-            #time and date は飛ばす
-            if i%2==0:
-                continue
-            
-            add_url=table[i].find("a").attrs["href"]
+                #problem_idを抜き出す
+                html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
+                bsObj2 = BeautifulSoup(html2, "html.parser")
+                table2=bsObj2.findAll('tr')
 
-            #problem_idを抜き出す
-            html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
-            bsObj2 = BeautifulSoup(html2, "html.parser")
-            table2=bsObj2.findAll('tr')
-
+                temp_list=[]
+                for row in table2:
+                    if len(row.findAll("a"))>0:
+                        temp_list.append(row.findAll("a")[0].attrs["href"].split('/')[-1])
+                
+                problem_list.append(temp_list)
+        
+        tag_list=[]
+        for problems in problem_list:
             temp_list=[]
-            for row in table2:
-                if len(row.findAll("a"))>0:
-                    temp_list.append(row.findAll("a")[0].attrs["href"].split('/')[-1])
-             
-            problem_list.append(temp_list)
-    
-    tag_list=[]
-    for problems in problem_list:
-        temp_list=[]
-        for problem_id in problems:
-            tag = db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
-            if tag==None:
-                temp_list.append('null')
-                continue
+            for problem_id in problems:
+                tag = db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
+                if tag==None:
+                    temp_list.append('null')
+                    continue
 
-            if tag.second_tag!=None:
-                temp_list.append(name_dict[tag.second_tag])
-            else:
-                temp_list.append(name_dict[tag.first_tag])
+                if tag.second_tag!=None:
+                    temp_list.append(name_dict[tag.second_tag])
+                else:
+                    temp_list.append(name_dict[tag.first_tag])
 
-        tag_list.append(temp_list)  
-    
-    max_length=0
-    for tag in tag_list:
-        max_length=max(max_length,len(tag))
+            tag_list.append(temp_list)  
+        
+        max_length=0
+        for tag in tag_list:
+            max_length=max(max_length,len(tag))
+    except Exception as e:
+        return render_template('error.html',message=e)
 
     return render_template('news.html', tag_list=tag_list,max_length=max_length)
