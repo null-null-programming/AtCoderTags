@@ -1399,8 +1399,6 @@ def news():
                 
                 problem_list.append(temp_list)
 
-        print(problem_list)
-
         tag_list=[]
         for problems in problem_list:
             temp_list=[]

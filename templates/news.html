@@ -49,14 +49,15 @@
         <div class="collapse navbar-collapse" id="nav1">
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="/" class="nav-link">Home <i class="fas fa-home"></i></a></li>
-                <li class="nav-item active"><a href="/explain" class="nav-link">Category <i class="fas fa-tags"></i></a>
+                <li class="nav-item"><a href="/explain" class="nav-link">Category <i class="fas fa-tags"></i></a>
                 </li>
                 <li class="nav-item"><a href="/vote" class="nav-link">Vote <i class="fas fa-vote-yea"></i></a></li>
                 <li class="nav-item "><a href="/check" class="nav-link">Check <i class="fas fa-search"></i></a></li>
                 <li class="nav-item "><a href="/collect" class="nav-link">Collect <i class="fas fa-file-alt"></i></a>
                 </li>
                 <li class="nav-item"><a href="/graph" class="nav-link">Graph <i class="fas fa-chart-pie"></i></a></li>
-                <li class="nav-item"><a href="/news" class="nav-link">News <i class="fas fa-newspaper"></i></a></li>
+                <li class="nav-item active"><a href="/news" class="nav-link">News <i class="fas fa-newspaper"></i></a>
+                </li>
                 <li class="nav-item"><a href="/ranking/1" class="nav-link">Ranking <i class="fas fa-signal"></i></a>
                 </li>
                 {% if current_user.is_authenticated == True %}
