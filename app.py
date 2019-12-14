@@ -1411,7 +1411,7 @@ def news():
                     continue
 
                 if tag.second_tag!=None:
-                    if tag.second_tag=="その他":
+                    if tag.second_tag=="Other":
                         temp_list.append(tag.first_tag+":"+name_dict[tag.second_tag])
                     else:
                         temp_list.append(name_dict[tag.second_tag])
