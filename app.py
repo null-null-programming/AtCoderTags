@@ -1411,11 +1411,11 @@ def news():
                     continue
                 
                 print(tag.first_tag,tag.second_tag)
-                
+
                 if tag.second_tag!=None:
                     temp_list.append(name_dict[tag.second_tag])
                 else:
-                    temp_list.append(name_dict[tag.first_tag])
+                    temp_list.append(tag.first_tag)
 
             tag_list.append(temp_list)  
             print(temp_list)
