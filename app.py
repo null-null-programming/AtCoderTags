@@ -1413,7 +1413,10 @@ def news():
                 print(tag.first_tag,tag.second_tag)
 
                 if tag.second_tag!=None:
-                    temp_list.append(name_dict[tag.second_tag])
+                    if tag.second_tag=="その他":
+                        temp_list.append(tag.first_tag+":"+name_dict[tag.second_tag])
+                    else:
+                        temp_list.append(name_dict[tag.second_tag])
                 else:
                     temp_list.append(tag.first_tag)
 
