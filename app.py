@@ -126,26 +126,33 @@ def tag_search(tag_name):
     )
     get_problem = get_problem.json()
 
+    get_difficulty=requests.get("https://kenkoooo.com/atcoder/resources/problem-models.json",headers=headers)
+    get_difficulty=get_difficulty.json()
+
     tagName = tag_name
     problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
     
     dict = {}
+    difficulty_dict={}
 
     # 最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
         dict[str(problem.problem_official_name)] = {
             "contest_id": problem.problem_official_name,
             "title": "Error",
-            "solver_count": -1,
-            "predict": -1,
+            "solver_count": -1
         }
+
+        difficulty_dict[str(problem.problem_official_name)]=99999
+
+
+    for problem_name in get_difficulty:
+        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        print(difficulty_dict[problem_name])
 
     # official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
         dict[str(problem["id"])] = problem
-
-        if dict[str(problem["id"])]["predict"] == None:
-            dict[str(problem["id"])]["predict"] = -1
 
         if dict[str(problem["id"])]["solver_count"] == None:
             dict[str(problem["id"])]["solver_count"] = -1
@@ -154,14 +161,13 @@ def tag_search(tag_name):
     problems = sorted(
         problems,
         key=lambda x: (
-            dict[str(x.problem_official_name)]["solver_count"],
-            -dict[str(x.problem_official_name)]["predict"],
+            difficulty_dict[str(x.problem_official_name)],
+            -dict[str(x.problem_official_name)]["solver_count"]
         ),
-        reverse=True,
     )
 
     return render_template(
-        "tag_search.html", tagName=tagName, problems=problems, dict=dict
+        "tag_search.html", tagName=tagName, problems=problems, dict=dict,difficulty_dict=difficulty_dict
     )
 
 
@@ -176,7 +182,7 @@ def user_tag_search(tag_name, user_id):
     )
     if get_user_info.status_code!=200:
         return render_template('error.html',message='ユーザーが存在しません')
-
+    
 
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
