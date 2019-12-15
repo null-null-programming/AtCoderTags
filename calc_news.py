@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 import ssl
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-sched = BlockingScheduler()
+scheduler = BlockingScheduler()
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -196,5 +196,5 @@ def calc_news():
             print(e)
 
 
-sched.start()
+scheduler.start()
 
