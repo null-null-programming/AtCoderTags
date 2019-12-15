@@ -939,7 +939,8 @@ def user_collect(user_id):
                 dict[str(x.problem_official_name)]["solver_count"],
                 -dict[str(x.problem_official_name)]["predict"],
             ),
-            reverse=True,
+            reverse=True
+            #TODO
         )
 
         ############################################################################################################
@@ -1015,7 +1016,7 @@ def explain_second_tag(first_tag, second_tag):
     get_problem = get_problem.json()
     get_difficulty=requests.get("https://kenkoooo.com/atcoder/resources/problem-models.json",headers=headers)
     get_difficulty=get_difficulty.json()
-    
+
     tagName = second_tag
 
     #上位3位までにtagNameがあるものを集める
@@ -1068,12 +1069,15 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
     get_user_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
+    get_difficulty=requests.get("https://kenkoooo.com/atcoder/resources/problem-models.json",headers=headers)
+
 
     if get_user_info.status_code!=200:
         return render_template('error.html',message='ユーザーが存在しません')
 
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
+    get_difficulty=get_difficulty.json()
 
     # コンテスト名取得
     ############################################################################################################
@@ -1081,31 +1085,36 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
     problems = db.session.query(problem_tag).filter(or_(problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
 
     dict = {}
+    difficulty_dict={}
 
     # 最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
         dict[str(problem.problem_official_name)] = {
             "contest_id": problem.problem_official_name,
             "title": "Error",
-            "solver_count": -1,
-            "predict": -1,
+            "solver_count": -1
         }
+
+        difficulty_dict[str(problem.problem_official_name)]=99999
+
+
+    for problem_name in get_difficulty:
+        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
 
     # official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
         dict[str(problem["id"])] = problem
 
-        if dict[str(problem["id"])]["predict"] == None:
-            dict[str(problem["id"])]["predict"] = -1
+        if dict[str(problem["id"])]["solver_count"] == None:
+            dict[str(problem["id"])]["solver_count"] = -1
 
     # 問題を解かれた人数で並び替える。predictで並び替えるとnullがあるので死ぬ。
     problems = sorted(
         problems,
         key=lambda x: (
-            dict[str(x.problem_official_name)]["solver_count"],
-            -dict[str(x.problem_official_name)]["predict"],
-        ),
-        reverse=True,
+            difficulty_dict[str(x.problem_official_name)],
+            -dict[str(x.problem_official_name)]["solver_count"]
+        )
     )
 
     ############################################################################################################
@@ -1131,7 +1140,8 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
         dict=dict,
         user_id=user_id,
         user_dict=user_dict,
-        name_dict=name_dict
+        name_dict=name_dict,
+        difficulty_dict=difficulty_dict
     )
 
 ############################################################
