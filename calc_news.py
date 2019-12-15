@@ -193,7 +193,7 @@ def calc_news():
         except Exception as e:
             print(e)
 
-    with open("news_data.json", "w") as f:
+    with open("news_data.json", "r") as f:
         news = json.load(f)
         print(news)
 
