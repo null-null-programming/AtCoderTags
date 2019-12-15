@@ -119,7 +119,7 @@ class problem_tag(db.Model):
     __table_args__ = {"extend_existing": True}
 
 
-@scheduler.scheduled_job("interval", minutes=1)
+@scheduler.scheduled_job("interval", hours=1)
 def calc_news():
     with open("data.txt", "wb") as f:
         try:

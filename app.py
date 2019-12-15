@@ -1414,15 +1414,14 @@ def id_settings():
 @app.route('/news')
 def news():
     try:
-       with open("data.binaryfile", "rb") as f:
-           news = pickle.load(f)
+        with open("news_data.json", "r") as f:
+           news = json.load(f)
            tag_list=news["tag_list"]
            problem_name_list=news["problem_name_list"]
            url_list=news["url_list"]
     except Exception as e:
-        print('fail')
-        with open("news_data.json", "r") as f:
-           news = json.load(f)
+        with open("data.binaryfile", "rb") as f:
+           news = pickle.load(f)
            tag_list=news["tag_list"]
            problem_name_list=news["problem_name_list"]
            url_list=news["url_list"]
