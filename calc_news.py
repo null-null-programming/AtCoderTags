@@ -195,3 +195,5 @@ def calc_news():
         except Exception as e:
             print(e)
 
+ sched.start()
+
