@@ -1415,6 +1415,7 @@ def news():
     try:
        with open('news_data.json','r') as f:
            news = json.load(f)
+           print(news)
            tag_list=news["tag_list"]
            problem_name_list=news["problem_name_list"]
            url_list=news["url_list"]
