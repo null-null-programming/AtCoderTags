@@ -118,7 +118,7 @@ class problem_tag(db.Model):
     __table_args__ = {"extend_existing": True}
 
 
-@scheduler.scheduled_job("interval", minutes=1)
+@scheduler.scheduled_job("interval", hour=1)
 def calc_news():
     with open("news_data.json", "w") as f:
         try:
