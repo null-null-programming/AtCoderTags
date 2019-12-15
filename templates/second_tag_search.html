@@ -91,8 +91,8 @@
                             <th scope="col">#</th>
                             <th scope="col">id</th>
                             <th scope="col">name</th>
-                            <th scope="col">solver</th>
                             <th scope="col">difficulty</th>
+                            <th scope="col">solver</th>
                         </tr>
                     </thead> {% for problem in problems%}
                     <tbody>
@@ -112,17 +112,17 @@
                                 </a>
                             </td>
                             <td scope="row">
+                                {%if difficulty_dict[problem.problem_official_name] | int == 99999 %}
+                                <b>null</b>
+                                {% else %}
+                                <b>{{difficulty_dict[problem.problem_official_name]| int}}</b>
+                                {%endif%}
+                            </td>
+                            <td scope="row">
                                 {% if dict[problem.problem_official_name]['solver_count'] | int == -1 %}
                                 <b>null</b>
                                 {%else%}
                                 <b>{{dict[problem.problem_official_name]['solver_count'] | int}}</b>
-                                {%endif%}
-                            </td>
-                            <td scope="row">
-                                {%if dict[problem.problem_official_name]['predict'] | int == -1 %}
-                                <b>null</b>
-                                {% else %}
-                                <b>{{dict[problem.problem_official_name]['predict'] | int}}</b>
                                 {%endif%}
                             </td>
                         </tr>

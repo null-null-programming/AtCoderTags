@@ -1013,29 +1013,34 @@ def explain_second_tag(first_tag, second_tag):
         "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
     )
     get_problem = get_problem.json()
-
+    get_difficulty=requests.get("https://kenkoooo.com/atcoder/resources/problem-models.json",headers=headers)
+    get_difficulty=get_difficulty.json()
+    
     tagName = second_tag
 
     #上位3位までにtagNameがあるものを集める
     problems = db.session.query(problem_tag).filter(or_(problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
 
     dict = {}
+    difficulty_dict={}
 
     # 最新のコンテストの場合、API反映までに時間がかかるため、バグらせないように以下の処理をする必要がある。
     for problem in problems:
         dict[str(problem.problem_official_name)] = {
             "contest_id": problem.problem_official_name,
             "title": "Error",
-            "solver_count": -1,
-            "predict": -1,
+            "solver_count": -1
         }
+
+        difficulty_dict[str(problem.problem_official_name)]=99999
+
+
+    for problem_name in get_difficulty:
+        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
 
     # official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
         dict[str(problem["id"])] = problem
-
-        if dict[str(problem["id"])]["predict"] == None:
-            dict[str(problem["id"])]["predict"] = -1
 
         if dict[str(problem["id"])]["solver_count"] == None:
             dict[str(problem["id"])]["solver_count"] = -1
@@ -1044,14 +1049,13 @@ def explain_second_tag(first_tag, second_tag):
     problems = sorted(
         problems,
         key=lambda x: (
-            dict[str(x.problem_official_name)]["solver_count"],
-            -dict[str(x.problem_official_name)]["predict"],
+            difficulty_dict[str(x.problem_official_name)],
+            -dict[str(x.problem_official_name)]["solver_count"]
         ),
-        reverse=True,
     )
 
     return render_template(
-        "second_tag_search.html",first_tag=first_tag, tagName=tagName, problems=problems, dict=dict,name_dict=name_dict
+        "second_tag_search.html",first_tag=first_tag, tagName=tagName, problems=problems, dict=dict,name_dict=name_dict,difficulty_dict=difficulty_dict
     )
     return
 
