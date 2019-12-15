@@ -867,7 +867,6 @@ def user_collect(user_id):
     get_difficulty=get_difficulty.json()
 
     category_list = [
-        "Easy",
         "Ad-Hoc",
         "Searching",
         "Greedy-Methods",
@@ -884,7 +883,7 @@ def user_collect(user_id):
     ]
 
     # 各カテゴリーの出題確率
-    probability = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0]
+    probability = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0]
     problem_sum = 0
     SIZE = len(category_list)
 
