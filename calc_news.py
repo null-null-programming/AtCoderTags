@@ -199,4 +199,3 @@ def calc_news():
 
 
 scheduler.start()
-

@@ -1413,7 +1413,7 @@ def id_settings():
 @app.route('/news')
 def news():
     try:
-       with open('news_data.json','r') as f:
+       with open("news_data.json", "r") as f:
            news = json.load(f)
            print(news)
            tag_list=news["tag_list"]
