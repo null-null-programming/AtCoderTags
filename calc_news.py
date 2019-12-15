@@ -193,10 +193,9 @@ def calc_news():
         except Exception as e:
             print(e)
 
-
-with open("news_data.json", "w") as f:
-    news = json.load(f)
-    print(news)
+    with open("news_data.json", "w") as f:
+        news = json.load(f)
+        print(news)
 
 
 scheduler.start()
