@@ -84,8 +84,8 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Solver</th>
                     <th scope="col">Difficulty</th>
+                    <th scope="col">Solver</th>
                 </tr>
             </thead> {% for dict in dict_list%}
             <tbody>
@@ -102,17 +102,17 @@
                         </a>
                     </td>
                     <td scope="row">
-                        {% if dict['solver_count'] | int == -1 %}
-                        <b>null</b>
-                        {%else%}
-                        <b>{{dict['solver_count'] | int}}</b>
-                        {%endif%}
-                    </td>
-                    <td scope="row">
                         {%if difficulty_dict[dict['id']] | int == 99999 %}
                         <b>null</b>
                         {% else %}
                         <b>{{difficulty_dict[dict['id']] | int}}</b>
+                        {%endif%}
+                    </td>
+                    <td scope="row">
+                        {% if dict['solver_count'] | int == -1 %}
+                        <b>null</b>
+                        {%else%}
+                        <b>{{dict['solver_count'] | int}}</b>
                         {%endif%}
                     </td>
                 </tr>
