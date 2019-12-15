@@ -4,6 +4,7 @@ from sqlalchemy import desc,or_
 from collections import defaultdict
 from config import *
 import numpy
+import os
 import json
 import time
 import requests
@@ -283,7 +284,7 @@ def vote_result():
         bsObj = BeautifulSoup(html, "html.parser")
         
         # テーブルを指定
-        recent_table = bsObj.find(id="contest-table-")
+        recent_table = bsObj.find(id="contest-table-active")
 
         if recent_table !=None:
             table=recent_table.findAll('td')
@@ -1412,64 +1413,16 @@ def id_settings():
 @app.route('/news')
 def news():
     try:
-        html = urlopen("https://atcoder.jp/home")
-        bsObj = BeautifulSoup(html, "html.parser")
-        
-        # テーブルを指定
-        recent_table = bsObj.find(id="contest-table-recent")
-        
-        problem_list=[]
-        problem_name_list=[]
-        url_list=[]
-
-        if recent_table !=None:
-            table=recent_table.findAll('td')
-
-            for i in range(0,len(table)):
-                #time and date は飛ばす
-                if i%2==0:
-                    continue
-                
-                add_url=table[i].find("a").attrs["href"]
-                problem_name_list.append(table[i].find("a").text)
-                url_list.append(str("https://atcoder.jp"+add_url))
-
-                #problem_idを抜き出す
-                html2 = urlopen(str("https://atcoder.jp"+add_url+"/tasks"))
-                bsObj2 = BeautifulSoup(html2, "html.parser")
-                table2=bsObj2.findAll('tr')
-
-                temp_list=[]
-                for row in table2:
-                    if len(row.findAll("a"))>0:
-                        temp_list.append(row.findAll("a")[0].attrs["href"].split('/')[-1])
-                
-                problem_list.append(temp_list)
-
-        tag_list=[]
-        for problems in problem_list:
-            temp_list=[]
-            for problem_id in problems:
-                tag = db.session.query(problem_tag).filter_by(problem_official_name=problem_id).first()
-                if tag==None:
-                    temp_list.append('None')
-                    continue
-
-                if tag.second_tag!=None:
-                    if tag.second_tag=="Other":
-                        temp_list.append(tag.first_tag+":"+name_dict[tag.second_tag])
-                    else:
-                        temp_list.append(name_dict[tag.second_tag])
-                else:
-                    temp_list.append(tag.first_tag)
-
-            tag_list.append(temp_list)  
-        
-        max_length=0
-        for tag in tag_list:
-            max_length=max(max_length,len(tag))
-
+       with open('news_data.json','r') as f:
+           news = json.load(f)
+           tag_list=news["tag_list"]
+           problem_name_list=news["problem_name_list"]
+           url_list=news["url_list"]
     except Exception as e:
         return render_template('error.html',message=e)
+    
+    max_length = 0
+    for tag in tag_list:
+        max_length = max(max_length, len(tag))
 
     return render_template('news.html', tag_list=tag_list,max_length=max_length,problem_name_list=problem_name_list,url_list=url_list)
