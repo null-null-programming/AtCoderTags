@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 import ssl
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-scheduler = BlockingScheduler()
+sched = BlockingScheduler()
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
