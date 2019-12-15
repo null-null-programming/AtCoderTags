@@ -3,6 +3,7 @@ import numpy
 import os
 import json
 import time
+import pickle
 import requests
 import csv
 import app
@@ -120,7 +121,7 @@ class problem_tag(db.Model):
 
 @scheduler.scheduled_job("interval", hour=1)
 def calc_news():
-    with open("news_data.json", "w") as f:
+    with open("data.txt", "wb") as f:
         try:
             html = urlopen("https://atcoder.jp/home")
             bsObj = BeautifulSoup(html, "html.parser")
@@ -189,9 +190,12 @@ def calc_news():
                 "url_list": url_list,
             }
 
-            json.dump(news, f)
+            pickle.dump(news, f)
         except Exception as e:
             print(e)
+
+    with open("data.txt", "rb") as f:
+        print(pickle.load(f))
 
 
 scheduler.start()
