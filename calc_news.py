@@ -118,86 +118,80 @@ class problem_tag(db.Model):
     __table_args__ = {"extend_existing": True}
 
 
-@scheduler.scheduled_job('interval', minutes=1)
+@scheduler.scheduled_job("interval", minutes=1)
 def calc_news():
-with open("news_data.json", "w") as f:
-    try:
-        html = urlopen("https://atcoder.jp/home")
-        bsObj = BeautifulSoup(html, "html.parser")
+    with open("news_data.json", "w") as f:
+        try:
+            html = urlopen("https://atcoder.jp/home")
+            bsObj = BeautifulSoup(html, "html.parser")
 
-        # テーブルを指定
-        recent_table = bsObj.find(id="contest-table-recent")
+            # テーブルを指定
+            recent_table = bsObj.find(id="contest-table-recent")
 
-        problem_list = []
-        problem_name_list = []
-        url_list = []
+            problem_list = []
+            problem_name_list = []
+            url_list = []
 
-        if recent_table != None:
-            table = recent_table.findAll("td")
+            if recent_table != None:
+                table = recent_table.findAll("td")
 
-            for i in range(0, len(table)):
-                # time and date は飛ばす
-                if i % 2 == 0:
-                    continue
+                for i in range(0, len(table)):
+                    # time and date は飛ばす
+                    if i % 2 == 0:
+                        continue
 
-                add_url = table[i].find("a").attrs["href"]
-                problem_name_list.append(table[i].find("a").text)
-                url_list.append(str("https://atcoder.jp" + add_url))
+                    add_url = table[i].find("a").attrs["href"]
+                    problem_name_list.append(table[i].find("a").text)
+                    url_list.append(str("https://atcoder.jp" + add_url))
 
-                # problem_idを抜き出す
-                html2 = urlopen(str("https://atcoder.jp" + add_url + "/tasks"))
-                bsObj2 = BeautifulSoup(html2, "html.parser")
-                table2 = bsObj2.findAll("tr")
+                    # problem_idを抜き出す
+                    html2 = urlopen(str("https://atcoder.jp" + add_url + "/tasks"))
+                    bsObj2 = BeautifulSoup(html2, "html.parser")
+                    table2 = bsObj2.findAll("tr")
 
+                    temp_list = []
+                    for row in table2:
+                        if len(row.findAll("a")) > 0:
+                            temp_list.append(
+                                row.findAll("a")[0].attrs["href"].split("/")[-1]
+                            )
+
+                    problem_list.append(temp_list)
+
+            tag_list = []
+            for problems in problem_list:
                 temp_list = []
-                for row in table2:
-                    if len(row.findAll("a")) > 0:
-                        temp_list.append(
-                            row.findAll("a")[0].attrs["href"].split("/")[-1]
-                        )
+                for problem_id in problems:
+                    tag = (
+                        db.session.query(problem_tag)
+                        .filter_by(problem_official_name=problem_id)
+                        .first()
+                    )
+                    if tag == None:
+                        temp_list.append("None")
+                        continue
 
-                problem_list.append(temp_list)
-
-        tag_list = []
-        for problems in problem_list:
-            temp_list = []
-            for problem_id in problems:
-                tag = (
-                    db.session.query(problem_tag)
-                    .filter_by(problem_official_name=problem_id)
-                    .first()
-                )
-                if tag == None:
-                    temp_list.append("None")
-                    continue
-
-                if tag.second_tag != None:
-                    if tag.second_tag == "Other":
-                        temp_list.append(
-                            tag.first_tag + ":" + name_dict[tag.second_tag]
-                        )
+                    if tag.second_tag != None:
+                        if tag.second_tag == "Other":
+                            temp_list.append(
+                                tag.first_tag + ":" + name_dict[tag.second_tag]
+                            )
+                        else:
+                            temp_list.append(name_dict[tag.second_tag])
                     else:
-                        temp_list.append(name_dict[tag.second_tag])
-                else:
-                    temp_list.append(tag.first_tag)
+                        temp_list.append(tag.first_tag)
 
-            tag_list.append(temp_list)
+                tag_list.append(temp_list)
 
-        news = {
-            "tag_list": tag_list,
-            "problem_name_list": problem_name_list,
-            "url_list": url_list,
-        }
+            news = {
+                "tag_list": tag_list,
+                "problem_name_list": problem_name_list,
+                "url_list": url_list,
+            }
 
-        json.dump(news, f)
-        print('success')
+            json.dump(news, f)
+            print("success")
 
-    except Exception as e:
-        print(e)
-
-with open("news_data.json") as f:
-    news = json.load(f)
-    print(news["tag_list"])
-    print(news["problem_name_list"])
-    print(news["url_list"])
+        except Exception as e:
+            print(e)
 
