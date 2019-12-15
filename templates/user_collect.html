@@ -109,10 +109,10 @@
                         {%endif%}
                     </td>
                     <td scope="row">
-                        {%if dict['predict'] | int == -1 %}
+                        {%if difficulty_dict[dict['id']] | int == 99999 %}
                         <b>null</b>
                         {% else %}
-                        <b>{{dict['predict'] | int}}</b>
+                        <b>{{difficulty_dict[dict['id']] | int}}</b>
                         {%endif%}
                     </td>
                 </tr>

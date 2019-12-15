@@ -857,8 +857,14 @@ def user_collect(user_id):
     get_user_info = requests.get(
         str("https://kenkoooo.com/atcoder/atcoder-api/results?user=" + user_id),headers=headers
     )
+    get_difficulty=requests.get("https://kenkoooo.com/atcoder/resources/problem-models.json",headers=headers)
+
+    if get_user_info.status_code!=200:
+        return render_template('error.html',message='ユーザーが存在しません')
+
     get_problem = get_problem.json()
     get_user_info = get_user_info.json()
+    get_difficulty=get_difficulty.json()
 
     category_list = [
         "Easy",
@@ -896,7 +902,14 @@ def user_collect(user_id):
 
     return_list = []
     problem_set = set()
+    difficulty_dict={}
     timer = 0
+
+    for problem in get_problem:
+        difficulty_dict[problem["id"]]=99999
+    
+    for problem_id in get_difficulty:
+        difficulty_dict[problem_id]=get_difficulty[problem_id].get("difficulty",99999)
 
     while True:
 
@@ -999,7 +1012,7 @@ def user_collect(user_id):
                 return_list.append(dict[problem.problem_official_name])
                 break
 
-    return render_template("user_collect.html", dict_list=return_list)
+    return render_template("user_collect.html", dict_list=return_list,difficulty_dict=difficulty_dict)
 
 
 @app.route("/tags/<tag>")
