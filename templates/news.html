@@ -78,13 +78,13 @@
     </nav>
 
     <div class="container" style="width: 100%; max-width: 90%;">
-        <h1><strong id="tagName" class='title'>NEWS</strong> <i class="fas fa-newspaper"></i></h1>
+        <h1><strong id="tagName" class='title' style='color:#404040'>NEWS</strong> <i class="fas fa-newspaper"></i></h1>
         <div>
             <div>
                 {% for tags in tag_list%}
                 <br>
                 <h4><strong><a href={{url_list[loop.index-1]}}
-                            style='color:#A0A0A0'>{{problem_name_list[loop.index-1]}}</a></strong></h4>
+                            style='color:#C0C0C0'>{{problem_name_list[loop.index-1]}}</a></strong></h4>
                 <table class="table table-responsive table-bordered" style="table-layout:fixed;">
                     <tbody>
                         <tr>
