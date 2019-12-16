@@ -1501,12 +1501,6 @@ def news():
 
                 tag_list.append(temp_list)
 
-            with open('news_data.json','r') as f:
-                news=json.load(f)
-                news.pop("tag_list")
-                news.pop("problem_name_list")
-                news.pop("url_list")
-
             with open('news_data.json','w') as f:
                 news = {
                 "tag_list": tag_list,
