@@ -1367,14 +1367,17 @@ def user_page(user_id):
         # URLの指定
         html = urlopen("https://atcoder.jp/users/" +atcoder_user_id.atcoder_user_id )
         bsObj = BeautifulSoup(html, "html.parser")
-        
-        # テーブルを指定
-        table = bsObj.findAll("table", {"class": "dl-table"})[1]
-        rate = table.findAll("span")[0].text
 
-        return render_template(
-            "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=get_atcoder_info,rate=rate
-        )
+        if len(table)>1:
+            # テーブルを指定
+            table = bsObj.findAll("table", {"class": "dl-table"})[1]
+            rate = table.findAll("span")[0].text
+
+            return render_template(
+                "user_page.html", user=user,rank=rank,dict=percent_dict, user_id=user_id, sum_dict=sum_dict,atcoder_dict=get_atcoder_info,rate=rate
+            )
+        else:
+            return render_template('user_page_no_graph.html',user=user,rank=rank)
 
     else:
         return render_template('user_page_no_graph.html',user=user,rank=rank)
