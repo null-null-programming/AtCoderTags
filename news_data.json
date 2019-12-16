@@ -1,1 +1,104 @@
-{"tag_list": [["\u30a8\u30eb\u30c7\u30b7\u30e5\u30ac\u30e9\u30a4\u306e\u5b9a\u7406", "Binary-Indexed-Tree", "None", "None", "None", "None"], ["None", "None", "None", "None", "None", "None"], ["None", "None", "None", "None", "None", "None"], ["None", "None", "None", "None", "None", "None"], ["None", "None"], ["None", "None", "None", "None", "None", "None"], ["None", "None", "None", "None", "None", "None"], ["None", "None", "None", "None", "None", "None"], ["\u5168\u63a2\u7d22", "None", "None", "None", "None", "None"], ["None", "None", "None", "None", "None", "None"]], "problem_name_list": ["AtCoder Beginner Contest 147", "Sumitomo Mitsui Trust Bank Programming Contest 2019", "AtCoder Beginner Contest 146", "DISCO Presents Discovery Channel Code Contest 2020 Qual", "Hitachi Hokudai Labo & Hokkaido University Contest 2019-1", "AtCoder Beginner Contest 145", "NIKKEI Programming Contest 2019-2", "AtCoder Grand Contest 040", "AtCoder Beginner Contest 144", "AtCoder Beginner Contest 143"], "url_list": ["https://atcoder.jp/contests/abc147", "https://atcoder.jp/contests/sumitrust2019", "https://atcoder.jp/contests/abc146", "https://atcoder.jp/contests/ddcc2020-qual", "https://atcoder.jp/contests/hokudai-hitachi2019-1", "https://atcoder.jp/contests/abc145", "https://atcoder.jp/contests/nikkei2019-2-qual", "https://atcoder.jp/contests/agc040", "https://atcoder.jp/contests/abc144", "https://atcoder.jp/contests/abc143"]}
+{
+    "tag_list": [
+        [
+            "Easy",
+            "文字列処理",
+            "bit全探索",
+            "Mathematics:その他",
+            "基礎DP",
+            "整数"
+        ],
+        [
+            "Easy",
+            "Mathematics",
+            "基礎DP",
+            "Searching",
+            "数え上げ",
+            "Ad-Hoc"
+        ],
+        [
+            "Easy",
+            "文字列処理",
+            "二分探索",
+            "Graph:その他",
+            "Technique",
+            "Greedy-Methods"
+        ],
+        [
+            "None",
+            "Technique",
+            "Greedy-Methods",
+            "Mathematics",
+            "Searching",
+            "Mathematics"
+        ],
+        [
+            "None",
+            "None"
+        ],
+        [
+            "Easy",
+            "文字列処理",
+            "全探索",
+            "組み合わせ",
+            "基礎DP",
+            "インラインDP"
+        ],
+        [
+            "Easy",
+            "数え上げ",
+            "None",
+            "最短経路",
+            "Construct",
+            "Graph"
+        ],
+        [
+            "None",
+            "None",
+            "Mathematics",
+            "None",
+            "Dynamic-Programming",
+            "Mathematics"
+        ],
+        [
+            "Easy",
+            "全探索",
+            "Mathematics",
+            "二分探索",
+            "二分探索",
+            "期待値DP"
+        ],
+        [
+            "None",
+            "組み合わせ",
+            "文字列処理",
+            "二分探索",
+            "Dynamic-Programming",
+            "累積和"
+        ]
+    ],
+    "problem_name_list": [
+        "AtCoder Beginner Contest 147",
+        "Sumitomo Mitsui Trust Bank Programming Contest 2019",
+        "AtCoder Beginner Contest 146",
+        "DISCO Presents Discovery Channel Code Contest 2020 Qual",
+        "Hitachi Hokudai Labo & Hokkaido University Contest 2019-1",
+        "AtCoder Beginner Contest 145",
+        "NIKKEI Programming Contest 2019-2",
+        "AtCoder Grand Contest 040",
+        "AtCoder Beginner Contest 144",
+        "AtCoder Beginner Contest 143"
+    ],
+    "url_list": [
+        "https://atcoder.jp/contests/abc147",
+        "https://atcoder.jp/contests/sumitrust2019",
+        "https://atcoder.jp/contests/abc146",
+        "https://atcoder.jp/contests/ddcc2020-qual",
+        "https://atcoder.jp/contests/hokudai-hitachi2019-1",
+        "https://atcoder.jp/contests/abc145",
+        "https://atcoder.jp/contests/nikkei2019-2-qual",
+        "https://atcoder.jp/contests/agc040",
+        "https://atcoder.jp/contests/abc144",
+        "https://atcoder.jp/contests/abc143"
+    ]
+}
