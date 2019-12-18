@@ -61,7 +61,7 @@ name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Sea
 "Convex-Hull":"凸包","Declination-Sorting":"偏角ソート","Three-D":"三次元","Number":"整数","Combinatorics":"組み合わせ","Probability":"確率","Expected-Value":"期待値",
 "Matrix":"行列","Parsing":"構文解析","Easy":"Easy","Ad-Hoc":"Ad-Hoc","Greedy-Methods":"Greedy-Methods","Construct":"Construct",None:"None",'null':'None',"Enumerate":"数え上げ",
 "Compress":"座標圧縮","Sort":"ソート","XOR":"XOR","Euler-Path-and-Hamilton-Path":"オイラーパス・ハミルトンパス","Randomized-Algorithm":"乱択アルゴリズム",
-"Voronoi-Diagram":"ボロノイ図","Recursion":"再帰関数"}
+"Voronoi-Diagram":"ボロノイ図","Recursion":"再帰関数","Kirchhoff":"行列木定理"}
 
 @app.route("/")
 def index():
