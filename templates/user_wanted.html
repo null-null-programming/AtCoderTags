@@ -106,8 +106,7 @@
                     {% if user_dict[problem['id']]=='WA'%}
                     <tr>
                         <td scope="row">
-                            <a href="/check/{{problem['id']}}"
-                                style="color:#FF0033;"><b>{{problem["contest_id"]}}</b></a>
+                            <strong>{{problem["id"]}}</strong>
                         </td>
                         <td scope="row">
                             <a href="https://atcoder.jp/contests/{{problem['contest_id']}}/tasks/{{problem['id']}}"
@@ -132,9 +131,7 @@
                     </tr>
                     {%else%}
                     <tr>
-                        <td scope="row" style='background-color:#CCCCCC'>
-                            <a href="/check/{{problem['id']}}"
-                                style="color:#FF0033;"><b>{{problem["contest_id"]}}</b></a>
+                        <strong>{{problem["id"]}}</strong>
                         </td>
                         <td scope="row" style='background-color:#CCCCCC'>
                             <a href="https://atcoder.jp/contests/{{problem['contest_id']}}/tasks/{{problem['id']}}"
