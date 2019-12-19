@@ -110,7 +110,7 @@
 
     var labels = ["Easy", "Ad-Hoc", "Searching", "Greedy-Methods", "String", "Mathematics", "Technique",
         "Construct", "Graph", "Dynamic-Programming", "Data-Structure",
-        "Game", "Flow-Algorithms", "Geometry"]
+        "Game", "Flow-Algorithms", "Geometry", "Interactive"]
 
     percent_user = JSON.parse('{{user_dict|tojson|safe}}');
     percent_rival = JSON.parse('{{rival_dict|tojson|safe}}');
@@ -230,7 +230,11 @@
                 label: 'Geometry',
                 data: [sum_dict["Geometry"]],
                 backgroundColor: "#FFFF33"
-            },
+            }, {
+                label: 'Interactive',
+                data: [sum_dict["Interactive"]],
+                backgroundColor: "#DC143C"
+            }
             ]
         },
         options: {

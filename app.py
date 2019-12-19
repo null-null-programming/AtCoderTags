@@ -62,7 +62,7 @@ name_dict={"Brute-Force":"全探索","Binary-Search":"二分探索","Ternary-Sea
 "Convex-Hull":"凸包","Declination-Sorting":"偏角ソート","Three-D":"三次元","Number":"整数","Combinatorics":"組み合わせ","Probability":"確率","Expected-Value":"期待値",
 "Matrix":"行列","Parsing":"構文解析","Easy":"Easy","Ad-Hoc":"Ad-Hoc","Greedy-Methods":"Greedy-Methods","Construct":"Construct",None:"None",'null':'None',"Enumerate":"数え上げ",
 "Compress":"座標圧縮","Sort":"ソート","XOR":"XOR","Euler-Path-and-Hamilton-Path":"オイラーパス・ハミルトンパス","Randomized-Algorithm":"乱択アルゴリズム",
-"Voronoi-Diagram":"ボロノイ図","Recursion":"再帰関数","Kirchhoff":"行列木定理","Restore-DP":"戻すDP","Marathon":"Marathon"}
+"Voronoi-Diagram":"ボロノイ図","Recursion":"再帰関数","Kirchhoff":"行列木定理","Restore-DP":"戻すDP","Marathon":"Marathon","Interactive":"インタラクティブ","Simulation":"シミュレーション"}
 
 @app.route("/")
 def index():
@@ -81,6 +81,9 @@ def index():
         "Game",
         "Flow-Algorithms",
         "Geometry",
+        "Interactive",
+        "Marathon",
+        "Other",
     ]
 
     # 問題の総数を求める。
@@ -317,7 +320,7 @@ def vote_result():
     ##############################################################################################
     
     #もし下位分類が存在しないカテゴリーだった場合、下位分類は上位分類と同じにする。
-    if tag in ["Easy","Ad-Hoc","Greedy-Methods","Construct"]:
+    if tag in ["Easy","Ad-Hoc","Greedy-Methods","Construct","Marathon","Interactive","Other"]:
         tag2=tag
     
     if not current_user.is_anonymous:
@@ -422,6 +425,9 @@ def vote_result():
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
+        "Marathon":0,
+        "Other":0,
     }
 
     second_sum_dict=defaultdict(int)
@@ -485,6 +491,9 @@ def check_problem(problem_id):
             "Game": 0,
             "Flow-Algorithms": 0,
             "Geometry": 0,
+            "Interactive":0,
+            "Marathon":0,
+            "Other":0,
         }
 
         second_sum_dict=defaultdict(int)
@@ -525,6 +534,7 @@ def graph():
         "Game",
         "Flow-Algorithms",
         "Geometry",
+        "Interactive",
     ]
 
     # 各ジャンルの問題総数
@@ -543,6 +553,7 @@ def graph():
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     for category in category_list:
@@ -578,6 +589,7 @@ def user_graph(user_id):
         "Game",
         "Flow-Algorithms",
         "Geometry",
+        "Interactive",
     ]
 
     # ジャンル別の問題総数
@@ -596,6 +608,7 @@ def user_graph(user_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     # ユーザーが各ジャンルの問題を何問解いたか
@@ -614,6 +627,7 @@ def user_graph(user_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     # ジャンル毎にUserが何％ACしているか
@@ -632,6 +646,7 @@ def user_graph(user_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     ###########################################################################################
@@ -703,6 +718,7 @@ def user_and_rival_graph(user_id, rival_id):
         "Game",
         "Flow-Algorithms",
         "Geometry",
+        "Interactive",
     ]
 
     # ジャンル別の問題総数
@@ -721,6 +737,7 @@ def user_and_rival_graph(user_id, rival_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     # ユーザーが各ジャンルの問題を何問解いたか
@@ -739,6 +756,7 @@ def user_and_rival_graph(user_id, rival_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     rival_sum_dict = {
@@ -756,6 +774,7 @@ def user_and_rival_graph(user_id, rival_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     # ジャンル毎にUserが何％ACしているか
@@ -774,6 +793,7 @@ def user_and_rival_graph(user_id, rival_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     rival_percent_dict = {
@@ -791,6 +811,7 @@ def user_and_rival_graph(user_id, rival_id):
         "Game": 0,
         "Flow-Algorithms": 0,
         "Geometry": 0,
+        "Interactive":0,
     }
 
     ###########################################################################################
@@ -885,10 +906,11 @@ def user_collect(user_id):
         "Game",
         "Flow-Algorithms",
         "Geometry",
+        "Interactive",
     ]
 
     # 各カテゴリーの出題確率
-    probability = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0]
+    probability = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0]
     problem_sum = 0
     SIZE = len(category_list)
 
@@ -1278,6 +1300,7 @@ def user_page(user_id):
             "Game",
             "Flow-Algorithms",
             "Geometry",
+            "Interactive",
         ]
 
         # ジャンル別の問題総数
@@ -1296,6 +1319,7 @@ def user_page(user_id):
             "Game": 0,
             "Flow-Algorithms": 0,
             "Geometry": 0,
+            "Interactive":0,
         }
 
         # ユーザーが各ジャンルの問題を何問解いたか
@@ -1314,6 +1338,7 @@ def user_page(user_id):
             "Game": 0,
             "Flow-Algorithms": 0,
             "Geometry": 0,
+            "Interactive":0,
         }
 
         # ジャンル毎にUserが何％ACしているか
@@ -1332,6 +1357,7 @@ def user_page(user_id):
             "Game": 0,
             "Flow-Algorithms": 0,
             "Geometry": 0,
+            "Interactive":0,
         }
 
         ###########################################################################################
