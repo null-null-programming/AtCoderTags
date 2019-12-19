@@ -202,7 +202,12 @@ def user_tag_search(tag_name, user_id):
 
    
     tagName = tag_name
-    problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
+
+    if tag_name!="Other":
+        problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
+    else:
+        problems=db.session.query(problem_tag).filter_by(first_tag="Other").all()
+    
     
     dict = {}
     difficulty_dict={}
@@ -1062,9 +1067,12 @@ def explain_second_tag(first_tag, second_tag):
 
     tagName = second_tag
 
-    #上位3位までにtagNameがあるものを集める
-    problems = db.session.query(problem_tag).filter(or_(problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
-
+     if tag_name!="Other":
+        problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
+    else:
+        problems=db.session.query(problem_tag).filter_by(first_tag=first_tag,second_tag="Other").all()
+    
+  
     dict = {}
     difficulty_dict={}
 
@@ -1125,7 +1133,12 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
     # コンテスト名取得
     ############################################################################################################
     tagName = second_tag
-    problems = db.session.query(problem_tag).filter(or_(problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
+
+    if tag_name!="Other":
+        problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
+    else:
+        problems=db.session.query(problem_tag).filter_by(first_tag=first_tag,second_tag="Other").all()
+    
 
     dict = {}
     difficulty_dict={}
