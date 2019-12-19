@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_paginate import Pagination, get_page_parameter
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc,or_
 from collections import defaultdict
@@ -1415,3 +1416,61 @@ def id_settings():
     temp.atcoder_user_id=user_id
     db.session.commit()
     return redirect(url_for('settings'))
+
+@app.route('/wanted')
+def wanted():
+    # コンテスト名取得のため、AtCoderProblemsAPIを利用する。
+    get_problem = requests.get(
+        "https://kenkoooo.com/atcoder/resources/merged-problems.json",headers=headers
+    )
+    get_problem = get_problem.json()
+
+    get_difficulty=requests.get("https://kenkoooo.com/atcoder/resources/problem-models.json",headers=headers)
+    get_difficulty=get_difficulty.json()
+
+    #既にタグが付けられた問題
+    tagged_problems = db.session.query(problem_tag).all()
+    tagged_dict=defaultdict(int)
+
+    for problem in tagged_problems:
+        tagged_dict[str(problem.problem_official_name)]=1
+    
+    not_tagged_list=[]
+    difficulty_dict={}
+
+    for problem in get_problem:
+        if tagged_dict[problem['id']]==0:
+            problem_dict={
+                "id":problem['id'],
+                "contest_id":problem['contest_id'],
+                "title":problem['title'],
+                "solver_count":problem['solver_count']
+            }
+            if problem['solver_count']==None:
+                problem_dict['solver_count']=-1
+            not_tagged_list.append(problem_dict)
+            difficulty_dict[problem["id"]]=99999
+
+
+    for problem_name in get_difficulty:
+        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+
+    # 問題の難易度順で並び替える。
+    not_tagged_list = sorted(
+        not_tagged_list,
+        key=lambda x: (
+            difficulty_dict[x["id"]],
+            -x["solver_count"]
+        ),
+    )
+
+    rest=len(not_tagged_list)
+
+    PER_PAGE=300
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    page_problems = not_tagged_list[(page - 1)*PER_PAGE: page*PER_PAGE]
+    pagination = Pagination(page=page, css_framework='foundation',total=len(not_tagged_list), search=False, per_page=PER_PAGE)
+
+    return render_template(
+        "wanted.html", not_tagged_list=page_problems,difficulty_dict=difficulty_dict,pagination=pagination,page=page,total=int((len(not_tagged_list)+PER_PAGE-1)/PER_PAGE),rest=rest
+    )
