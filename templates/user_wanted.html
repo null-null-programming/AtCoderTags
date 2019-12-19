@@ -84,7 +84,7 @@
         <div class='row'>
             <div class='col-7 form-group form-inline'>
                 <form id="id_submit" action="" method="GET">
-                    <input id="user_id" class='form-control' style='width:250px;' type="text" placeholder="User_ID">
+                    <input id="user_id" class='form-control' style='width:250px;' type="text" value={{user_id}}>
                 </form>
             </div>
             <div class='col'>
@@ -103,7 +103,7 @@
                 </thead>
                 <tbody>
                     {% for problem in not_tagged_list %}
-
+                    {% if user_dict[problem['id']]=='WA'%}
                     <tr>
                         <td scope="row">
                             <a href="/check/{{problem['id']}}"
@@ -130,6 +130,34 @@
                             {%endif%}
                         </td>
                     </tr>
+                    {%else%}
+                    <tr>
+                        <td scope="row" style='background-color:#CCCCCC'>
+                            <a href="/check/{{problem['id']}}"
+                                style="color:#FF0033;"><b>{{problem["contest_id"]}}</b></a>
+                        </td>
+                        <td scope="row" style='background-color:#CCCCCC'>
+                            <a href="https://atcoder.jp/contests/{{problem['contest_id']}}/tasks/{{problem['id']}}"
+                                style="color:#FF0033;" target="_blank" rel="noopener noreferrer">
+                                <strong>{{problem["title"]}}</strong>
+                            </a>
+                        </td>
+                        <td scope="row" style='background-color:#CCCCCC'>
+                            {%if difficulty_dict[problem["id"]] | int == 99999 %}
+                            <b>null</b>
+                            {% else %}
+                            <b>{{difficulty_dict[problem["id"]]| int}}</b>
+                            {%endif%}
+                        </td>
+                        <td scope="row" style='background-color:#CCCCCC'>
+                            {% if problem["solver_count"]| int == -1 %}
+                            <b>null</b>
+                            {%else%}
+                            <b>{{problem["solver_count"] | int}}</b>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    {%endif%}
                     {% endfor %}
                 </tbody>
             </table>
@@ -138,13 +166,13 @@
             <ul class="pagination">
                 {% if page>1 %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('wanted', page=page-1)}}" style="color: #FF0033;"><i
-                            class="fas fa-arrow-left fa-2x"></i></a>
+                    <a class="page-link" href="{{ url_for('user_wanted', page=page-1,user_id=user_id)}}"
+                        style="color: #FF0033;"><i class="fas fa-arrow-left fa-2x"></i></a>
                 </li>
                 {% endif %} {% if page < total %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('wanted', page=page+1)}}" style="color: #FF0033;"><i
-                            class="fas fa-arrow-right fa-2x"></i></a>
+                    <a class="page-link" href="{{ url_for('user_wanted', page=page+1,user_id=user_id)}}"
+                        style="color: #FF0033;"><i class="fas fa-arrow-right fa-2x"></i></a>
                 </li>
                 {% endif %}
             </ul>
