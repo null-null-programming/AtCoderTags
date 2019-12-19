@@ -138,7 +138,11 @@ def tag_search(tag_name):
     get_difficulty=get_difficulty.json()
 
     tagName = tag_name
-    problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
+
+    if tag_name!="Other":
+        problems = db.session.query(problem_tag).filter(or_(problem_tag.first_tag==tag_name,problem_tag.second_tag==tagName,problem_tag.second_second_tag==tagName,problem_tag.second_third_tag==tagName))
+    else:
+        problems=db.session.query(problem_tag).filter_by(first_tag="Other").all()
     
     dict = {}
     difficulty_dict={}
