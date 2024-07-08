@@ -19,7 +19,9 @@ app = Flask(__name__)
 CORS(app)
 
 app.jinja_env.add_extension("jinja2.ext.loopcontrols")
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"].replace(
+    "postgres://", "postgresql://"
+)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = os.environ["secret_key"]
 db = SQLAlchemy(app)
