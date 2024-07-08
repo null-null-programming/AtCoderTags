@@ -20,3 +20,4 @@ flask_cors
 requests_oauthlib
 flask_migrate
 flask_login
+rauth
