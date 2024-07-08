@@ -16,3 +16,4 @@ Werkzeug==3.0.3
 wheel==0.43.0
 flask
 gunicorn
+flask_cors
