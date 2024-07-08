@@ -21,3 +21,4 @@ requests_oauthlib
 flask_migrate
 flask_login
 rauth
+psycopg2
