@@ -161,7 +161,10 @@ def tag_search(tag_name):
 
 
     for problem_name in get_difficulty:
-        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
+            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+        else:
+            difficulty_dict[problem_name]=99999
 
     # official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
@@ -226,7 +229,10 @@ def user_tag_search(tag_name, user_id):
 
 
     for problem_name in get_difficulty:
-        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
+            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+        else:
+            difficulty_dict[problem_name]=99999
 
     # official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
@@ -1092,7 +1098,10 @@ def explain_second_tag(first_tag, second_tag):
 
 
     for problem_name in get_difficulty:
-        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
+            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+        else:
+            difficulty_dict[problem_name]=99999
 
     # official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
@@ -1159,7 +1168,10 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
 
 
     for problem_name in get_difficulty:
-        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
+            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+        else:
+            difficulty_dict[problem_name]=99999
 
     # official_nameからコンテスト名を得るために辞書を作成する。
     for problem in get_problem:
@@ -1500,7 +1512,10 @@ def wanted():
 
 
     for problem_name in get_difficulty:
-        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        if get_difficulty[problem_name] is not None:
+            difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        else:
+            difficulty_dict[problem_name]=99999
 
     # 問題の難易度順で並び替える。
     not_tagged_list = sorted(
@@ -1558,7 +1573,10 @@ def user_wanted(user_id):
 
 
     for problem_name in get_difficulty:
-        difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        if get_difficulty[problem_name] is not None:
+            difficulty_dict[problem_name]=get_difficulty[problem_name].get('difficulty',99999)
+        else:
+            difficulty_dict[problem_name]=99999
 
     # 問題の難易度順で並び替える。
     not_tagged_list = sorted(
