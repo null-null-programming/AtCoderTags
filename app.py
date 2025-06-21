@@ -162,7 +162,11 @@ def tag_search(tag_name):
 
     for problem_name in get_difficulty:
         if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
-            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+            difficulty_value = get_difficulty[problem_name]['difficulty']
+            if difficulty_value is not None:
+                difficulty_dict[problem_name] = difficulty_value
+            else:
+                difficulty_dict[problem_name] = 99999
         else:
             difficulty_dict[problem_name]=99999
 
@@ -230,7 +234,11 @@ def user_tag_search(tag_name, user_id):
 
     for problem_name in get_difficulty:
         if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
-            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+            difficulty_value = get_difficulty[problem_name]['difficulty']
+            if difficulty_value is not None:
+                difficulty_dict[problem_name] = difficulty_value
+            else:
+                difficulty_dict[problem_name] = 99999
         else:
             difficulty_dict[problem_name]=99999
 
@@ -1099,7 +1107,11 @@ def explain_second_tag(first_tag, second_tag):
 
     for problem_name in get_difficulty:
         if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
-            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+            difficulty_value = get_difficulty[problem_name]['difficulty']
+            if difficulty_value is not None:
+                difficulty_dict[problem_name] = difficulty_value
+            else:
+                difficulty_dict[problem_name] = 99999
         else:
             difficulty_dict[problem_name]=99999
 
@@ -1169,7 +1181,11 @@ def user_explain_second_tag(first_tag,second_tag,user_id):
 
     for problem_name in get_difficulty:
         if get_difficulty[problem_name] is not None and 'difficulty' in get_difficulty[problem_name]:
-            difficulty_dict[problem_name]=get_difficulty[problem_name]['difficulty']
+            difficulty_value = get_difficulty[problem_name]['difficulty']
+            if difficulty_value is not None:
+                difficulty_dict[problem_name] = difficulty_value
+            else:
+                difficulty_dict[problem_name] = 99999
         else:
             difficulty_dict[problem_name]=99999
 
